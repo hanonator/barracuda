@@ -13,6 +13,10 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
+	<modules>
+		<module>core</module>
+		<module>horvik-cdi</module>
+	</modules>
 	
 	<build>
 		<plugins>
@@ -26,9 +30,4 @@
 			</plugin>
 		</plugins>
 	</build>
-	<modules>
-		<module>core</module>
-		
-		<module>horvik-cdi</module>
-	</modules>
 </project>
