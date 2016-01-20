@@ -1,4 +1,4 @@
-package org.barracuda.cdi;
+package org.horvik;
 
 public class HorvikContainer {
 
