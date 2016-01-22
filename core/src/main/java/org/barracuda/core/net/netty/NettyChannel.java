@@ -1,5 +1,8 @@
 package org.barracuda.core.net.netty;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.barracuda.core.TestRequest;
 import org.barracuda.core.net.Channel;
 import org.horvik.session.Session;
 
@@ -14,6 +17,11 @@ import io.netty.channel.socket.SocketChannel;
  *
  */
 public class NettyChannel extends ChannelHandlerAdapter implements Channel {
+
+	/**
+	 * The logger for this class
+	 */
+	private static final Logger logger = LogManager.getLogger(NettyChannel.class);
 
 	/**
 	 * The netty channel for this class. Handles the networking
@@ -44,9 +52,19 @@ public class NettyChannel extends ChannelHandlerAdapter implements Channel {
 
 	@Override
 	public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
-		
+		logger.debug("channel {} registered", ctx.channel().remoteAddress());
 	}
 
+	@Override
+	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+		logger.debug("channel {} read object {}", ctx.channel().remoteAddress(), msg.getClass());
+	}
+	
+	@Override
+	public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
+		logger.debug("channel {} unregistered", ctx.channel().remoteAddress());
+	}
+	
 	@Override
 	public void read(Object object) {
 		
@@ -54,12 +72,12 @@ public class NettyChannel extends ChannelHandlerAdapter implements Channel {
 
 	@Override
 	public void write(Object object) {
-		
+		channel.write(object);
 	}
 
 	@Override
 	public void flush() {
-		
+		channel.flush();
 	}
 
 }

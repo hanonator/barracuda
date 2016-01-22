@@ -1,9 +1,11 @@
 package org.barracuda.core.net.netty;
 
+import javax.annotation.Resource;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.barracuda.core.net.Service;
 import org.barracuda.core.net.ServiceException;
+import org.horvik.bean.service.Service;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -17,7 +19,8 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
  * 
  * @author brock
  */
-public class NettyService implements Service {
+@Service
+public class NettyService {
 	
 	/**
 	 * The static logger for this class
@@ -27,13 +30,13 @@ public class NettyService implements Service {
 	/**
 	 * The port the service is bound to
 	 */
-	// @Resource("barracuda.net.service.port")
+	@Resource(name = "service.net.port")
 	private static final int port = 43594;
 
 	/**
 	 * The host the service is bound to  
 	 */
-	// @Resource("barracuda.net.service.host")
+	@Resource(name = "service.net.host")
 	private static final String host = "localhost";
 	
 	/**
@@ -51,7 +54,11 @@ public class NettyService implements Service {
 	 */
 	private final EventLoopGroup worker_group = new NioEventLoopGroup();
 
-	@Override
+	/**
+	 * Starts the netty service
+	 * 
+	 * @throws ServiceException
+	 */
 	public void start() throws ServiceException {
 		try {
 			bootstrap.group(boss_group, worker_group).channel(NioServerSocketChannel.class).childHandler(new NettyChannelInitializer(this))
