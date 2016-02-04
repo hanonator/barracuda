@@ -29,7 +29,7 @@ public @interface Definition {
 	 * 
 	 * @return
 	 */
-	int length() default 0;
+	int length();
 
 	/**
 	 * The opcode of the message received that parses into the object

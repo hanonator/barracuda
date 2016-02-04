@@ -5,6 +5,7 @@ import java.lang.reflect.Field;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import org.barracuda.core.game.GameSession;
 import org.barracuda.core.net.message.Message;
 import org.barracuda.core.net.message.definition.Attribute;
 
@@ -33,7 +34,7 @@ public class ReflectionDecoder implements MessageDecoder {
 	}
 
 	@Override
-	public Object decode(Message message) throws Exception {
+	public Object decode(Message message, GameSession session) throws Exception {
 		Constructor<?> constructor = type.getDeclaredConstructor(new Class<?>[0]);
 		Object object = constructor.newInstance(new Object[0]);
 		for (ElementDecoder decoder : decoders) {

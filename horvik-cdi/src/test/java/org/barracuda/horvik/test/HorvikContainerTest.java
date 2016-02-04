@@ -1,11 +1,15 @@
 package org.barracuda.horvik.test;
 
-import javax.enterprise.context.SessionScoped;
-import javax.enterprise.inject.spi.InjectionPoint;
-import javax.inject.Inject;
+import java.util.UUID;
 
-import org.horvik.Horvik;
-import org.horvik.HorvikException;
+import org.barracuda.horvik.Horvik;
+import org.barracuda.horvik.HorvikException;
+import org.barracuda.horvik.bean.Bean;
+import org.barracuda.horvik.bean.Discoverable;
+import org.barracuda.horvik.context.request.RequestScoped;
+import org.barracuda.horvik.context.session.Session;
+import org.barracuda.horvik.context.session.SessionScoped;
+import org.barracuda.horvik.inject.Inject;
 import org.junit.Test;
 
 public class HorvikContainerTest {
@@ -14,36 +18,39 @@ public class HorvikContainerTest {
 	public void test_session_scope() throws HorvikException {
 		Horvik horvik = new Horvik();
 		horvik.initializeContainer();
+
+		Session session_1 = new Session(UUID.randomUUID().toString());		
+		Bean<SessionScopedTest> bean = horvik.getContainer().getBean(SessionScopedTest.class);
+		horvik.getContainer().getInjectedReference(bean, session_1);
 		
-		SessionScopedTest test = new SessionScopedTest();
+		long delta = System.currentTimeMillis();
+		for (int i = 0; i < 1_000_000; i++) {
+			horvik.getContainer().getInjectedReference(bean, session_1);
+		}
 		
-		horvik.getContainer().getManager().inject(horvik.getContainer().getManager().getBean(SessionScopedTest.class), test);
-		// Session session = new Session();
-		// Bean<SessionScopedTest> bean = container.getBean(SessionScopedTest.class);
-		
-//		SessionScopedTest test_1 = null; // bean.create(session);
-//		SessionScopedTest test_2 = null; // bean.create(session);
-//
-//		System.out.println("test_1: " + test_1);
-//		System.out.println("test_2: " + test_2);
+		System.out.println(System.currentTimeMillis() - delta + "ms delay");
 	}
 	
+	@Discoverable
 	@SessionScoped
-	public class SessionScopedTest {
+	public static class SessionScopedTest {
 		
 		@Inject
 		private RandomContainer container;
 		
 		@Inject
+		private RequestSomething something;
+		
 		@Override
 		public String toString() {
-			return "container - " + container;
+			return container + " " + something;
 		}
 		
 	}
 	
+	@Discoverable
 	@SessionScoped
-	public class RandomContainer {
+	public static class RandomContainer {
 		
 		/**
 		 * The randomly generated value
@@ -52,7 +59,23 @@ public class HorvikContainerTest {
 		
 		@Override
 		public String toString() {
-			return "value: " + value;
+			return "value: " + value + " hashcode: " + this.hashCode();
+		}
+		
+	}
+	
+	@Discoverable
+	@RequestScoped
+	public static class RequestSomething {
+		
+		/**
+		 * The randomly generated uuid
+		 */
+		private String uuid = UUID.randomUUID().toString();
+		
+		@Override
+		public String toString() {
+			return "uuid: " + uuid;
 		}
 		
 	}

@@ -25,7 +25,7 @@ public class ByteBufferPayload implements Payload {
 	}
 
 	@Override
-	public ByteBuffer get() {
+	public ByteBuffer getBuffer() {
 		return buffer;
 	}
 

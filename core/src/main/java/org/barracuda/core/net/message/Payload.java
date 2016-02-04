@@ -11,9 +11,10 @@ import java.nio.ByteBuffer;
 public interface Payload {
 
 	/**
+	 * Gets the buffer behind the payload
 	 * 
 	 * @return
 	 */
-	ByteBuffer get();
+	ByteBuffer getBuffer();
 
 }

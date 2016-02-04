@@ -26,7 +26,7 @@ public class SerializablePayload<T extends Serializable> implements Payload {
 	}
 
 	@Override
-	public ByteBuffer get() {
+	public ByteBuffer getBuffer() {
 		return object.serialize();
 	}
 

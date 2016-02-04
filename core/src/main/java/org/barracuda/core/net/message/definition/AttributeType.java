@@ -7,27 +7,27 @@ public enum AttributeType {
 	/**
 	 * 
 	 */
-	BYTE(message -> message.getPayload().get().get()),
+	BYTE(message -> message.getPayload().getBuffer().get()),
 	
 	/**
 	 * 
 	 */
-	SHORT(message -> message.getPayload().get().getShort()),
+	SHORT(message -> message.getPayload().getBuffer().getShort()),
 	
 	/**
 	 * 
 	 */
-	MEDIUM(message -> (message.getPayload().get().get() << 16) + message.getPayload().get().getShort()),
+	MEDIUM(message -> (message.getPayload().getBuffer().get() << 16) + message.getPayload().getBuffer().getShort()),
 	
 	/**
 	 * 
 	 */
-	INTEGER(message -> message.getPayload().get().getInt()),
+	INTEGER(message -> message.getPayload().getBuffer().getInt()),
 	
 	/**
 	 * 
 	 */
-	LONG(message -> message.getPayload().get().getLong()),
+	LONG(message -> message.getPayload().getBuffer().getLong()),
 	
 	/**
 	 * 

@@ -38,7 +38,7 @@ public class GameMessage implements Message {
 	@Override
 	public ByteBuffer serialize() {
 		ByteBuffer header_buffer = (ByteBuffer) header.serialize().flip();
-		ByteBuffer payload_buffer = (ByteBuffer) payload.get().flip();
+		ByteBuffer payload_buffer = (ByteBuffer) payload.getBuffer().flip();
 		
 		return ByteBuffer.allocate(1 + header_buffer.capacity() + payload_buffer.capacity()).put(header_buffer).put(payload_buffer);
 	}

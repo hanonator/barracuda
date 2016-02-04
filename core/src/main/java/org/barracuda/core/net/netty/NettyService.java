@@ -5,7 +5,7 @@ import javax.annotation.Resource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.barracuda.core.net.ServiceException;
-import org.horvik.bean.service.Service;
+import org.barracuda.horvik.context.Service;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;

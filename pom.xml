@@ -16,6 +16,8 @@
 	<modules>
 		<module>core</module>
 		<module>horvik-cdi</module>
+		
+		<module>model</module>
 	</modules>
 	
 	<build>

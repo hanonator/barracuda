@@ -6,10 +6,10 @@ import java.net.UnknownHostException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.barracuda.core.net.ServiceException;
-import org.barracuda.core.net.message.resolve.MessageRepository;
 import org.barracuda.core.net.netty.NettyService;
-import org.horvik.Horvik;
-import org.horvik.HorvikContainer;
+import org.barracuda.horvik.Horvik;
+import org.barracuda.horvik.HorvikContainer;
+import org.barracuda.horvik.event.Event;
 
 /**
  * Application initialization and entry point
@@ -52,7 +52,7 @@ public class Application {
 			horvik.initializeContainer();
 			
 			// FIXME
-			horvik.getContainer().getService(MessageRepository.class).initialize(null, horvik.getContainer());
+//			horvik.getContainer().getService(MessageRepository.class).initialize(null, horvik.getContainer());
 			
 			/*
 			 * Start the networking service
@@ -65,6 +65,10 @@ public class Application {
 
 	public static HorvikContainer getContainer() {
 		return horvik.getContainer();
+	}
+
+	public static Event<Object> getEvent() {
+		return horvik.getEvent();
 	}
 
 }

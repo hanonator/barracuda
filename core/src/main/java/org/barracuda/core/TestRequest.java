@@ -13,7 +13,7 @@ import org.barracuda.core.net.message.definition.Definition;
  * @author brock
  *
  */
-@Definition(opcode = 71, length = 4, attributes = {
+@Definition(opcode = 71, length = 78, attributes = {
 		@Attribute(field="x", type=AttributeType.SHORT),
 		@Attribute(field="y", type=AttributeType.SHORT),
 })

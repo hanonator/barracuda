@@ -1,11 +1,11 @@
 package org.barracuda.core.net.netty.codec;
 
-import java.nio.ByteBuffer;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.barracuda.core.Application;
+import org.barracuda.core.net.ChannelState;
 import org.barracuda.core.net.message.ByteBufferPayload;
 import org.barracuda.core.net.message.Header;
 import org.barracuda.core.net.message.Message;
@@ -48,31 +48,35 @@ public class MessageCodec extends MessageToMessageCodec<ByteBuf, Message> {
 
 	@Override
 	protected void decode(ChannelHandlerContext ctx, ByteBuf msg, List<Object> out) throws Exception {
-		//while (msg.isReadable()) {
-			int opcode = msg.readUnsignedByte();
-			MessageDefinition definition = Application.getContainer().getService(MessageRepository.class).get(opcode);
-			MetaData meta = definition == null ? MetaData.EMPTY : definition.getMeta();
-			int length = 0;
-			
-			switch (meta) {
-			case EMPTY:
-				length = definition == null ? 0 : definition.getLength();
-				break;
-			case SMALL:
-				length = msg.readUnsignedByte();
-				break;
-			case BIG:
-				length = msg.readUnsignedShort();
-				break;
-			}
-			
-			byte[] bytes = new byte[length];
-			msg.nioBuffer().get(bytes);
-			Payload payload = new ByteBufferPayload(ByteBuffer.wrap(bytes));
-			Header header = new GameHeader(opcode, length, MetaData.EMPTY);
+		if (ChannelState.GAME != ctx.attr(ChannelState.ATTRIBUTE_KEY).get()) {
+			Payload payload = new ByteBufferPayload(msg.readBytes(msg.readableBytes()).nioBuffer());
+			Header header = new GameHeader(-1, msg.readableBytes(), MetaData.EMPTY);
 			out.add(new GameMessage(header, payload));
-			logger.debug("channel {} received message with opcode {}", ctx.channel().remoteAddress(), opcode);
-		//}
+		} else {
+			while (msg.isReadable()) {
+				int opcode = msg.readUnsignedByte();
+				MessageDefinition definition = Application.getContainer().getService(MessageRepository.class).get(opcode);
+				MetaData meta = definition == null ? MetaData.EMPTY : definition.getMeta();
+				int length = 0;
+				
+				switch (meta) {
+				case EMPTY:
+					length = definition == null ? 0 : definition.getLength();
+					break;
+				case SMALL:
+					length = msg.readUnsignedByte();
+					break;
+				case BIG:
+					length = msg.readUnsignedShort();
+					break;
+				}
+	
+				Payload payload = new ByteBufferPayload(msg.readBytes(length).nioBuffer());
+				Header header = new GameHeader(opcode, length, MetaData.EMPTY);
+				out.add(new GameMessage(header, payload));
+				logger.debug("channel {} received message with opcode {}", ctx.channel().remoteAddress(), opcode);
+			}
+		}
 	}
 
 }
