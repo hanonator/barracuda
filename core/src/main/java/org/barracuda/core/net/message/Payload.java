@@ -1,6 +1,6 @@
 package org.barracuda.core.net.message;
 
-import java.nio.ByteBuffer;
+import io.netty.buffer.ByteBuf;
 
 /**
  * The payload of the message
@@ -15,6 +15,6 @@ public interface Payload {
 	 * 
 	 * @return
 	 */
-	ByteBuffer getBuffer();
+	ByteBuf getBuffer();
 
 }

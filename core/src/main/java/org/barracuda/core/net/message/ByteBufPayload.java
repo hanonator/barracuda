@@ -1,6 +1,6 @@
 package org.barracuda.core.net.message;
 
-import java.nio.ByteBuffer;
+import io.netty.buffer.ByteBuf;
 
 /**
  * Simple Payload implementation
@@ -8,24 +8,24 @@ import java.nio.ByteBuffer;
  * @author brock
  *
  */
-public class ByteBufferPayload implements Payload {
+public class ByteBufPayload implements Payload {
 
 	/**
 	 * The buffer
 	 */
-	private final ByteBuffer buffer;
+	private final ByteBuf buffer;
 
 	/**
 	 * Constructor
 	 * 
 	 * @param buffer
 	 */
-	public ByteBufferPayload(ByteBuffer buffer) {
+	public ByteBufPayload(ByteBuf buffer) {
 		this.buffer = buffer;
 	}
 
 	@Override
-	public ByteBuffer getBuffer() {
+	public ByteBuf getBuffer() {
 		return buffer;
 	}
 

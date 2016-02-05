@@ -3,6 +3,9 @@ package org.barracuda.core.net;
 import org.barracuda.horvik.bean.Discoverable;
 import org.barracuda.horvik.context.session.SessionScoped;
 
+import io.netty.util.Attribute;
+import io.netty.util.AttributeKey;
+
 @Discoverable
 @SessionScoped
 public interface Channel {
@@ -30,8 +33,15 @@ public interface Channel {
 	 * Closes the channel
 	 */
 	void close();
+	
+	/**
+	 * Proxy method. TODO: This is implementation dependant on JBoss Netty
+	 * @return
+	 */
+	<T> Attribute<T> attr(AttributeKey<T> key);
 
 	/**
+	 * Writes an object to the channel and immediately flushes
 	 * 
 	 * @param object
 	 */

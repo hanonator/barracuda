@@ -1,4 +1,4 @@
-package org.barracuda.core.game.login;
+package org.barracuda.core.game.login.model;
 
 /**
  * Contains details about the client's version

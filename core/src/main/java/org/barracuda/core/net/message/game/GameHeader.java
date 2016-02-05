@@ -1,8 +1,9 @@
 package org.barracuda.core.net.message.game;
 
-import java.nio.ByteBuffer;
-
 import org.barracuda.core.net.message.AbstractHeader;
+
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufAllocator;
 
 /**
  * The Header implementation of for the Game
@@ -46,16 +47,16 @@ public class GameHeader extends AbstractHeader {
 	 * packet in a short
 	 */
 	@Override
-	public ByteBuffer serialize() {
-		ByteBuffer buffer = ByteBuffer.allocate(1 + meta().ordinal()).put((byte) opcode());
+	public ByteBuf serialize(ByteBufAllocator allocator) {
+		ByteBuf buffer = allocator.buffer(1 + meta().ordinal()).writeByte(opcode());
 		switch (meta()) {
 		case EMPTY:
 			break;
 		case SMALL:
-			buffer.put((byte) length());
+			buffer.writeByte(length());
 			break;
 		case BIG:
-			buffer.putShort((short) length());
+			buffer.writeShort(length());
 			break;
 		}
 		return buffer;

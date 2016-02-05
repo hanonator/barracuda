@@ -6,9 +6,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.barracuda.core.Application;
 import org.barracuda.core.net.ChannelState;
-import org.barracuda.core.net.message.ByteBufferPayload;
+import org.barracuda.core.net.message.ByteBufPayload;
 import org.barracuda.core.net.message.Header;
-import org.barracuda.core.net.message.Message;
 import org.barracuda.core.net.message.Payload;
 import org.barracuda.core.net.message.game.GameHeader;
 import org.barracuda.core.net.message.game.GameHeader.MetaData;
@@ -20,7 +19,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.handler.codec.MessageToMessageCodec;
+import io.netty.handler.codec.MessageToMessageDecoder;
 
 /**
  * Decodes the raw byte buffer into messages
@@ -29,27 +28,22 @@ import io.netty.handler.codec.MessageToMessageCodec;
  *
  */
 @Sharable
-public class MessageCodec extends MessageToMessageCodec<ByteBuf, Message> {
+public class MessageDecoder extends MessageToMessageDecoder<ByteBuf> {
 
 	/**
 	 * The logger for this class
 	 */
-	private static final Logger logger = LogManager.getLogger(MessageCodec.class);
+	private static final Logger logger = LogManager.getLogger(MessageDecoder.class);
 
 	/**
 	 * The static instance of this class
 	 */
-	public static final ChannelHandler INSTANCE = new MessageCodec();
-
-	@Override
-	protected void encode(ChannelHandlerContext ctx, Message msg, List<Object> out) throws Exception {
-		
-	}
+	public static final ChannelHandler INSTANCE = new MessageDecoder();
 
 	@Override
 	protected void decode(ChannelHandlerContext ctx, ByteBuf msg, List<Object> out) throws Exception {
 		if (ChannelState.GAME != ctx.attr(ChannelState.ATTRIBUTE_KEY).get()) {
-			Payload payload = new ByteBufferPayload(msg.readBytes(msg.readableBytes()).nioBuffer());
+			Payload payload = new ByteBufPayload(msg.readBytes(msg.readableBytes()));
 			Header header = new GameHeader(-1, msg.readableBytes(), MetaData.EMPTY);
 			out.add(new GameMessage(header, payload));
 		} else {
@@ -71,7 +65,7 @@ public class MessageCodec extends MessageToMessageCodec<ByteBuf, Message> {
 					break;
 				}
 	
-				Payload payload = new ByteBufferPayload(msg.readBytes(length).nioBuffer());
+				Payload payload = new ByteBufPayload(msg.readBytes(length));
 				Header header = new GameHeader(opcode, length, MetaData.EMPTY);
 				out.add(new GameMessage(header, payload));
 				logger.debug("channel {} received message with opcode {}", ctx.channel().remoteAddress(), opcode);

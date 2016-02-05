@@ -1,5 +1,6 @@
 package org.barracuda.core.net.message.definition;
 
+import org.barracuda.core.net.ByteBufferUtil;
 import org.barracuda.core.net.message.Message;
 
 public enum AttributeType {
@@ -7,32 +8,32 @@ public enum AttributeType {
 	/**
 	 * 
 	 */
-	BYTE(message -> message.getPayload().getBuffer().get()),
+	BYTE(message -> message.getPayload().getBuffer().readByte()),
 	
 	/**
 	 * 
 	 */
-	SHORT(message -> message.getPayload().getBuffer().getShort()),
+	SHORT(message -> message.getPayload().getBuffer().readShort()),
 	
 	/**
 	 * 
 	 */
-	MEDIUM(message -> (message.getPayload().getBuffer().get() << 16) + message.getPayload().getBuffer().getShort()),
+	MEDIUM(message -> (message.getPayload().getBuffer().readByte() << 16) + message.getPayload().getBuffer().readShort()),
 	
 	/**
 	 * 
 	 */
-	INTEGER(message -> message.getPayload().getBuffer().getInt()),
+	INTEGER(message -> message.getPayload().getBuffer().readInt()),
 	
 	/**
 	 * 
 	 */
-	LONG(message -> message.getPayload().getBuffer().getLong()),
+	LONG(message -> message.getPayload().getBuffer().readLong()),
 	
 	/**
 	 * 
 	 */
-	STRING(message -> "hello, this is a string"),
+	STRING(message -> ByteBufferUtil.readString(message.getPayload().getBuffer())),
 	
 	/**
 	 * 

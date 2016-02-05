@@ -1,6 +1,7 @@
 package org.barracuda.core.game.login;
 
 import org.barracuda.core.game.GameSession;
+import org.barracuda.core.game.login.model.JagGrabFileRequest;
 import org.barracuda.core.net.interceptor.Interceptor;
 import org.barracuda.core.net.message.Message;
 import org.barracuda.horvik.bean.Discoverable;

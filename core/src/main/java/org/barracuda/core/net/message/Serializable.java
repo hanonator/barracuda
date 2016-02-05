@@ -1,6 +1,7 @@
 package org.barracuda.core.net.message;
 
-import java.nio.ByteBuffer;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufAllocator;
 
 /**
  * Represents an abstract message sent to the server
@@ -15,6 +16,6 @@ public interface Serializable {
 	 * 
 	 * @return
 	 */
-	ByteBuffer serialize();
+	ByteBuf serialize(ByteBufAllocator allocator);
 
 }

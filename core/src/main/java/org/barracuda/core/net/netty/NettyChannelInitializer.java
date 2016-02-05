@@ -1,12 +1,15 @@
 package org.barracuda.core.net.netty;
 
-import org.barracuda.core.net.netty.codec.MessageCodec;
-import org.barracuda.core.net.netty.codec.PropertyCodec;
+import org.barracuda.core.net.netty.codec.MessageDecoder;
+import org.barracuda.core.net.netty.codec.PropertyDecoder;
+import org.barracuda.core.net.netty.codec.SerializableEncoder;
 
+import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.timeout.IdleStateHandler;
 
+@Sharable
 class NettyChannelInitializer extends ChannelInitializer<SocketChannel> {
 
 	/**
@@ -21,20 +24,26 @@ class NettyChannelInitializer extends ChannelInitializer<SocketChannel> {
 	@Override
 	protected void initChannel(SocketChannel channel) throws Exception {
 		channel.pipeline()
+				/*
+				 * Decodes the raw data into Message objects ready to be parsed
+				 * into entities so they can be distributed to the correct
+				 * listener
+				 */
+				.addLast("serializable", SerializableEncoder.INSTANCE)
 
 				/*
 				 * Decodes the raw data into Message objects ready to be parsed
 				 * into entities so they can be distributed to the correct
 				 * listener
 				 */
-				.addLast("message", MessageCodec.INSTANCE)
+				.addLast("message", MessageDecoder.INSTANCE)
 
 				/*
 				 * Decodes the raw data into Message objects ready to be parsed
 				 * into entities so they can be distributed to the correct
 				 * listener
 				 */
-				.addLast("property", PropertyCodec.INSTANCE)
+				.addLast("property", PropertyDecoder.INSTANCE)
 
 				/*
 				 * The handler that distributes the game events to the correct

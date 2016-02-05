@@ -15,6 +15,8 @@ import org.barracuda.horvik.context.session.SessionScoped;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.socket.SocketChannel;
+import io.netty.util.Attribute;
+import io.netty.util.AttributeKey;
 
 /**
  * Represents a networking channel
@@ -69,21 +71,30 @@ public class NettyChannel extends ChannelHandlerAdapter implements Channel {
 	
 	@Override
 	public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
-		logger.debug("channel {} registered", ctx.channel().remoteAddress());
+		logger.debug("channel {} - connection opened", ctx.channel().remoteAddress());
 		ctx.attr(ChannelState.ATTRIBUTE_KEY).set(ChannelState.HANDSHAKE);
 		ctx.attr(GameSession.ATTRIBUTE_KEY).set(gameSession);
 	}
 
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-		logger.debug("channel {} read object {}", ctx.channel().remoteAddress(), msg.getClass());
+		logger.debug("channel {} - dispatching object {}", ctx.channel().remoteAddress(), msg.getClass());
 		read(msg);
 	}
 	
 	@Override
 	public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
-		logger.debug("channel {} unregistered", ctx.channel().remoteAddress());
+		logger.debug("channel {} - connection closed", ctx.channel().remoteAddress());
 		ctx.attr(ChannelState.ATTRIBUTE_KEY).set(ChannelState.DISCONNECTED);
+	}
+	@Override
+	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+		logger.debug("channel {} - error occured: {}", ctx.channel().remoteAddress(), cause.getMessage());
+		ctx.attr(ChannelState.ATTRIBUTE_KEY).set(ChannelState.DISCONNECTED);
+	}
+	@Override
+	public <T> Attribute<T> attr(AttributeKey<T> key) {
+		return channel.attr(key);
 	}
 	
 	@SuppressWarnings("unchecked")

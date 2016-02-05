@@ -1,6 +1,7 @@
 package org.barracuda.core.net.message;
 
-import java.nio.ByteBuffer;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufAllocator;
 
 /**
  * A payload that will contain a serializable object
@@ -26,8 +27,8 @@ public class SerializablePayload<T extends Serializable> implements Payload {
 	}
 
 	@Override
-	public ByteBuffer getBuffer() {
-		return object.serialize();
+	public ByteBuf getBuffer() {
+		return object.serialize(ByteBufAllocator.DEFAULT);
 	}
 
 }

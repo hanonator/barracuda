@@ -1,4 +1,4 @@
-package org.barracuda.core.game.login;
+package org.barracuda.core.game.login.model;
 
 import org.barracuda.core.security.ISAACPair;
 

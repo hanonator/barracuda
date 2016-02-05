@@ -5,7 +5,11 @@ import java.util.Random;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.barracuda.core.game.GameSession;
+import org.barracuda.core.game.login.model.Authentication;
+import org.barracuda.core.game.login.model.Handshake;
+import org.barracuda.core.game.login.model.HandshakeResponse;
 import org.barracuda.core.net.Channel;
+import org.barracuda.core.net.ChannelState;
 import org.barracuda.core.net.interceptor.Interceptor;
 import org.barracuda.core.net.message.Message;
 import org.barracuda.horvik.bean.Discoverable;
@@ -45,7 +49,7 @@ public class HandshakeInterceptor implements Interceptor<Message, Handshake> {
 		/*
 		 * The id of the requested resource
 		 */
-		int request_id = input.getPayload().getBuffer().get() & 0xFF;
+		int request_id = input.getPayload().getBuffer().readUnsignedByte();
 		
 		/*
 		 * The request id must be
@@ -57,7 +61,7 @@ public class HandshakeInterceptor implements Interceptor<Message, Handshake> {
 		/*
 		 * junk data?
 		 */
-		int junk$0 = input.getPayload().getBuffer().get() & 0xFF;
+		int junk$0 = input.getPayload().getBuffer().readUnsignedByte();
 		
 		/*
 		 * Construct the hand shake
@@ -77,10 +81,21 @@ public class HandshakeInterceptor implements Interceptor<Message, Handshake> {
 		long server_key = random.nextLong();
 		
 		/*
+		 * Write the handshake response
+		 */
+		channel.writeAndFlush(new HandshakeResponse(server_key));
+		
+		/*
+		 * The player enters authentication
+		 */
+		channel.attr(ChannelState.ATTRIBUTE_KEY).set(ChannelState.AUTHENTICATION);
+		
+		/*
 		 * Debug information
 		 */
-		logger.debug("session [{}] - Request: {}", session.getId(), handshake.getRequestType());
-		logger.debug("session [{}] - server key: '{}'", session.getId(), server_key);
+		logger.debug("session {} - request.type: {}", session.getId(), handshake.getRequestType());
+		logger.debug("session {} - request.unknown: {}", session.getId(), handshake.getData());
+		logger.debug("session {} - cipher.generated_key: {}", session.getId(), server_key);
 	}
 
 	/**

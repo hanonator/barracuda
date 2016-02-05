@@ -14,7 +14,7 @@ import org.barracuda.core.net.message.resolve.MessageRepository;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.handler.codec.MessageToMessageCodec;
+import io.netty.handler.codec.MessageToMessageDecoder;
 
 /**
  * TODO: Implement default decoders for the login sequence and JAGGrab protocol
@@ -22,17 +22,12 @@ import io.netty.handler.codec.MessageToMessageCodec;
  * @author brock
  */
 @Sharable
-public class PropertyCodec extends MessageToMessageCodec<Message, Object> {
+public class PropertyDecoder extends MessageToMessageDecoder<Message> {
 
 	/**
 	 * The static instance of this class
 	 */
-	public static final ChannelHandler INSTANCE = new PropertyCodec();
-
-	@Override
-	protected void encode(ChannelHandlerContext ctx, Object msg, List<Object> out) throws Exception {
-		
-	}
+	public static final ChannelHandler INSTANCE = new PropertyDecoder();
 
 	@Override
 	protected void decode(ChannelHandlerContext ctx, Message msg, List<Object> out) throws Exception {
