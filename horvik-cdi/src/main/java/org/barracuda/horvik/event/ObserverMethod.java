@@ -2,6 +2,7 @@ package org.barracuda.horvik.event;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
@@ -65,10 +66,9 @@ public class ObserverMethod<T> {
 	 */
 	public void notify(T event, Contextual contextual) {
 		try {
-			if (bean == null) {
+			if (!Modifier.isStatic(method.getModifiers()) && bean == null) {
 				throw new HorvikException("no bean found for " + method.getDeclaringClass());
 			}
-			Object bean_instance = container.getInjectedReference(bean, contextual);
 			Set<Object> parameters = new LinkedHashSet<>();
 			for (Parameter parameter : method.getParameters()) {
 				if (!parameter.isAnnotationPresent(Observes.class)) {
@@ -77,7 +77,13 @@ public class ObserverMethod<T> {
 					parameters.add(event);
 				}
 			}
-			method.invoke(bean_instance, parameters.toArray(new Object[0]));
+			if (!Modifier.isStatic(method.getModifiers())) {
+				Object bean_instance = container.getInjectedReference(bean, contextual);
+				method.invoke(bean_instance, parameters.toArray(new Object[0]));
+			}
+			else {
+				method.invoke(null, parameters.toArray(new Object[0]));
+			}
 		} catch (Exception ex) {
 			throw new HorvikException("could not call observer method", ex);
 		}

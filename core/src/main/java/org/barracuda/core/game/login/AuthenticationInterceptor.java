@@ -68,6 +68,7 @@ public class AuthenticationInterceptor implements Interceptor<Message, Authentic
 	 * appropriately
 	 */
 	@Override
+	@SuppressWarnings("unused")
 	public Authentication intercept(Message input, GameSession session) {
 		ByteBuf payload = input.getPayload().getBuffer();
 		

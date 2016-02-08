@@ -1,5 +1,11 @@
 package org.barracuda.model.actor.player;
 
+/**
+ * The player's credentials with which he plays the game
+ * 
+ * @author brock
+ *
+ */
 public class Credentials {
 
 	/**
@@ -8,26 +14,26 @@ public class Credentials {
 	private final String username;
 	
 	/**
-	 * The player's displayname
+	 * The player's display name
 	 */
 	private final String displayname;
-	
+
 	/**
-	 * The password stored as a hash
+	 * The type the player has
 	 */
-	private final String password;
+	private final Privilege type;
 
 	/**
 	 * Constructor
 	 * 
 	 * @param username
 	 * @param displayname
-	 * @param password
+	 * @param type
 	 */
-	public Credentials(String username, String displayname, String password) {
+	public Credentials(String username, String displayname, Privilege type) {
 		this.username = username;
 		this.displayname = displayname;
-		this.password = password;
+		this.type = type;
 	}
 
 	public String getUsername() {
@@ -38,8 +44,8 @@ public class Credentials {
 		return displayname;
 	}
 
-	public String getPassword() {
-		return password;
+	public Privilege getType() {
+		return type;
 	}
-
+	
 }

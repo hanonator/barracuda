@@ -20,6 +20,8 @@ import org.barracuda.horvik.event.Event;
 import org.barracuda.horvik.event.ObserverMethod;
 import org.barracuda.horvik.event.Observes;
 
+import javassist.Modifier;
+
 public class Horvik {
 
 	/**
@@ -114,7 +116,12 @@ public class Horvik {
 		container.getMethodsWithAnyParamAnnotated(Observes.class).forEach(method -> {
 			for (Parameter parameter : method.getParameters()) {
 				if (parameter.isAnnotationPresent(Observes.class)) {
-					event.addObserver(new ObserverMethod<>((Class<Object>) parameter.getType(), container.getBean(method.getDeclaringClass()), method, container));
+					if (!Modifier.isStatic(method.getModifiers())) {
+						event.addObserver(new ObserverMethod<>((Class<Object>) parameter.getType(), container.getBean(method.getDeclaringClass()), method, container));
+					}
+					else {
+						event.addObserver(new ObserverMethod<>((Class<Object>) parameter.getType(), null, method, container));
+					}
 					logger.info("Observer -> {} in {}", method.getName(), method.getDeclaringClass().getName());
 				}
 			}

@@ -14,5 +14,10 @@
 			<artifactId>netty-buffer</artifactId>
 			<version>5.0.0.Alpha2</version>
 		</dependency>
+		<dependency>
+			<groupId>org.barracuda</groupId>
+			<artifactId>horvik-cdi</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 </project>
