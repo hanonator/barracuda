@@ -1,7 +1,5 @@
 package org.barracuda.model.location;
 
-import org.barracuda.model.Location;
-
 /**
  * 
  * @author brock

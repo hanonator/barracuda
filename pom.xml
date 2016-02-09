@@ -18,6 +18,7 @@
 		<module>horvik-cdi</module>
 		
 		<module>model</module>
+		<module>roald-timing</module>
 	</modules>
 	
 	<build>

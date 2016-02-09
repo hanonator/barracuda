@@ -1,4 +1,4 @@
-package org.barracuda.model;
+package org.barracuda.model.location;
 
 /**
  * 
