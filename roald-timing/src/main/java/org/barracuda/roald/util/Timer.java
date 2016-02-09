@@ -41,7 +41,7 @@ public class Timer {
 	 * @return
 	 */
 	public boolean finished() {
-		return this.clock.getTime() - this.submittedTime > delay;
+		return this.clock.getTime() - this.submittedTime >= delay;
 	}
 
 	/**

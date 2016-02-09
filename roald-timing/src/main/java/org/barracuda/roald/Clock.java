@@ -85,11 +85,6 @@ public class Clock implements Runnable {
 	public void run() {
 		try {
 			/*
-			 * Increment the current server cycle count
-			 */
-			cycle.incrementAndGet();
-			
-			/*
 			 * Execute all of the applicable workers
 			 */
 			for (Iterator<Future> iterator = workers.iterator(); iterator.hasNext(); ) {
@@ -102,7 +97,12 @@ public class Clock implements Runnable {
 					future.getListeners().forEach(listener -> listener.onFinish(future.getWorker(), this));
 					iterator.remove();
 				}
-			};
+			}
+			
+			/*
+			 * Increment the current server cycle count
+			 */
+			cycle.incrementAndGet();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}

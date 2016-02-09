@@ -8,6 +8,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.barracuda.horvik.bean.Discoverable;
 import org.barracuda.horvik.bean.ManagedBean;
+import org.barracuda.horvik.bean.Null;
 import org.barracuda.horvik.context.Service;
 import org.barracuda.horvik.context.application.ApplicationContext;
 import org.barracuda.horvik.context.application.ApplicationScoped;
@@ -92,7 +93,11 @@ public class Horvik {
 		 * Registers the beans
 		 */
 		container.getTypesAnnotatedWith(Discoverable.class).forEach(type -> {
+			Discoverable discoverable = type.getAnnotation(Discoverable.class);
 			container.registerBean(new ManagedBean<>(type, container));
+			if (discoverable != null && discoverable.value() != Null.class) {
+				container.registerBean(discoverable.value(), new ManagedBean<>(type, container));
+			}
 			logger.info("Bean -> {}", type.getName());
 		});
 		

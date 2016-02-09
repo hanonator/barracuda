@@ -80,12 +80,12 @@ public class Future implements Iterable<FutureListener>, Supplier<Stream<FutureL
 	}
 
 	/**
-	 * @param e
+	 * @param listener
 	 * @return
-	 * @see java.util.Set#add(java.lang.Object)
 	 */
-	public boolean add(FutureListener e) {
-		return listeners.add(e);
+	public Future listener(FutureListener listener) {
+		listeners.add(listener);
+		return this;
 	}
 
 	/**
@@ -99,7 +99,7 @@ public class Future implements Iterable<FutureListener>, Supplier<Stream<FutureL
 	 * This will repeat the action
 	 */
 	public void repeat() {
-		listeners.add((worker, clock) -> clock.schedule(worker, timer.getDelay()));
+		listeners.add((worker, clock) -> clock.schedule(worker, timer.getDelay()).repeat());
 	}
 
 	@Override

@@ -134,6 +134,15 @@ public class HorvikContainer {
 	}
 	
 	/**
+	 * Registers a bean to this container
+	 * 
+	 * @param bean
+	 */
+	public void registerBean(Class<?> alias, Bean<?> bean) {
+		this.beans.put(alias, bean);
+	}
+	
+	/**
 	 * Retrieves the context for the given annotation
 	 * 
 	 * @param annotation

@@ -8,6 +8,12 @@ import org.barracuda.horvik.inject.Inject;
 import org.barracuda.model.actor.player.Credentials;
 import org.barracuda.model.actor.player.misc.Detail;
 
+/**
+ * Represents a player controlled entity
+ * 
+ * @author brock
+ *
+ */
 @Discoverable
 @SessionScoped
 public class Player extends Actor {
@@ -50,18 +56,30 @@ public class Player extends Actor {
 		container.getEvent().fire(event, session);
 	}
 
+	/**
+	 * @return the detail
+	 */
 	public Detail getDetail() {
 		return detail;
 	}
 
+	/**
+	 * @param detail the detail to set
+	 */
 	public void setDetail(Detail detail) {
 		this.detail = detail;
 	}
 
+	/**
+	 * @return the credentials
+	 */
 	public Credentials getCredentials() {
 		return credentials;
 	}
 
+	/**
+	 * @param credentials the credentials to set
+	 */
 	public void setCredentials(Credentials credentials) {
 		this.credentials = credentials;
 	}

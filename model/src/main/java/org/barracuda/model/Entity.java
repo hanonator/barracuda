@@ -7,6 +7,6 @@ public interface Entity {
 	 * 
 	 * @return
 	 */
-	int getId();
+	int getIndex();
 
 }
