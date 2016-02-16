@@ -7,7 +7,9 @@ import org.barracuda.model.actor.sync.attribute.Attribute;
 import io.netty.buffer.ByteBuf;
 
 /**
- * The render
+ * A rendered version of the actor
+ * 
+ * Deprecated: Should not be used anymore, just a regular ByteBuf should suffice
  * 
  * @author brock
  *

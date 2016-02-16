@@ -1,6 +1,6 @@
 package org.barracuda.model.actor.sync.attribute;
 
-public class Appearance {
+public class Appearance implements Attribute {
 
 	/**
 	 * The gender of the character

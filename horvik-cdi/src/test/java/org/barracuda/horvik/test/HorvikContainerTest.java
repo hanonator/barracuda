@@ -12,6 +12,9 @@ import org.barracuda.horvik.context.session.SessionScoped;
 import org.barracuda.horvik.inject.Inject;
 import org.junit.Test;
 
+
+import static org.junit.Assert.*;
+
 public class HorvikContainerTest {
 
 	@Test
@@ -21,14 +24,10 @@ public class HorvikContainerTest {
 
 		Session session_1 = new Session(UUID.randomUUID().toString());		
 		Bean<SessionScopedTest> bean = horvik.getContainer().getBean(SessionScopedTest.class);
-		horvik.getContainer().getInjectedReference(bean, session_1);
+		SessionScopedTest test_object_1 = horvik.getContainer().getInjectedReference(bean, session_1);
+		SessionScopedTest test_object_2 = horvik.getContainer().getInjectedReference(bean, session_1);
 		
-		long delta = System.currentTimeMillis();
-		for (int i = 0; i < 1_000_000; i++) {
-			horvik.getContainer().getInjectedReference(bean, session_1);
-		}
-		
-		System.out.println(System.currentTimeMillis() - delta + "ms delay");
+		assertSame(test_object_1, test_object_2);
 	}
 	
 	@Discoverable

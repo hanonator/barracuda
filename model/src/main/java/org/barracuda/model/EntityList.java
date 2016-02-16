@@ -54,9 +54,10 @@ public class EntityList<T extends Entity> implements Iterable<T>, Supplier<Strea
 	 * 
 	 * @param entity
 	 */
-	public void register(T entity) {
+	public EntityList<T> register(T entity) {
 		entity.setIndex(pool.claim());
 		add(entity);
+		return this;
 	}
 
 	/**
@@ -64,9 +65,10 @@ public class EntityList<T extends Entity> implements Iterable<T>, Supplier<Strea
 	 * 
 	 * @param player
 	 */
-	public void unregister(T entity) {
+	public EntityList<T> unregister(T entity) {
 		pool.release(entity.getIndex());
 		remove(entity);
+		return this;
 	}
 	
 	/**
@@ -97,7 +99,14 @@ public class EntityList<T extends Entity> implements Iterable<T>, Supplier<Strea
 	/**
 	 * @return the size
 	 */
-	public int getSize() {
+	public int size() {
+		return toSet().size();
+	}
+
+	/**
+	 * @return the size
+	 */
+	public int capacity() {
 		return size;
 	}
 

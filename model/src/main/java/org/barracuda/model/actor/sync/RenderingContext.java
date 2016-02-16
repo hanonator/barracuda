@@ -1,7 +1,5 @@
 package org.barracuda.model.actor.sync;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 import org.barracuda.model.actor.Player;
 
 import io.netty.buffer.ByteBuf;
@@ -48,35 +46,24 @@ public class RenderingContext {
 	 * @return
 	 */
 	public RenderingContext render() {
+		updateRequired = !player.getRenderingHints().isEmpty();
+		
 		/*
 		 * Render the player regularly
 		 */
-		this.block = render(Unpooled.buffer(1024 * 8));
+		this.block = player.getRenderingHints().assemble(Unpooled.buffer(1024 * 8));
 		
 		/*
 		 * Add the player's appearance update
 		 */
-		// TODO
+		this.player.getRenderingHints().add(player.getAppearance());
 		
 		/*
 		 * Render the player with the appearance forcefully added to the block. This is for
 		 * players that have just logged in who need to update all the players in the vicinity
 		 */
-		this.forcedAppearanceBlock = render(Unpooled.buffer(1024 * 8));
+		this.forcedAppearanceBlock = player.getRenderingHints().assemble(Unpooled.buffer(1024 * 8));
 		return this;
-	}
-	
-	/**
-	 * Renders the player to a specific buffer
-	 * @param buffer
-	 */
-	private ByteBuf render(ByteBuf buffer) {
-		updateRequired = !player.getRenderingHints().isEmpty();
-		AtomicInteger bit_set = new AtomicInteger(0);
-		player.getRenderingHints().forEach(hint -> bit_set.set(bit_set.get() | hint.getIdentifier()));
-		buffer.writeByte(bit_set.get());
-		player.getRenderingHints().forEach(hint -> hint.serialize(buffer));
-		return buffer;
 	}
 
 	/**

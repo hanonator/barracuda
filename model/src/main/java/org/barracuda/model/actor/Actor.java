@@ -1,12 +1,8 @@
 package org.barracuda.model.actor;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import org.barracuda.model.Entity;
 import org.barracuda.model.actor.sync.Camera;
-import org.barracuda.model.actor.sync.attribute.Attribute;
+import org.barracuda.model.actor.sync.RenderingHints;
 import org.barracuda.model.location.Location;
 
 /**
@@ -42,7 +38,7 @@ public abstract class Actor implements Entity {
 	 * The collection of attributes that affect the way the actor is rendered in
 	 * the client during the synchronization process
 	 */
-	private final Set<Attribute> renderingHints = new HashSet<>();
+	private final RenderingHints renderingHints = new RenderingHints(this.getClass());
 
 	/**
 	 * @return the index
@@ -61,28 +57,9 @@ public abstract class Actor implements Entity {
 	}
 
 	/**
-	 * Adds a rendering hint
-	 * 
-	 * @param attribute
-	 */
-	public void addRenderingHint(Attribute attribute) {
-		renderingHints.add(attribute);
-	}
-
-	/**
-	 * Removes all attributes off the given class. This should only ever be 1,
-	 * but you never know
-	 * 
-	 * @param attribute
-	 */
-	public void removeRenderingHints(Class<? extends Attribute> attribute) {
-		renderingHints.removeAll(renderingHints.stream().filter(hint -> hint.getClass() == attribute).collect(Collectors.toSet()));
-	}
-
-	/**
 	 * @return the renderingHints
 	 */
-	public Set<Attribute> getRenderingHints() {
+	public RenderingHints getRenderingHints() {
 		return renderingHints;
 	}
 
