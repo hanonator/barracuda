@@ -1,6 +1,8 @@
 package org.barracuda.core.net.netty;
 
+import org.barracuda.core.net.netty.codec.InterceptorEncoder;
 import org.barracuda.core.net.netty.codec.MessageDecoder;
+import org.barracuda.core.net.netty.codec.MessageEncoder;
 import org.barracuda.core.net.netty.codec.PropertyDecoder;
 import org.barracuda.core.net.netty.codec.SerializableEncoder;
 
@@ -36,14 +38,28 @@ class NettyChannelInitializer extends ChannelInitializer<SocketChannel> {
 				 * into entities so they can be distributed to the correct
 				 * listener
 				 */
-				.addLast("message", MessageDecoder.INSTANCE)
+				.addLast("intercepter-encode", InterceptorEncoder.INSTANCE)
 
 				/*
 				 * Decodes the raw data into Message objects ready to be parsed
 				 * into entities so they can be distributed to the correct
 				 * listener
 				 */
-				.addLast("property", PropertyDecoder.INSTANCE)
+				.addLast("message-encode", MessageEncoder.INSTANCE)
+
+				/*
+				 * Decodes the raw data into Message objects ready to be parsed
+				 * into entities so they can be distributed to the correct
+				 * listener
+				 */
+				.addLast("message-decode", MessageDecoder.INSTANCE)
+
+				/*
+				 * Decodes the raw data into Message objects ready to be parsed
+				 * into entities so they can be distributed to the correct
+				 * listener
+				 */
+				.addLast("property-decode", PropertyDecoder.INSTANCE)
 
 				/*
 				 * The handler that distributes the game events to the correct

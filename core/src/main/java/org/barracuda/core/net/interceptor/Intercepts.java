@@ -5,23 +5,30 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.barracuda.core.net.message.game.GameHeader.MetaData;
+
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.TYPE })
 public @interface Intercepts {
-
-	/**
-	 * When this is not null, the intercepter looks for messages that have this
-	 * number as opcode
-	 * 
-	 * @return
-	 */
-	int opcode() default -1;
 	
 	/**
-	 * The length of the packet
+	 * The length of the message
 	 * 
 	 * @return
 	 */
-	int length() default 0;
+	int length();
+
+	/**
+	 * The opcode of the message received that parses into the object
+	 * 
+	 * @return
+	 */
+	int opcode();
+	
+	/**
+	 * The meta data of the packet
+	 * @return
+	 */
+	MetaData meta() default MetaData.EMPTY;
 
 }

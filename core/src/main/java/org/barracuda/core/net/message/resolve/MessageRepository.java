@@ -13,12 +13,14 @@ import org.barracuda.core.game.v317.login.model.Authentication;
 import org.barracuda.core.game.v317.login.model.Handshake;
 import org.barracuda.core.game.v317.login.model.JagGrabFileRequest;
 import org.barracuda.core.net.interceptor.Interceptor;
+import org.barracuda.core.net.interceptor.Intercepts;
 import org.barracuda.core.net.message.Message;
 import org.barracuda.core.net.message.definition.Definition;
 import org.barracuda.horvik.HorvikContainer;
 import org.barracuda.horvik.context.Service;
 import org.barracuda.horvik.environment.ContainerInitialized;
 import org.barracuda.horvik.event.Observes;
+import org.barracuda.horvik.util.ReflectionUtil;
 
 @Service
 public class MessageRepository {
@@ -52,6 +54,7 @@ public class MessageRepository {
 	 * 
 	 * @param container
 	 */
+	@SuppressWarnings("unchecked")
 	public void initialize(@Observes ContainerInitialized initialized, HorvikContainer container) throws Exception {
 		container.getTypesAnnotatedWith(Definition.class).forEach(type -> {
 			Definition definition = type.getAnnotation(Definition.class);
@@ -60,6 +63,19 @@ public class MessageRepository {
 				definitions.put(definition.opcode(), new MessageDefinition(definition.opcode(), definition.length(),
 						definition.meta(), new ReflectionDecoder(definition.attributes(), type)));
 				logger.info("Message mapping: '{}' to '{}'", type.getSimpleName(), definition.opcode());
+			}
+			else {
+				logger.warn("duplicate key {}" + definition.opcode());
+			}
+		});
+		
+		container.getTypesAnnotatedWith(Intercepts.class).forEach(type -> {
+			Intercepts definition = type.getAnnotation(Intercepts.class);
+			
+			if (!definitions.containsKey(definition.opcode())) {
+				definitions.put(definition.opcode(), new MessageDefinition(definition.opcode(), definition.length(),
+						definition.meta(), new InterceptorDecoder<>(ReflectionUtil.createForcedType(type, Interceptor.class))));
+				logger.info("Interceptor mapping: '{}' to '{}'", type.getSimpleName(), definition.opcode());
 			}
 			else {
 				logger.warn("duplicate key {}" + definition.opcode());
