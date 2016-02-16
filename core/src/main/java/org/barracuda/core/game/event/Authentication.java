@@ -1,4 +1,4 @@
-package org.barracuda.core.game.v317.login.model;
+package org.barracuda.core.game.event;
 
 import org.barracuda.core.security.ISAACPair;
 
@@ -43,14 +43,23 @@ public class Authentication {
 		this.cipher = cipher;
 	}
 
+	/**
+	 * @return the username
+	 */
 	public String getUsername() {
 		return username;
 	}
 
+	/**
+	 * @return the password
+	 */
 	public String getPassword() {
 		return password;
 	}
 
+	/**
+	 * @return the cipher
+	 */
 	public ISAACPair getCipher() {
 		return cipher;
 	}

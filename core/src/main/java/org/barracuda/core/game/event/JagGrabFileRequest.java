@@ -1,4 +1,4 @@
-package org.barracuda.core.game.v317.login.model;
+package org.barracuda.core.game.event;
 
 /**
  * The file request

@@ -1,4 +1,4 @@
-package org.barracuda.core.game.v317.login.model;
+package org.barracuda.core.game.event;
 
 import org.barracuda.core.game.v317.login.HandshakeInterceptor.RequestType;
 
@@ -31,10 +31,16 @@ public class Handshake {
 		this.requestType = requestType;
 	}
 
+	/**
+	 * @return the data
+	 */
 	public int getData() {
 		return data;
 	}
 
+	/**
+	 * @return the requestType
+	 */
 	public RequestType getRequestType() {
 		return requestType;
 	}

@@ -1,4 +1,4 @@
-package org.barracuda.core.game.v317.login.model;
+package org.barracuda.core.game.util;
 
 /**
  * Contains details about the client's version
@@ -21,17 +21,28 @@ public class VersionMetaData {
 	 */
 	private final int version;
 
+	/**
+	 * Constructor
+	 * 
+	 * @param release
+	 * @param version
+	 */
 	public VersionMetaData(int release, int version) {
 		this.release = release;
 		this.version = version;
 	}
 
+	/**
+	 * @return the release
+	 */
 	public int getRelease() {
 		return release;
 	}
 
+	/**
+	 * @return the version
+	 */
 	public int getVersion() {
 		return version;
 	}
-
 }
