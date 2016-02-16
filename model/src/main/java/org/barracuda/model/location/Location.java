@@ -54,33 +54,33 @@ public interface Location {
 	 * @return
 	 */
 	int distance(Location location);
-
-	/**
-	 * The x value of the location
-	 * 
-	 * @return
-	 */
-	int getAbsoluteX();
 	
 	/**
-	 * The y value of the location
 	 * 
 	 * @return
 	 */
-	int getAbsoluteY();
-
-	/**
-	 * The x value of the location
-	 * 
-	 * @return
-	 */
-	int getRelativeX();
+	default Region localize() {
+		return new Region(this);
+	}
 	
 	/**
-	 * The y value of the location
+	 * The x coordinate
+	 * @return
+	 */
+	int getX();
+	
+	/**
+	 * The y coordinate
 	 * 
 	 * @return
 	 */
-	int getRelativeY();
+	int getY();
+	
+	/**
+	 * The z coordinate
+	 * 
+	 * @return
+	 */
+	int getZ();
 
 }

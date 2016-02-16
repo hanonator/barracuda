@@ -5,6 +5,12 @@ import org.barracuda.horvik.context.session.SessionScoped;
 
 import io.netty.util.AttributeKey;
 
+/**
+ * TODO: Why does this exist?
+ * 
+ * @author brock
+ *
+ */
 @Discoverable
 @SessionScoped
 public class GameSession {

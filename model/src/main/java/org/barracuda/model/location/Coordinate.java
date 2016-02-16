@@ -36,10 +36,10 @@ public class Coordinate implements Location {
 	}
 
 	/**
-	 * 
+	 * Calculates the distance between this location and the other
 	 */
 	public int distance(Location other) {
-		return (this.x - other.getAbsoluteX()) + (this.y - other.getAbsoluteY());
+		return (this.x - other.getX()) + (this.y - other.getY());
 	}
 
 	/**
@@ -73,59 +73,45 @@ public class Coordinate implements Location {
 	}
 
 	/**
-	 * @return the absoluteX
+	 * @return the x
 	 */
-	public int getAbsoluteX() {
+	public int getX() {
 		return x;
 	}
 
 	/**
-	 * @param absoluteX the absoluteX to set
+	 * @param x the x to set
 	 */
-	public void setAbsoluteX(int absoluteX) {
-		this.x = absoluteX;
+	public void setX(int x) {
+		this.x = x;
 	}
 
 	/**
-	 * @return the absoluteY
+	 * @return the y
 	 */
-	public int getAbsoluteY() {
+	public int getY() {
 		return y;
 	}
 
 	/**
-	 * @param absoluteY the absoluteY to set
+	 * @param y the y to set
 	 */
-	public void setAbsoluteY(int absoluteY) {
-		this.y = absoluteY;
+	public void setY(int y) {
+		this.y = y;
 	}
 
 	/**
-	 * @return the absoluteZ
+	 * @return the z
 	 */
-	public int getAbsoluteZ() {
+	public int getZ() {
 		return z;
 	}
 
 	/**
-	 * @param absoluteZ the absoluteZ to set
+	 * @param z the z to set
 	 */
-	public void setAbsoluteZ(int absoluteZ) {
-		this.z = absoluteZ;
-	}
-
-	@Override
-	public int getRelativeX() {
-		return x - (getRegion().getAbsoluteX() * 8);
-	}
-
-	@Override
-	public int getRelativeY() {
-		return y - (getRegion().getAbsoluteY() * 8);
-	}
-
-	private Location getRegion() {
-		return new Coordinate((x >> 3) - 6, (y >> 3) - 6);
+	public void setZ(int z) {
+		this.z = z;
 	}
 
 }

@@ -32,8 +32,7 @@ public class PlayerSynchronizerImpl extends PlayerSynchronizer {
 			/*
 			 * This is the new player height.
 			 */
-			// TODO: bit_vector.write(entity.getLocation().getZ(), 2);
-			bit_vector.write(0, 2);
+			bit_vector.write(entity.getLocation().getZ(), 2);
 			
 			/*
 			 * This indicates that the client should discard the walking queue.
@@ -47,14 +46,11 @@ public class PlayerSynchronizerImpl extends PlayerSynchronizer {
 			
 			/*
 			 * These are the positions.
+			 * 
+			 * TODO: What the fuck is this
 			 */
-			bit_vector.write(entity.getLocation().getRelativeX(), 7);
-			bit_vector.write(entity.getLocation().getRelativeY(), 7);
-			
-			/*
-			 * Write the region to the client
-			 */
-//			entity.getSession().write(context.getActor().getRegion());
+			bit_vector.write(entity.getLocation().localize().getSmallCoordinate(entity.getLocation()).getX(), 7);
+			bit_vector.write(entity.getLocation().localize().getSmallCoordinate(entity.getLocation()).getY(), 7);
 		} else {
 			/*
 			 * Otherwise, check if the player moved.
@@ -227,8 +223,8 @@ public class PlayerSynchronizerImpl extends PlayerSynchronizer {
 		/*
 		 * Write the difference in player coordinates to the client.
 		 */
-		bit_vector.write(other.getLocation().getAbsoluteX() - self.getLocation().getAbsoluteX(), 5);
-		bit_vector.write(other.getLocation().getAbsoluteY() - self.getLocation().getAbsoluteY(), 5);
+		bit_vector.write(other.getLocation().getX() - self.getLocation().getX(), 5);
+		bit_vector.write(other.getLocation().getY() - self.getLocation().getY(), 5);
 	}
 
 	@Override

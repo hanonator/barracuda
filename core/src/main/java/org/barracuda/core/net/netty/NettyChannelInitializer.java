@@ -1,6 +1,6 @@
 package org.barracuda.core.net.netty;
 
-import org.barracuda.core.net.netty.codec.InterceptorEncoder;
+import org.barracuda.core.net.netty.codec.SerializerEncoder;
 import org.barracuda.core.net.netty.codec.MessageDecoder;
 import org.barracuda.core.net.netty.codec.MessageEncoder;
 import org.barracuda.core.net.netty.codec.PropertyDecoder;
@@ -38,7 +38,7 @@ class NettyChannelInitializer extends ChannelInitializer<SocketChannel> {
 				 * into entities so they can be distributed to the correct
 				 * listener
 				 */
-				.addLast("intercepter-encode", InterceptorEncoder.INSTANCE)
+				.addLast("intercepter-encode", SerializerEncoder.INSTANCE)
 
 				/*
 				 * Decodes the raw data into Message objects ready to be parsed

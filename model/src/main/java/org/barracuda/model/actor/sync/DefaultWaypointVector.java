@@ -4,7 +4,10 @@ import java.util.Deque;
 import java.util.LinkedList;
 
 import org.barracuda.model.actor.Actor;
+import org.barracuda.model.actor.Player;
+import org.barracuda.model.actor.event.RegionUpdatedEvent;
 import org.barracuda.model.location.Location;
+import org.barracuda.model.location.Region;
 
 /**
  * 
@@ -200,6 +203,7 @@ public class DefaultWaypointVector implements WaypointVector {
 		Waypoint walkPoint = null, runPoint = null;
 		Direction primaryDirection = null, secondaryDirection = null;
 		Location teleportTarget = null;
+		Region before = character.getLocation().localize();
 		
 		/*
 		 * Check to see if the player is teleporting or not
@@ -240,13 +244,17 @@ public class DefaultWaypointVector implements WaypointVector {
 		/*
 		 * Calculate the distance between the two tiles
 		 */
-		int diff_x = character.getLocation().getRelativeX() + 48;
-		int diff_y = character.getLocation().getRelativeY() + 48;
+		Region region = character.getLocation().localize();
+		int diff_x = region.getSmallCoordinate(character.getLocation()).getX();
+		int diff_y = region.getSmallCoordinate(character.getLocation()).getY();
 		
 		/*
 		 * Set the map region changed flag
 		 */
 		boolean regionUpdateRequired = diff_x < -32 || diff_x >= 40 || diff_y < -32 || diff_y >= 40;
+		if (regionUpdateRequired && character instanceof Player) {
+			((Player) character).notify(new RegionUpdatedEvent(before, character.getLocation().localize()));
+		}
 		return new LocationMetaData(teleportTarget, primaryDirection, secondaryDirection, regionUpdateRequired);
 	}
 
@@ -295,7 +303,7 @@ public class DefaultWaypointVector implements WaypointVector {
 	public WaypointVector clear() {
 		runQueue = false;
 		waypoints.clear();
-		waypoints.add(new Waypoint(character.getLocation().getAbsoluteX(), character.getLocation().getAbsoluteY(), null));
+		waypoints.add(new Waypoint(character.getLocation().getX(), character.getLocation().getY(), null));
 		return this;
 	}
 
