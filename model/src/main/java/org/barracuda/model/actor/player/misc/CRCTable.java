@@ -1,5 +1,7 @@
 package org.barracuda.model.actor.player.misc;
 
+import java.util.Arrays;
+
 import io.netty.buffer.ByteBuf;
 
 /**
@@ -15,7 +17,6 @@ public class CRCTable {
 	 * being sent by the user. This is used to check if the player is running
 	 * the same revision of the client.
 	 */
-	@SuppressWarnings("unused")
 	private final int[] crc_keys;
 
 	/**
@@ -33,7 +34,7 @@ public class CRCTable {
 	 * @return
 	 */
 	public boolean validate() {
-		return true; // TODO: Load the CRC keys from a local cache file
+		return Arrays.stream(crc_keys).allMatch(key -> key == 0);
 	}
 	
 	/**

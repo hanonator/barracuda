@@ -8,9 +8,11 @@ import org.barracuda.core.Application;
 import org.barracuda.core.game.GameSession;
 import org.barracuda.core.net.Channel;
 import org.barracuda.core.net.ChannelState;
+import org.barracuda.core.net.event.PlayerDisconnected;
 import org.barracuda.horvik.bean.Discoverable;
 import org.barracuda.horvik.context.session.Session;
 import org.barracuda.horvik.context.session.SessionScoped;
+import org.barracuda.model.actor.Player;
 
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
@@ -84,12 +86,15 @@ public class NettyChannel extends ChannelHandlerAdapter implements Channel {
 	
 	@Override
 	public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
+		if (session.contains(Application.getContainer().getBean(Player.class))) {
+			read(new PlayerDisconnected());
+		}
 		logger.debug("channel {} - connection closed", ctx.channel().remoteAddress());
 		ctx.attr(ChannelState.ATTRIBUTE_KEY).set(ChannelState.DISCONNECTED);
 	}
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-		logger.debug("channel {} - error occured: {}", ctx.channel().remoteAddress(), cause.getMessage());
+		logger.warn("channel {} - error occured: {}", ctx.channel().remoteAddress(), cause.getMessage());
 		ctx.attr(ChannelState.ATTRIBUTE_KEY).set(ChannelState.DISCONNECTED);
 	}
 	@Override

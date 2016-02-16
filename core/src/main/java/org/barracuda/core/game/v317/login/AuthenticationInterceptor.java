@@ -182,6 +182,11 @@ public class AuthenticationInterceptor implements Interceptor<Message, Authentic
 		realm.getPlayers().register(player);
 		
 		/*
+		 * Associate the player bean with the player
+		 */
+		session.associate(horvik.getContainer().getBean(Player.class), player);
+		
+		/*
 		 * Debug information
 		 */
 		logger.debug("session {} - user.username: {}", session.getId(), authentication.getUsername());

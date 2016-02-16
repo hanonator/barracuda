@@ -14,8 +14,6 @@ import org.barracuda.horvik.event.Observes;
 import org.barracuda.horvik.util.ReflectionUtil;
 import org.barracuda.model.Entity;
 import org.barracuda.model.actor.Actor;
-import org.barracuda.model.actor.NPC;
-import org.barracuda.model.actor.Player;
 import org.barracuda.model.actor.sync.attribute.Attribute;
 
 import io.netty.buffer.ByteBuf;
@@ -30,8 +28,6 @@ public class RenderingHints {
 	
 	/**
 	 * The collection of renderers
-	 * 
-	 * TODO: Find a way to make this a bit more structured ???
 	 */
 	private static final Map<Class<? extends Entity>, RenderingMetaData> renderers = new HashMap<>();
 	
@@ -88,6 +84,8 @@ public class RenderingHints {
 	/**
 	 * Assembles the attributes in a binary chunk of data that can be
 	 * synchronized with the client
+	 * 
+	 * TODO: put this in a single loop
 	 * 
 	 * @param buffer
 	 * @return

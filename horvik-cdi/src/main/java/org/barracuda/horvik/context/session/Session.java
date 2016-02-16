@@ -55,6 +55,15 @@ public class Session implements Contextual {
 	}
 
 	/**
+	 * 
+	 * @param type
+	 * @return
+	 */
+	public boolean contains(Bean<?> bean) {
+		return repository.get(bean) != null;
+	}
+
+	/**
 	 * Associates the instance of a bean with its bean class so it can be injected
 	 * in future references
 	 * 
