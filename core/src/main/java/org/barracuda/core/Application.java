@@ -31,6 +31,8 @@ public class Application {
 
 	/**
 	 * The Horvik object
+	 * 
+	 * TODO: Try to not have to put this to static
 	 */
 	private static final Horvik horvik = new Horvik();
 
@@ -48,11 +50,7 @@ public class Application {
 			/*
 			 * Initialize the container
 			 */
-			
 			horvik.initializeContainer();
-			
-			// FIXME
-//			horvik.getContainer().getService(MessageRepository.class).initialize(null, horvik.getContainer());
 			
 			/*
 			 * Start the networking service

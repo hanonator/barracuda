@@ -9,4 +9,11 @@ public interface Entity {
 	 */
 	int getIndex();
 
+	/**
+	 * Sets the index
+	 * 
+	 * @param index
+	 */
+	void setIndex(int index);
+
 }

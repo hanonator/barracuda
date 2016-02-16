@@ -1,7 +1,10 @@
 package org.barracuda.model.actor.sync;
 
+import java.util.Map;
+
 import org.barracuda.model.actor.Actor;
 import org.barracuda.model.actor.Player;
+import org.barracuda.model.realm.Realm;
 
 /**
  * A worker class that synchronizes a collection of entities between the server
@@ -19,15 +22,17 @@ public interface Synchronizer<T extends Actor, C extends SynchronizationContext<
 	 * @param entity
 	 * @return
 	 */
-	C create(T entity);
+	C create(T entity, Realm realm);
 	
 	/**
 	 * Synchronizes the player with the client
 	 * 
+	 * TODO: Add context, realm and contexts in some form of synchronizer context
+	 * 
 	 * @param entity
 	 * @param context
 	 */
-	void synchronize(Player player, C context);
+	void synchronize(Player player, C context, Realm realm, Map<T, C> contexts);
 	
 	/**
 	 * Destroys the synchronizer for the given entity
@@ -35,6 +40,6 @@ public interface Synchronizer<T extends Actor, C extends SynchronizationContext<
 	 * @param entity
 	 * @param context
 	 */
-	void destroy(T entity, C context);
+	void destroy(Player entity, C context);
 
 }

@@ -19,6 +19,7 @@
 		
 		<module>model</module>
 		<module>roald-timing</module>
+		<module>util-bit</module>
 	</modules>
 	
 	<build>

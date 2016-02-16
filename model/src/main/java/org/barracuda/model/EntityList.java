@@ -1,4 +1,4 @@
-package org.barracuda.model.realm;
+package org.barracuda.model;
 
 import java.lang.reflect.Array;
 import java.util.Deque;
@@ -8,8 +8,6 @@ import java.util.LinkedList;
 import java.util.Set;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
-
-import org.barracuda.model.Entity;
 
 /**
  * 
@@ -49,6 +47,26 @@ public class EntityList<T extends Entity> implements Iterable<T>, Supplier<Strea
 		this.type = type;
 		this.pool = new IndexPool(size);
 		this.entities = Array.newInstance(type, size);
+	}
+
+	/**
+	 * Registers the entity
+	 * 
+	 * @param entity
+	 */
+	public void register(T entity) {
+		entity.setIndex(pool.claim());
+		add(entity);
+	}
+
+	/**
+	 * Unregisters the entity
+	 * 
+	 * @param player
+	 */
+	public void unregister(T entity) {
+		pool.release(entity.getIndex());
+		remove(entity);
 	}
 	
 	/**
@@ -101,8 +119,17 @@ public class EntityList<T extends Entity> implements Iterable<T>, Supplier<Strea
 	/**
 	 * @return the pool
 	 */
-	public IndexPool getIndexPool() {
-		return pool;
+	public boolean full() {
+		return pool.size() == 0;
+	}
+
+	/**
+	 * 
+	 * @param other_player
+	 * @return
+	 */
+	public boolean contains(T other) {
+		return toSet().stream().anyMatch(entity -> entity.getIndex() == other.getIndex());
 	}
 
 	@Override
@@ -120,7 +147,7 @@ public class EntityList<T extends Entity> implements Iterable<T>, Supplier<Strea
 	 * @author brock
 	 *
 	 */
-	public static class IndexPool {
+	private static class IndexPool {
 		
 		/**
 		 * The pool of index
@@ -134,7 +161,7 @@ public class EntityList<T extends Entity> implements Iterable<T>, Supplier<Strea
 		 */
 		public IndexPool(int size) {
 			this.pool = new LinkedList<>();
-			for (int i = 0; i < size; i++) {
+			for (int i = 1; i < size; i++) {
 				this.pool.add(i);
 			}
 		}
@@ -153,6 +180,14 @@ public class EntityList<T extends Entity> implements Iterable<T>, Supplier<Strea
 		 */
 		public int claim() {
 			return pool.pop();
+		}
+		
+		/**
+		 * 
+		 * @return
+		 */
+		public int size() {
+			return pool.size();
 		}
 		
 	}

@@ -7,6 +7,8 @@ import org.barracuda.horvik.context.session.SessionScoped;
 import org.barracuda.horvik.inject.Inject;
 import org.barracuda.model.actor.player.Credentials;
 import org.barracuda.model.actor.player.misc.Detail;
+import org.barracuda.model.actor.sync.WaypointVector;
+import org.barracuda.model.actor.sync.attribute.Appearance;
 
 /**
  * Represents a player controlled entity
@@ -17,6 +19,12 @@ import org.barracuda.model.actor.player.misc.Detail;
 @Discoverable
 @SessionScoped
 public class Player extends Actor {
+	
+	/**
+	 * The session for this player object
+	 */
+	@Inject
+	private Session session;
 
 	/**
 	 * The detail mode the player is playing in
@@ -34,9 +42,14 @@ public class Player extends Actor {
 	private final Horvik container;
 	
 	/**
-	 * The session for this player object
+	 * The appearance
 	 */
-	@Inject private Session session;
+	private final Appearance appearance;
+	
+	/**
+	 * The player's waypoints
+	 */
+	private final WaypointVector waypoints = null;
 
 	/**
 	 * Constructor
@@ -44,6 +57,7 @@ public class Player extends Actor {
 	 * @param container
 	 */
 	public Player(Horvik container) {
+		this.appearance = new Appearance();
 		this.container = container;
 	}
 
@@ -82,6 +96,20 @@ public class Player extends Actor {
 	 */
 	public void setCredentials(Credentials credentials) {
 		this.credentials = credentials;
+	}
+
+	/**
+	 * @return the waypoints
+	 */
+	public WaypointVector getWaypoints() {
+		return waypoints;
+	}
+
+	/**
+	 * @return the appearance
+	 */
+	public Appearance getAppearance() {
+		return appearance;
 	}
 
 }

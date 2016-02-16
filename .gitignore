@@ -28,3 +28,7 @@ core/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFi
 core/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
 horvik-cdi/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
 .project
+util-bit/.classpath
+util-bit/.settings/org.eclipse.core.resources.prefs
+util-bit/.settings/org.eclipse.jdt.core.prefs
+util-bit/.settings/org.eclipse.m2e.core.prefs

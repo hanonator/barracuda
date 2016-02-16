@@ -1,6 +1,6 @@
-package org.barracuda.core.game.login.model;
+package org.barracuda.core.game.v317.login.model;
 
-import org.barracuda.core.game.login.HandshakeInterceptor.RequestType;
+import org.barracuda.core.game.v317.login.HandshakeInterceptor.RequestType;
 
 /**
  * The handshake

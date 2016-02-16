@@ -34,27 +34,12 @@ public class Coordinate implements Location {
 		this.y = y;
 		this.z = z;
 	}
-	
+
 	/**
-	 * Transforms this coordinate to the given coordinate
 	 * 
-	 * @param other
-	 * @return
 	 */
-	public Location transform(Location other) {
-		return this;
-	}
-
-
-	/**
-	 * Transforms the x and y values
-	 *
-	 * @param x
-	 * @param y
-	 * @return
-	 */
-	public Location transform(int x, int y) {
-		return this.transform(x, y, z);
+	public int distance(Location other) {
+		return (this.x - other.getAbsoluteX()) + (this.y - other.getAbsoluteY());
 	}
 
 	/**
@@ -73,17 +58,6 @@ public class Coordinate implements Location {
 	}
 	
 	/**
-	 * A translation with a default z offset of 0
-	 * 
-	 * @param x
-	 * @param y
-	 * @return
-	 */
-	public Location translate(int x, int y) {
-		return this.translate(x, y, 0);
-	}
-	
-	/**
 	 * Translates the coordinate with the given values
 	 * 
 	 * @param x
@@ -98,30 +72,60 @@ public class Coordinate implements Location {
 		return this;
 	}
 
-	public int getX() {
+	/**
+	 * @return the absoluteX
+	 */
+	public int getAbsoluteX() {
 		return x;
 	}
 
-	public void setX(int x) {
-		this.x = x;
+	/**
+	 * @param absoluteX the absoluteX to set
+	 */
+	public void setAbsoluteX(int absoluteX) {
+		this.x = absoluteX;
 	}
 
-	public int getY() {
+	/**
+	 * @return the absoluteY
+	 */
+	public int getAbsoluteY() {
 		return y;
 	}
 
-	public void setY(int y) {
-		this.y = y;
+	/**
+	 * @param absoluteY the absoluteY to set
+	 */
+	public void setAbsoluteY(int absoluteY) {
+		this.y = absoluteY;
 	}
 
-	public int getZ() {
+	/**
+	 * @return the absoluteZ
+	 */
+	public int getAbsoluteZ() {
 		return z;
 	}
 
-	public void setZ(int z) {
-		this.z = z;
+	/**
+	 * @param absoluteZ the absoluteZ to set
+	 */
+	public void setAbsoluteZ(int absoluteZ) {
+		this.z = absoluteZ;
 	}
 
-	
+	@Override
+	public int getRelativeX() {
+		return x - (getRegion().getAbsoluteX() * 8);
+	}
+
+	@Override
+	public int getRelativeY() {
+		return y - (getRegion().getAbsoluteY() * 8);
+	}
+
+	private Location getRegion() {
+		return new Coordinate((x >> 3) - 6, (y >> 3) - 6);
+	}
 
 }

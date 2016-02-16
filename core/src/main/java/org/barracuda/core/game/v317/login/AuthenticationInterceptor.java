@@ -1,4 +1,4 @@
-package org.barracuda.core.game.login;
+package org.barracuda.core.game.v317.login;
 
 import java.math.BigInteger;
 
@@ -8,21 +8,26 @@ import javax.crypto.Cipher;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.barracuda.core.game.GameSession;
-import org.barracuda.core.game.login.model.Authentication;
-import org.barracuda.core.game.login.model.AuthenticationResponse;
-import org.barracuda.core.game.login.model.VersionMetaData;
+import org.barracuda.core.game.v317.login.model.Authentication;
+import org.barracuda.core.game.v317.login.model.AuthenticationResponse;
+import org.barracuda.core.game.v317.login.model.VersionMetaData;
 import org.barracuda.core.net.ByteBufferUtil;
 import org.barracuda.core.net.Channel;
 import org.barracuda.core.net.interceptor.Interceptor;
 import org.barracuda.core.net.message.Message;
 import org.barracuda.core.security.ISAACPair;
+import org.barracuda.horvik.Horvik;
 import org.barracuda.horvik.bean.Discoverable;
 import org.barracuda.horvik.context.request.RequestScoped;
 import org.barracuda.horvik.context.session.Session;
 import org.barracuda.horvik.event.Observes;
 import org.barracuda.horvik.inject.Inject;
+import org.barracuda.model.actor.Player;
+import org.barracuda.model.actor.player.Credentials;
+import org.barracuda.model.actor.player.Privilege;
 import org.barracuda.model.actor.player.misc.CRCTable;
 import org.barracuda.model.actor.player.misc.Detail;
+import org.barracuda.model.realm.Realm;
 
 import io.netty.buffer.ByteBuf;
 
@@ -62,6 +67,18 @@ public class AuthenticationInterceptor implements Interceptor<Message, Authentic
 	 */
 	@Inject
 	private Channel channel;
+	
+	/**
+	 * The realm
+	 */
+	@Inject
+	private Realm realm;
+	
+	/**
+	 * The horvik instance
+	 */
+	@Inject
+	private Horvik horvik;
 
 	/**
 	 * TODO: Find a way to process the variables sent by the client and handle them
@@ -150,12 +167,28 @@ public class AuthenticationInterceptor implements Interceptor<Message, Authentic
 		channel.writeAndFlush(new AuthenticationResponse());
 		
 		/*
+		 * If the user has successfully authenticated, create a player object
+		 */
+		Player player = new Player(horvik);
+		
+		/*
+		 * Load the player's account properties
+		 */
+		player.setCredentials(new Credentials(authentication.getUsername(), authentication.getUsername(), Privilege.FULL));
+		
+		/*
+		 * Register the player with the realm
+		 */
+		realm.getPlayers().register(player);
+		
+		/*
 		 * Debug information
 		 */
 		logger.debug("session {} - user.username: {}", session.getId(), authentication.getUsername());
 		logger.debug("session {} - user.password: {}", session.getId(), authentication.getPassword());
-		logger.debug("session {} - cipher.client_key: {}", session.getId(), authentication.getCipher().getClientKey());
+		logger.debug("session {} - user.id: {}", session.getId(), player.getIndex());
 		logger.debug("session {} - cipher.server_key: {}", session.getId(), authentication.getCipher().getServerKey());
+		logger.debug("session {} - cipher.client_key: {}", session.getId(), authentication.getCipher().getClientKey());
 	}
 
 }

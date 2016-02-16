@@ -35,7 +35,7 @@ public interface Channel {
 	void close();
 	
 	/**
-	 * Proxy method. TODO: This is implementation dependant on JBoss Netty
+	 * Proxy method. TODO: This is implementation dependent on JBoss Netty
 	 * @return
 	 */
 	<T> Attribute<T> attr(AttributeKey<T> key);

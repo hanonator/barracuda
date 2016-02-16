@@ -23,6 +23,7 @@ import org.barracuda.horvik.event.Observes;
 
 import javassist.Modifier;
 
+@ApplicationScoped
 public class Horvik {
 
 	/**
@@ -57,8 +58,6 @@ public class Horvik {
 			logger.info("Starting Horvik container");
 			/*
 			 * Register all of the scopes
-			 * 
-			 * TODO: application and request scope
 			 */
 			container.addContext(SessionScoped.class, new SessionContext(container));
 			container.addContext(ApplicationScoped.class, new ApplicationContext(container));
@@ -88,6 +87,8 @@ public class Horvik {
 		 */
 		container.<ApplicationContext>getContext(ApplicationScoped.class).push(HorvikContainer.class, container);
 		container.registerBean(new ManagedBean<>(HorvikContainer.class, container));
+		container.<ApplicationContext>getContext(ApplicationScoped.class).push(Horvik.class, this);
+		container.registerBean(new ManagedBean<>(Horvik.class, container));
 		
 		/*
 		 * Registers the beans

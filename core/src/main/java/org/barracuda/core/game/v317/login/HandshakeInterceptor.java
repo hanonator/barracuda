@@ -1,13 +1,13 @@
-package org.barracuda.core.game.login;
+package org.barracuda.core.game.v317.login;
 
 import java.util.Random;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.barracuda.core.game.GameSession;
-import org.barracuda.core.game.login.model.Authentication;
-import org.barracuda.core.game.login.model.Handshake;
-import org.barracuda.core.game.login.model.HandshakeResponse;
+import org.barracuda.core.game.v317.login.model.Authentication;
+import org.barracuda.core.game.v317.login.model.Handshake;
+import org.barracuda.core.game.v317.login.model.HandshakeResponse;
 import org.barracuda.core.net.Channel;
 import org.barracuda.core.net.ChannelState;
 import org.barracuda.core.net.interceptor.Interceptor;
