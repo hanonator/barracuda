@@ -16,7 +16,7 @@ import io.netty.buffer.ByteBuf;
  *
  */
 @Renders(entity=Player.class, attribute=Appearance.class)
-public class AppearanceAttribute implements Renderer<Appearance> {
+public class AppearanceRenderer implements Renderer<Appearance> {
 
 	/**
 	 * 
@@ -67,7 +67,7 @@ public class AppearanceAttribute implements Renderer<Appearance> {
 
 	@Override
 	public int getIdentifier() {
-		return AppearanceAttribute.BITMAP_ID;
+		return AppearanceRenderer.BITMAP_ID;
 	}
 
 	@Override

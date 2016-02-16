@@ -8,6 +8,12 @@ import java.lang.annotation.Target;
 import org.barracuda.model.actor.Actor;
 import org.barracuda.model.actor.sync.attribute.Attribute;
 
+/**
+ * TODO: Move away from this annotation and add values as abstract methods
+ * 
+ * @author brock
+ *
+ */
 @Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Renders {

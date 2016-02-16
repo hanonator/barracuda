@@ -11,6 +11,8 @@ import org.apache.logging.log4j.Logger;
 import org.barracuda.horvik.HorvikContainer;
 import org.barracuda.horvik.environment.ContainerInitialized;
 import org.barracuda.horvik.event.Observes;
+import org.barracuda.horvik.util.ReflectionUtil;
+import org.barracuda.model.Entity;
 import org.barracuda.model.actor.Actor;
 import org.barracuda.model.actor.NPC;
 import org.barracuda.model.actor.Player;
@@ -27,14 +29,16 @@ import io.netty.buffer.ByteBuf;
 public class RenderingHints {
 	
 	/**
+	 * The collection of renderers
+	 * 
+	 * TODO: Find a way to make this a bit more structured ???
+	 */
+	private static final Map<Class<? extends Entity>, RenderingMetaData> renderers = new HashMap<>();
+	
+	/**
 	 * The logger for this class
 	 */
 	private static final Logger logger = LogManager.getLogger(RenderingHints.class);
-	
-	/**
-	 * The collection of renderers
-	 */
-	private static final Map<Class<?>, Map<Class<?>, Renderer<? extends Attribute>>> renderers = new HashMap<>();
 
 	/**
 	 * The collection of attributes
@@ -62,17 +66,22 @@ public class RenderingHints {
 	 */
 	@SuppressWarnings("unchecked")
 	public static void find_renderers(@Observes ContainerInitialized event, HorvikContainer container) throws Exception {
-		renderers.put(Player.class, new HashMap<>());
-		renderers.put(NPC.class, new HashMap<>());
+		/*
+		 * This will get the rendering order for each of the updatable entity types and will
+		 * create a meta data object for them
+		 */
+		container.getSubTypesOf(RenderingOrder.class).forEach(order_type -> {
+			RenderingOrder order = ReflectionUtil.createForcedType(order_type, RenderingOrder.class);
+			renderers.put(order.getRenderedType(), new RenderingMetaData(order));
+		});
+
+		/*
+		 * Registers each of the renderers to the correct meta data for retrieval later
+		 */
 		container.getTypesAnnotatedWith(Renders.class).forEach(type -> {
-			try {
-				Renders annotation = type.getDeclaredAnnotation(Renders.class);
-				renderers.get(annotation.entity()).put(annotation.attribute(), (Renderer<? extends Attribute>) type.newInstance());
-				logger.info("{} -> renders {} for type {}", type.getName(), annotation.attribute(), annotation.entity());
-			} catch (Exception ex) {
-				logger.fatal("Could not instantiate renderer");
-				ex.printStackTrace();
-			}
+			Renders annotation = type.getDeclaredAnnotation(Renders.class);
+			renderers.get(annotation.entity()).submit(annotation.attribute(), ReflectionUtil.createForcedType(type, Renderer.class));
+			logger.info("{} -> renders {} for type {}", type.getName(), annotation.attribute(), annotation.entity());
 		});
 	}
 
@@ -86,9 +95,9 @@ public class RenderingHints {
 	@SuppressWarnings("unchecked")
 	public ByteBuf assemble(ByteBuf buffer) {
 		AtomicInteger bit_set = new AtomicInteger(0);
-		attributes.forEach(attribute -> bit_set.set(bit_set.get() | renderers.get(entity_class).get(attribute.getClass()).getIdentifier()));
+		attributes.forEach(attribute -> bit_set.set(bit_set.get() | renderers.get(entity_class).getRenderer(attribute.getClass()).getIdentifier()));
 		buffer.writeByte(bit_set.get());
-		attributes.forEach(attribute -> ((Renderer<Attribute>) renderers.get(entity_class).get(attribute.getClass())).serialize(attribute, buffer));
+		attributes.forEach(attribute -> ((Renderer<Attribute>) renderers.get(entity_class).getRenderer(attribute.getClass())).serialize(attribute, buffer));
 		return buffer;
 	}
 

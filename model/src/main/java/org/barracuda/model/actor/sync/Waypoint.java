@@ -1,5 +1,11 @@
 package org.barracuda.model.actor.sync;
 
+/**
+ * The waypoint
+ * 
+ * @author brock
+ *
+ */
 public class Waypoint {
 
 	/**

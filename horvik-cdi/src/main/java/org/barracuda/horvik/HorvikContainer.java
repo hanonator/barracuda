@@ -183,6 +183,16 @@ public class HorvikContainer {
 	}
 	
 	/**
+	 * gets all sub types in hierarchy of a given type depends on SubTypesScanner configured
+	 * 
+	 * @param type
+	 * @return
+	 */
+	public <T> Set<Class<? extends T>> getSubTypesOf(Class<T> type) {
+		return reflections.getSubTypesOf(type);
+	}
+	
+	/**
 	 * Gets the set of available contexts
 	 * 
 	 * @return
