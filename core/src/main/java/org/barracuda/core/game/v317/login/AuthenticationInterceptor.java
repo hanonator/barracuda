@@ -8,6 +8,7 @@ import javax.crypto.Cipher;
 import org.barracuda.core.game.util.VersionMetaData;
 import org.barracuda.core.net.ByteBufferUtil;
 import org.barracuda.core.net.event.Authentication;
+import org.barracuda.core.net.interceptor.Authenticator;
 import org.barracuda.core.net.interceptor.Interceptor;
 import org.barracuda.core.net.message.Message;
 import org.barracuda.core.security.ISAACPair;
@@ -20,6 +21,7 @@ import io.netty.buffer.ByteBuf;
 
 @RequestScoped
 @Discoverable
+@Authenticator
 public class AuthenticationInterceptor implements Interceptor<Message, Authentication> {
 
 	/**

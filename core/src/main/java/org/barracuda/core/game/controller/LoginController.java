@@ -103,7 +103,7 @@ public class LoginController {
 		/*
 		 * If the user has successfully authenticated, create a player object
 		 */
-		Player player = new Player(horvik, session);
+		Player player = new Player(horvik, session, channel);
 		
 		/*
 		 * Load the player's account properties

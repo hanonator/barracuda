@@ -1,5 +1,7 @@
 package org.barracuda.core.net.message;
 
+import java.util.List;
+
 import io.netty.buffer.ByteBufAllocator;
 
 public interface Serializer<T> {
@@ -11,6 +13,6 @@ public interface Serializer<T> {
 	 * @param session
 	 * @return
 	 */
-	Message serialize(T input, ByteBufAllocator allocator);
+	void serialize(T input, ByteBufAllocator allocator, List<Message> out);
 
 }

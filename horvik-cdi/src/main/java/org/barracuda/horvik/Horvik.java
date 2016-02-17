@@ -6,6 +6,7 @@ import java.util.HashSet;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.barracuda.horvik.bean.Bean;
 import org.barracuda.horvik.bean.Discoverable;
 import org.barracuda.horvik.bean.ManagedBean;
 import org.barracuda.horvik.bean.Null;
@@ -108,11 +109,11 @@ public class Horvik {
 		 * TODO: Make this less shit
 		 */
 		container.getTypesAnnotatedWith(Service.class).forEach(type -> {
-			Class<Object> serviceClass = (Class<Object>) type;
-			Object instance = container.getInstantiator(serviceClass).instantiate(serviceClass, container);
+			Bean<?> bean = new ManagedBean<>(type, container);
+			Object instance = container.getInjectedReference(bean, null);
 			container.registerService(type, instance);
-			container.registerBean(new ManagedBean<>(type, container));
-			container.<ApplicationContext>getContext(ApplicationScoped.class).push(serviceClass, instance);
+			container.registerBean(bean);
+			container.<ApplicationContext>getContext(ApplicationScoped.class).push((Class<Object>) type, instance);
 			logger.info("Service -> {}", type.getName());
 		});
 		

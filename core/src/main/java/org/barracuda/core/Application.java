@@ -8,8 +8,6 @@ import org.apache.logging.log4j.Logger;
 import org.barracuda.core.net.ServiceException;
 import org.barracuda.core.net.netty.NettyService;
 import org.barracuda.horvik.Horvik;
-import org.barracuda.horvik.HorvikContainer;
-import org.barracuda.horvik.event.Event;
 
 /**
  * Application initialization and entry point
@@ -20,21 +18,9 @@ import org.barracuda.horvik.event.Event;
 public class Application {
 
 	/**
-	 * The networking service
-	 */
-	private static final NettyService service = new NettyService();
-
-	/**
 	 * The logger for this class
 	 */
 	private static final Logger logger = LogManager.getLogger(Application.class);
-
-	/**
-	 * The Horvik object
-	 * 
-	 * TODO: Try to not have to put this to static
-	 */
-	private static final Horvik horvik = new Horvik();
 
 	/**
 	 * Program entry point.
@@ -50,23 +36,17 @@ public class Application {
 			/*
 			 * Initialize the container
 			 */
+			Horvik horvik = new Horvik();
 			horvik.initializeContainer();
 			
 			/*
 			 * Start the networking service
 			 */
+			NettyService service = horvik.getContainer().getService(NettyService.class);
 			service.start();
 		} catch (Exception ex) {
 			logger.fatal("An exception occured during initialization of the server", ex);
 		}
-	}
-
-	public static HorvikContainer getContainer() {
-		return horvik.getContainer();
-	}
-
-	public static Event<Object> getEvent() {
-		return horvik.getEvent();
 	}
 
 }

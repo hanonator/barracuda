@@ -75,8 +75,8 @@ public class SynchronizationSchedule implements ClockWorker {
 		 * Update all of the players
 		 */
 		realm.getPlayers().forEach(player -> {
-			playerSynchronizer.synchronize(player, player_contexts.get(player), realm, player_contexts);
-//			npcSynchronizer.synchronize(player, npc_contexts.get(player), realm);
+			player.getChannel().writeAndFlush(playerSynchronizer.synchronize(player, player_contexts.get(player), realm, player_contexts));
+//			player.getChannel().writeAndFlush(npcSynchronizer.synchronize(player, npc_contexts.get(player), realm));
 		});
 		
 		/*

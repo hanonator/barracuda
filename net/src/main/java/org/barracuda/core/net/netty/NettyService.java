@@ -17,7 +17,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
 /**
- * 
+ * Not a horvik service anymore 
  * 
  * @author brock
  */
@@ -33,13 +33,13 @@ public class NettyService {
 	 * The port the service is bound to
 	 */
 	@Resource(name = "service.net.port")
-	private static final int port = 43594;
+	private static int port = 43594;
 
 	/**
 	 * The host the service is bound to  
 	 */
 	@Resource(name = "service.net.host")
-	private static final String host = "localhost";
+	private static String host = "localhost";
 	
 	/**
 	 * The server bootstrap

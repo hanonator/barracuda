@@ -14,6 +14,16 @@ import io.netty.handler.timeout.IdleStateHandler;
 
 @Sharable
 class NettyChannelInitializer extends ChannelInitializer<SocketChannel> {
+	
+	/**
+	 * Decodes raw data into a readable message
+	 */
+	private final MessageDecoder messageDecoder;
+	
+	/**
+	 * Decodes the messages into properties
+	 */
+	private final PropertyDecoder propertyDecoder;
 
 	/**
 	 * The service this initializer is bound to
@@ -33,6 +43,8 @@ class NettyChannelInitializer extends ChannelInitializer<SocketChannel> {
 	public NettyChannelInitializer(NettyService service, Horvik horvik) {
 		this.service = service;
 		this.horvik = horvik;
+		this.messageDecoder = new MessageDecoder(horvik);
+		this.propertyDecoder = new PropertyDecoder(horvik);
 	}
 
 	@Override
@@ -64,14 +76,14 @@ class NettyChannelInitializer extends ChannelInitializer<SocketChannel> {
 				 * into entities so they can be distributed to the correct
 				 * listener
 				 */
-				.addLast("message-decode", MessageDecoder.INSTANCE)
+				.addLast("message-decode", messageDecoder)
 
 				/*
 				 * Decodes the raw data into Message objects ready to be parsed
 				 * into entities so they can be distributed to the correct
 				 * listener
 				 */
-				.addLast("property-decode", PropertyDecoder.INSTANCE)
+				.addLast("property-decode", propertyDecoder)
 
 				/*
 				 * The handler that distributes the game events to the correct

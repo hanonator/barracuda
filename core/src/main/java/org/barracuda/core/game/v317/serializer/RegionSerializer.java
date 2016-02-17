@@ -1,4 +1,6 @@
-package org.barracuda.core.game.v317.out;
+package org.barracuda.core.game.v317.serializer;
+
+import java.util.List;
 
 import org.barracuda.core.net.message.Message;
 import org.barracuda.core.net.message.MessageBuilder;
@@ -12,8 +14,8 @@ import io.netty.buffer.ByteBufAllocator;
 public class RegionSerializer implements Serializer<Region> {
 
 	@Override
-	public Message serialize(Region input, ByteBufAllocator allocator) {
-		return new MessageBuilder(allocator).opcode(73).writeShort(input.getX()).writeShort(input.getY()).build();
+	public void serialize(Region input, ByteBufAllocator allocator, List<Message> out) {
+		out.add(new MessageBuilder(allocator).opcode(73).writeShort(input.getX()).writeShort(input.getY()).build());
 	}
 
 }

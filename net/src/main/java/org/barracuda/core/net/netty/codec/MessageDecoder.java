@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.barracuda.core.Application;
 import org.barracuda.core.net.ChannelState;
 import org.barracuda.core.net.message.ByteBufPayload;
 import org.barracuda.core.net.message.Header;
@@ -14,9 +13,9 @@ import org.barracuda.core.net.message.game.GameHeader.MetaData;
 import org.barracuda.core.net.message.game.GameMessage;
 import org.barracuda.core.net.message.resolve.MessageDefinition;
 import org.barracuda.core.net.message.resolve.MessageRepository;
+import org.barracuda.horvik.Horvik;
 
 import io.netty.buffer.ByteBuf;
-import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageDecoder;
@@ -36,9 +35,18 @@ public class MessageDecoder extends MessageToMessageDecoder<ByteBuf> {
 	private static final Logger logger = LogManager.getLogger(MessageDecoder.class);
 
 	/**
-	 * The static instance of this class
+	 * The horvik instance
 	 */
-	public static final ChannelHandler INSTANCE = new MessageDecoder();
+	private final Horvik horvik;
+
+	/**
+	 * Constructor
+	 * 
+	 * @param horvik
+	 */
+	public MessageDecoder(Horvik horvik) {
+		this.horvik = horvik;
+	}
 
 	@Override
 	protected void decode(ChannelHandlerContext ctx, ByteBuf msg, List<Object> out) throws Exception {
@@ -49,7 +57,7 @@ public class MessageDecoder extends MessageToMessageDecoder<ByteBuf> {
 		} else {
 			while (msg.isReadable()) {
 				int opcode = msg.readUnsignedByte();
-				MessageDefinition definition = Application.getContainer().getService(MessageRepository.class).get(opcode);
+				MessageDefinition definition = horvik.getContainer().getService(MessageRepository.class).get(opcode);
 				MetaData meta = definition == null ? MetaData.EMPTY : definition.getMeta();
 				int length = 0;
 				

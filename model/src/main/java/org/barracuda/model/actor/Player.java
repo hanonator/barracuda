@@ -1,5 +1,6 @@
 package org.barracuda.model.actor;
 
+import org.barracuda.core.net.Channel;
 import org.barracuda.horvik.Horvik;
 import org.barracuda.horvik.bean.Discoverable;
 import org.barracuda.horvik.context.session.Session;
@@ -24,6 +25,11 @@ public class Player extends Actor {
 	 * The session for this player object
 	 */
 	private final Session session;
+	
+	/**
+	 * The player's channel
+	 */
+	private final Channel channel;
 
 	/**
 	 * The detail mode the player is playing in
@@ -55,9 +61,10 @@ public class Player extends Actor {
 	 * 
 	 * @param container
 	 */
-	public Player(Horvik container, Session session) {
+	public Player(Horvik container, Session session, Channel channel) {
 		this.appearance = new Appearance();
 		this.container = container;
+		this.channel = channel;
 		this.session = session;
 	}
 
@@ -118,6 +125,13 @@ public class Player extends Actor {
 	 */
 	public Appearance getAppearance() {
 		return appearance;
+	}
+
+	/**
+	 * @return the channel
+	 */
+	public Channel getChannel() {
+		return channel;
 	}
 
 }

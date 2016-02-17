@@ -3,6 +3,7 @@ package org.barracuda.core.game.v317.login;
 import org.barracuda.core.net.event.Authentication;
 import org.barracuda.core.net.event.Handshake;
 import org.barracuda.core.net.event.Handshake.RequestType;
+import org.barracuda.core.net.interceptor.Handshaker;
 import org.barracuda.core.net.interceptor.Interceptor;
 import org.barracuda.core.net.message.Message;
 import org.barracuda.horvik.bean.Discoverable;
@@ -10,6 +11,7 @@ import org.barracuda.horvik.context.request.RequestScoped;
 
 @RequestScoped
 @Discoverable
+@Handshaker
 public class HandshakeInterceptor implements Interceptor<Message, Handshake> {
 
 	@Override

@@ -8,6 +8,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.Resource;
+
 import org.barracuda.horvik.bean.Bean;
 import org.barracuda.horvik.bean.Qualifier;
 import org.barracuda.horvik.context.Context;
@@ -20,6 +22,7 @@ import org.barracuda.horvik.inject.Inject;
 import org.barracuda.horvik.inject.InjectionPoint;
 import org.barracuda.horvik.inject.Injector;
 import org.barracuda.horvik.inject.Instantiator;
+import org.barracuda.horvik.inject.ResourceInjectionPoint;
 import org.barracuda.horvik.util.ReflectionUtil;
 import org.reflections.Reflections;
 import org.reflections.scanners.MethodAnnotationsScanner;
@@ -55,6 +58,11 @@ public class HorvikContainer {
 	 * The collection of services
 	 */
 	private final Map<Class<?>, ? super Object> services;
+	
+	/**
+	 * Collection of resources
+	 */
+	private final Map<String, String> resources = new HashMap<>();
 
 	/**
 	 * constructor
@@ -99,6 +107,9 @@ public class HorvikContainer {
 		for (Field field : type.getDeclaredFields()) {
 			if (field.isAnnotationPresent(Inject.class) && !Modifier.isStatic(field.getModifiers())) {
 				injection_points.add(new FieldInjectionPoint<>(field, type));
+			}
+			if (field.isAnnotationPresent(Resource.class)) {
+				injection_points.add(new ResourceInjectionPoint<>(resources, field));
 			}
 		}
 		return injection_points;
@@ -160,6 +171,16 @@ public class HorvikContainer {
 	 */
 	public Set<Class<?>> getTypesAnnotatedWith(Class<? extends Annotation> annotation) {
 		return reflections.getTypesAnnotatedWith(annotation, true);
+	}
+
+	/**
+	 * Get types annotated with a given annotation, both classes and annotations 
+	 * 
+	 * @param annotation
+	 * @return
+	 */
+	public Class<?> getTypeAnnotatedWith(Class<? extends Annotation> annotation) {
+		return reflections.getTypesAnnotatedWith(annotation, true).iterator().next();
 	}
 
 	/**
@@ -266,6 +287,16 @@ public class HorvikContainer {
 	 */
 	public <T> Instantiator<T> getInstantiator(Class<T> type) {
 		return new DefaultInstantiator<>();
+	}
+	
+	/**
+	 * Adds a resource key and value pair
+	 * 
+	 * @param key
+	 * @param value
+	 */
+	void addResource(String key, String value) {
+		resources.put(key, value);
 	}
 
 	@Override

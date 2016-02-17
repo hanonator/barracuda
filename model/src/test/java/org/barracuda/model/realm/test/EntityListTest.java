@@ -20,7 +20,7 @@ public class EntityListTest {
 	/**
 	 * The player the tests will be run on
 	 */
-	private final Player player = new Player(null, null);
+	private final Player player = new Player(null, null, null);
 
 	/**
 	 * A regular player list

@@ -9,6 +9,8 @@ import org.apache.logging.log4j.Logger;
 import org.barracuda.core.net.event.Authentication;
 import org.barracuda.core.net.event.Handshake;
 import org.barracuda.core.net.event.JagGrabFileRequest;
+import org.barracuda.core.net.interceptor.Authenticator;
+import org.barracuda.core.net.interceptor.Handshaker;
 import org.barracuda.core.net.interceptor.Interceptor;
 import org.barracuda.core.net.interceptor.Intercepts;
 import org.barracuda.core.net.message.Message;
@@ -82,9 +84,11 @@ public class MessageRepository {
 		/*
 		 * FIXME: Load from configuration files
 		 */
-		handshakeInterceptor.set(new HandshakeInterceptor());
-		authenticationInterceptor.set(new AuthenticationInterceptor());
-		jaggrabInterceptor.set(new JagGrabInterceptor());
+		handshakeInterceptor.set(ReflectionUtil.createForcedType(container.getTypeAnnotatedWith(Handshaker.class), Interceptor.class));
+		authenticationInterceptor.set(ReflectionUtil.createForcedType(container.getTypeAnnotatedWith(Authenticator.class), Interceptor.class));
+//		handshakeInterceptor.set(new HandshakeInterceptor());
+//		authenticationInterceptor.set(new AuthenticationInterceptor());
+//		jaggrabInterceptor.set(new JagGrabInterceptor());
 	}
 
 	/**

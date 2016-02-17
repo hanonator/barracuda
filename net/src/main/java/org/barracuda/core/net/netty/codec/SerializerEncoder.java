@@ -1,11 +1,13 @@
 package org.barracuda.core.net.netty.codec;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.barracuda.core.net.message.Message;
 import org.barracuda.core.net.message.Serializer;
 import org.barracuda.core.net.message.Serializes;
 import org.barracuda.horvik.HorvikContainer;
@@ -53,14 +55,14 @@ public class SerializerEncoder extends MessageToMessageEncoder<Object> {
 	@Override
 	protected void encode(ChannelHandlerContext ctx, Object msg, List<Object> out) throws Exception {
 		Serializer<Object> serializer = (Serializer<Object>) serializers.get(msg.getClass());
-		 if (serializer != null) {
-			 out.add(serializer.serialize(msg, ctx.alloc()));
-			 System.out.println("Serializing " + msg.getClass());
-		 }
-		 else {
-			 System.out.println("Not serializing " + msg.getClass());
-			 out.add(msg);
-		 }
+		List<Message> messages = new ArrayList<>();
+		if (serializer != null) {
+			serializer.serialize(msg, ctx.alloc(), messages);
+			out.addAll(messages);
+		}
+		else {
+			out.add(msg);
+		}
 	}
 
 }

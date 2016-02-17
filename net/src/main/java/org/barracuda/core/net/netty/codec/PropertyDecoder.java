@@ -8,8 +8,8 @@ import org.barracuda.core.net.message.resolve.InterceptorDecoder;
 import org.barracuda.core.net.message.resolve.MessageDecoder;
 import org.barracuda.core.net.message.resolve.MessageDefinition;
 import org.barracuda.core.net.message.resolve.MessageRepository;
+import org.barracuda.horvik.Horvik;
 
-import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageDecoder;
@@ -23,13 +23,22 @@ import io.netty.handler.codec.MessageToMessageDecoder;
 public class PropertyDecoder extends MessageToMessageDecoder<Message> {
 
 	/**
-	 * The static instance of this class
+	 * The horvik instance
 	 */
-	public static final ChannelHandler INSTANCE = new PropertyDecoder();
+	private final Horvik horvik;
+
+	/**
+	 * Constructor
+	 * 
+	 * @param horvik
+	 */
+	public PropertyDecoder(Horvik horvik) {
+		this.horvik = horvik;
+	}
 
 	@Override
 	protected void decode(ChannelHandlerContext ctx, Message msg, List<Object> out) throws Exception {
-		MessageRepository repository = Application.getContainer().getService(MessageRepository.class);
+		MessageRepository repository = horvik.getContainer().getService(MessageRepository.class);
 		
 		/*
 		 * Check to see if the message that has been received has a message definition that is capable of
