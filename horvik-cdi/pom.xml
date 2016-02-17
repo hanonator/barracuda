@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.barracuda</groupId>
 		<artifactId>barracuda-parent</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>${barracuda.version}</version>
 	</parent>
 	<artifactId>horvik-cdi</artifactId>
 

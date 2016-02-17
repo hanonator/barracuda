@@ -1,5 +1,7 @@
 package org.barracuda.model.actor.player;
 
+import org.barracuda.model.actor.Player;
+
 public class Stats {
 
 	/**
@@ -20,6 +22,41 @@ public class Stats {
 	 * The player's skills
 	 */
 	private final Skill[] skills = new Skill[SKILL_NAME.length];
+
+	/**
+	 * The player
+	 */
+	private final Player player;
+
+	/**
+	 * Constructor
+	 * 
+	 * @param player
+	 */
+	public Stats(Player player) {
+		this.player = player;
+		for (int i = 0; i < skills.length; i++) {
+			skills[i] = new Skill(this.player);
+			skills[i].setLevel(i == HITPOINTS ? 10 : 1);
+			skills[i].setExperience(i == HITPOINTS ? Skill.getXPForLevel(10) : 0);
+		}
+	}
+
+	/**
+	 * 
+	 * @param index
+	 * @param experience
+	 */
+	public void addExperience(int index, int experience) {
+		skills[index].addExperience(experience);
+	}
+	
+	/**
+	 * Increment or decrement the level of the skills towards their absolute level
+	 */
+	public void normalize() {
+		
+	}
 
 	/**
 	 * Gets the requested skill

@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.barracuda</groupId>
 		<artifactId>barracuda-parent</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>${barracuda.version}</version>
 	</parent>
 	<artifactId>roald-timing</artifactId>
 
@@ -12,7 +12,7 @@
 		<dependency>
 			<groupId>org.barracuda</groupId>
 			<artifactId>horvik-cdi</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${barracuda.version}</version>
 		</dependency>
 	</dependencies>
 </project>

@@ -19,8 +19,11 @@ import io.netty.buffer.ByteBuf;
 public class PlayerSynchronizerImpl extends PlayerSynchronizer {
 
 	@Override
-	public Message wrap(ByteBuf vector) {
-		return new MessageBuilder(vector.alloc()).opcode(81).meta(MetaData.BIG).writeBytes(vector).build();
+	public Message wrap(ByteBuf byte_vector, BitChannel bit_vector) {
+		return new MessageBuilder(byte_vector.alloc())
+				.header(81, MetaData.BIG)
+				.writeBytes(byte_vector)
+				.writeBytes(bit_vector).build();
 	}
 
 	@Override

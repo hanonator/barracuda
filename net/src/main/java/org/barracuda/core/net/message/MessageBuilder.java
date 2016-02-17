@@ -2,6 +2,7 @@ package org.barracuda.core.net.message;
 
 import org.barracuda.core.net.message.game.GameHeader;
 import org.barracuda.core.net.message.game.GameMessage;
+import org.barracuda.util.net.BitChannel;
 import org.barracuda.core.net.message.game.GameHeader.MetaData;
 
 import io.netty.buffer.ByteBuf;
@@ -46,6 +47,15 @@ public class MessageBuilder {
 	 */
 	public MessageBuilder meta(MetaData meta) {
 		this.meta = meta;
+		return this;
+	}
+
+	/**
+	 * @param meta the meta to set
+	 */
+	public MessageBuilder header(int opcode, MetaData meta) {
+		this.meta = meta;
+		this.opcode = opcode;
 		return this;
 	}
 
@@ -107,6 +117,15 @@ public class MessageBuilder {
 	public MessageBuilder writeBytes(ByteBuf src) {
 		payload.writeBytes(src);
 		return this;
+	}
+
+	/**
+	 * @param src
+	 * @return
+	 * @see io.netty.buffer.ByteBuf#writeBytes(io.netty.buffer.ByteBuf)
+	 */
+	public MessageBuilder writeBytes(BitChannel src) {
+		return writeBytes(src.collect());
 	}
 
 	/**

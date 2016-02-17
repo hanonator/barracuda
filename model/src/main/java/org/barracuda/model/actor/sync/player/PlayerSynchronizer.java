@@ -60,7 +60,7 @@ public abstract class PlayerSynchronizer implements Synchronizer<Player, PlayerS
 	 * @param vector
 	 * @return
 	 */
-	public abstract Message wrap(ByteBuf vector);
+	public abstract Message wrap(ByteBuf vector, BitChannel bit_vector);
 
 	@Override
 	public PlayerSynchronizationContext create(Player entity, Realm realm) {
@@ -133,7 +133,7 @@ public abstract class PlayerSynchronizer implements Synchronizer<Player, PlayerS
 		}
 
 		/*
-		 * Loop through all of the
+		 * Loop through all of the players in the vicinity
 		 */
 		for (Iterator<Player> iterator = context.getLocalPlayers().iterator(); iterator.hasNext();) {
 			Player other_player = iterator.next();
@@ -161,7 +161,14 @@ public abstract class PlayerSynchronizer implements Synchronizer<Player, PlayerS
 				}
 			}
 		}
-		return wrap(byte_vector);
+		
+		/*
+		 * Close off the bit_vector with a player id of 2047
+		 */
+		if (byte_vector.isReadable()) {
+			bit_vector.write(2047, 11);
+		}
+		return wrap(byte_vector, bit_vector);
 	}
 
 	@Override

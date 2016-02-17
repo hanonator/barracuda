@@ -94,7 +94,7 @@ public class Skill {
 		if (this.experience > MAXIMUM_EXP) {
 			this.experience = MAXIMUM_EXP;
 		}
-		player.notify(this);
+		player.getChannel().write(this);
 	}
 
 	public int getId() {

@@ -1,0 +1,8 @@
+{
+  'message_start': 'You swing your axe at the tree.',
+  'message_success': 'You get some %s.',
+  'message_inventory_full': 'Your inventory is too full to hold any more logs.',
+  'message_random_event_fail': 'The ent breaks your hatchet.',
+  'message_resource_depleted': 'This tree has already been cut down.',
+  'message_insufficient_level': 'You need a woodcutting level of at least %d to cut this tree.'
+}
