@@ -6,12 +6,9 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.barracuda.core.game.event.Authentication;
-import org.barracuda.core.game.event.Handshake;
-import org.barracuda.core.game.event.JagGrabFileRequest;
-import org.barracuda.core.game.v317.login.AuthenticationInterceptor;
-import org.barracuda.core.game.v317.login.HandshakeInterceptor;
-import org.barracuda.core.game.v317.login.JagGrabInterceptor;
+import org.barracuda.core.net.event.Authentication;
+import org.barracuda.core.net.event.Handshake;
+import org.barracuda.core.net.event.JagGrabFileRequest;
 import org.barracuda.core.net.interceptor.Interceptor;
 import org.barracuda.core.net.interceptor.Intercepts;
 import org.barracuda.core.net.message.Message;

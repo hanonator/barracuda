@@ -203,7 +203,7 @@ public class DefaultWaypointVector implements WaypointVector {
 		Waypoint walkPoint = null, runPoint = null;
 		Direction primaryDirection = null, secondaryDirection = null;
 		Location teleportTarget = null;
-		Region before = character.getLocation().localize();
+		Region before = character.getLocation() == null ? null : character.getLocation().localize();
 		
 		/*
 		 * Check to see if the player is teleporting or not
@@ -237,21 +237,21 @@ public class DefaultWaypointVector implements WaypointVector {
 			/*
 			 * 
 			 */
-			primaryDirection = walkPoint.getDirection();
-			secondaryDirection = runPoint.getDirection();
+			primaryDirection = walkPoint == null ? null : walkPoint.getDirection();
+			secondaryDirection = runPoint == null ? null : runPoint.getDirection();
 		}
 
 		/*
 		 * Calculate the distance between the two tiles
 		 */
-		Region region = character.getLocation().localize();
-		int diff_x = region.getSmallCoordinate(character.getLocation()).getX();
-		int diff_y = region.getSmallCoordinate(character.getLocation()).getY();
+		int diff_x = before.getSmallCoordinate(character.getLocation()).getX();
+		int diff_y = before.getSmallCoordinate(character.getLocation()).getY();
 		
 		/*
 		 * Set the map region changed flag
 		 */
 		boolean regionUpdateRequired = diff_x < -32 || diff_x >= 40 || diff_y < -32 || diff_y >= 40;
+		
 		if (regionUpdateRequired && character instanceof Player) {
 			((Player) character).notify(new RegionUpdatedEvent(before, character.getLocation().localize()));
 		}

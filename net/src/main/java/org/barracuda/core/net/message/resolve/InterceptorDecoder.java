@@ -1,6 +1,5 @@
 package org.barracuda.core.net.message.resolve;
 
-import org.barracuda.core.game.GameSession;
 import org.barracuda.core.net.interceptor.Interceptor;
 import org.barracuda.core.net.message.Message;
 
@@ -28,8 +27,8 @@ public class InterceptorDecoder<T> implements MessageDecoder {
 	}
 
 	@Override
-	public Object decode(Message message, GameSession session) throws Exception {
-		return interceptor.intercept(message, session);
+	public Object decode(Message message) throws Exception {
+		return interceptor.intercept(message);
 	}
 
 }

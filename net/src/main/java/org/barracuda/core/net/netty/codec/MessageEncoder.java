@@ -6,9 +6,11 @@ import org.barracuda.core.net.message.Message;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandler;
+import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageEncoder;
 
+@Sharable
 public class MessageEncoder extends MessageToMessageEncoder<Message> {
 
 	/**

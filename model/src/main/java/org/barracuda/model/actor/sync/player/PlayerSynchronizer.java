@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.barracuda.core.net.message.Message;
 import org.barracuda.model.actor.Player;
 import org.barracuda.model.actor.sync.LocationMetaData;
 import org.barracuda.model.actor.sync.RenderingContext;
@@ -53,6 +54,13 @@ public abstract class PlayerSynchronizer implements Synchronizer<Player, PlayerS
 	 * @param entity
 	 */
 	public abstract void synchronizeSelf(Player entity, PlayerSynchronizationContext context, BitChannel bit_vector);
+	
+	/**
+	 * 
+	 * @param vector
+	 * @return
+	 */
+	public abstract Message wrap(ByteBuf vector);
 
 	@Override
 	public PlayerSynchronizationContext create(Player entity, Realm realm) {
@@ -64,7 +72,7 @@ public abstract class PlayerSynchronizer implements Synchronizer<Player, PlayerS
 		/*
 		 * Create the rendering context
 		 */
-		RenderingContext renderingContext = new RenderingContext(entity);
+		RenderingContext renderingContext = new RenderingContext(entity).render();
 
 		/*
 		 * Find all the currently visible players
@@ -79,7 +87,7 @@ public abstract class PlayerSynchronizer implements Synchronizer<Player, PlayerS
 	}
 
 	@Override
-	public void synchronize(Player entity, PlayerSynchronizationContext context, Realm realm, Map<Player, PlayerSynchronizationContext> contexts) {
+	public Message synchronize(Player entity, PlayerSynchronizationContext context, Realm realm, Map<Player, PlayerSynchronizationContext> contexts) {
 		ByteBuf byte_vector = Unpooled.buffer();
 		BitChannel bit_vector = new BitChannel();
 
@@ -94,7 +102,7 @@ public abstract class PlayerSynchronizer implements Synchronizer<Player, PlayerS
 		if (context.getRenderingContext().isUpdateRequired()) {
 			byte_vector.writeBytes(context.getRenderingContext().getBlock());
 		}
-
+		
 		/*
 		 * The players that are already been rendered before by the current
 		 * player
@@ -153,6 +161,7 @@ public abstract class PlayerSynchronizer implements Synchronizer<Player, PlayerS
 				}
 			}
 		}
+		return wrap(byte_vector);
 	}
 
 	@Override

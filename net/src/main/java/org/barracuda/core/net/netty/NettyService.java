@@ -5,7 +5,9 @@ import javax.annotation.Resource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.barracuda.core.net.ServiceException;
+import org.barracuda.horvik.Horvik;
 import org.barracuda.horvik.context.Service;
+import org.barracuda.horvik.inject.Inject;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -53,6 +55,12 @@ public class NettyService {
 	 * The worker event loop group
 	 */
 	private final EventLoopGroup worker_group = new NioEventLoopGroup();
+	
+	/**
+	 * The horvik container
+	 */
+	@Inject
+	private Horvik horvik;
 
 	/**
 	 * Starts the netty service
@@ -61,7 +69,7 @@ public class NettyService {
 	 */
 	public void start() throws ServiceException {
 		try {
-			bootstrap.group(boss_group, worker_group).channel(NioServerSocketChannel.class).childHandler(new NettyChannelInitializer(this))
+			bootstrap.group(boss_group, worker_group).channel(NioServerSocketChannel.class).childHandler(new NettyChannelInitializer(this, horvik))
 					.option(ChannelOption.SO_BACKLOG, 128).childOption(ChannelOption.SO_KEEPALIVE, true);
 	
 			/*

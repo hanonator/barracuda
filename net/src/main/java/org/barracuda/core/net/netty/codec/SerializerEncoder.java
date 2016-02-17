@@ -14,9 +14,11 @@ import org.barracuda.horvik.event.Observes;
 import org.barracuda.horvik.util.ReflectionUtil;
 
 import io.netty.channel.ChannelHandler;
+import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageEncoder;
 
+@Sharable
 public class SerializerEncoder extends MessageToMessageEncoder<Object> {
 
 	/**
@@ -53,6 +55,11 @@ public class SerializerEncoder extends MessageToMessageEncoder<Object> {
 		Serializer<Object> serializer = (Serializer<Object>) serializers.get(msg.getClass());
 		 if (serializer != null) {
 			 out.add(serializer.serialize(msg, ctx.alloc()));
+			 System.out.println("Serializing " + msg.getClass());
+		 }
+		 else {
+			 System.out.println("Not serializing " + msg.getClass());
+			 out.add(msg);
 		 }
 	}
 

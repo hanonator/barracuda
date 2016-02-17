@@ -100,6 +100,7 @@ public class RenderingContext {
 	public void destroy() {
 		block.release();
 		forcedAppearanceBlock.release();
+		player.getRenderingHints().clear();
 	}
 
 	/**

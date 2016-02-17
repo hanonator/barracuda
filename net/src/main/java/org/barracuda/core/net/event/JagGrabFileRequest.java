@@ -1,4 +1,4 @@
-package org.barracuda.core.game.event;
+package org.barracuda.core.net.event;
 
 /**
  * The file request

@@ -2,8 +2,6 @@ package org.barracuda.core.net.netty.codec;
 
 import java.util.List;
 
-import org.barracuda.core.Application;
-import org.barracuda.core.game.GameSession;
 import org.barracuda.core.net.ChannelState;
 import org.barracuda.core.net.message.Message;
 import org.barracuda.core.net.message.resolve.InterceptorDecoder;
@@ -58,7 +56,7 @@ public class PropertyDecoder extends MessageToMessageDecoder<Message> {
 		 * If a definition is found, add the decoded object to the stack
 		 */
 		if (decoder != null) {
-			out.add(decoder.decode(msg, ctx.attr(GameSession.ATTRIBUTE_KEY).get()));
+			out.add(decoder.decode(msg));
 		}
 	}
 

@@ -4,9 +4,9 @@ import org.barracuda.horvik.Horvik;
 import org.barracuda.horvik.bean.Discoverable;
 import org.barracuda.horvik.context.session.Session;
 import org.barracuda.horvik.context.session.SessionScoped;
-import org.barracuda.horvik.inject.Inject;
 import org.barracuda.model.actor.player.Credentials;
 import org.barracuda.model.actor.player.misc.Detail;
+import org.barracuda.model.actor.sync.DefaultWaypointVector;
 import org.barracuda.model.actor.sync.WaypointVector;
 import org.barracuda.model.actor.sync.attribute.Appearance;
 
@@ -23,8 +23,7 @@ public class Player extends Actor {
 	/**
 	 * The session for this player object
 	 */
-	@Inject
-	private Session session;
+	private final Session session;
 
 	/**
 	 * The detail mode the player is playing in
@@ -49,16 +48,17 @@ public class Player extends Actor {
 	/**
 	 * The player's waypoints
 	 */
-	private final WaypointVector waypoints = null;
+	private final WaypointVector waypoints = new DefaultWaypointVector(this);
 
 	/**
 	 * Constructor
 	 * 
 	 * @param container
 	 */
-	public Player(Horvik container) {
+	public Player(Horvik container, Session session) {
 		this.appearance = new Appearance();
 		this.container = container;
+		this.session = session;
 	}
 
 	/**
@@ -66,8 +66,16 @@ public class Player extends Actor {
 	 * 
 	 * @param object
 	 */
+	@SuppressWarnings("unchecked")
 	public void notify(Object event) {
-		container.getEvent().fire(event, session);
+		container.getEvent().select((Class<? super Object>) event.getClass()).fire(event, session);
+	}
+	
+	/**
+	 * Update the player's appearance
+	 */
+	public void appear() {
+		super.getRenderingHints().add(appearance);
 	}
 
 	/**

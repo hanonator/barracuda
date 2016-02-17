@@ -1,6 +1,5 @@
 package org.barracuda.core.net.message.resolve;
 
-import org.barracuda.core.game.GameSession;
 import org.barracuda.core.net.message.Message;
 
 /**
@@ -17,6 +16,6 @@ public interface MessageDecoder {
 	 * @param message
 	 * @return
 	 */
-	Object decode(Message message, GameSession session) throws Exception;
+	Object decode(Message message) throws Exception;
 
 }

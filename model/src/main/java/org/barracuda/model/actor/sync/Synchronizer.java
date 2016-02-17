@@ -2,6 +2,7 @@ package org.barracuda.model.actor.sync;
 
 import java.util.Map;
 
+import org.barracuda.core.net.message.Message;
 import org.barracuda.model.actor.Actor;
 import org.barracuda.model.actor.Player;
 import org.barracuda.model.realm.Realm;
@@ -32,7 +33,7 @@ public interface Synchronizer<T extends Actor, C extends SynchronizationContext<
 	 * @param entity
 	 * @param context
 	 */
-	void synchronize(Player player, C context, Realm realm, Map<T, C> contexts);
+	Message synchronize(Player player, C context, Realm realm, Map<T, C> contexts);
 	
 	/**
 	 * Destroys the synchronizer for the given entity

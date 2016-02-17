@@ -1,6 +1,4 @@
-package org.barracuda.core.game.event;
-
-import org.barracuda.core.game.v317.login.HandshakeInterceptor.RequestType;
+package org.barracuda.core.net.event;
 
 /**
  * The handshake
@@ -43,6 +41,24 @@ public class Handshake {
 	 */
 	public RequestType getRequestType() {
 		return requestType;
+	}
+
+	/**
+	 * 
+	 * @author brock
+	 *
+	 */
+	public static enum RequestType {
+		
+		/**
+		 * Indicates the player wants to authenticate onto the server
+		 */
+		AUTHENTICATION,
+		
+		/**
+		 * Indicates the player wants to update his client through the JAGGRAB protocol
+		 */
+		CLIENT_UPDATE;
 	}
 	
 }

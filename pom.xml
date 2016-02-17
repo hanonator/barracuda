@@ -20,6 +20,7 @@
 		<module>model</module>
 		<module>roald-timing</module>
 		<module>util-bit</module>
+		<module>net</module>
 	</modules>
 	
 	<build>

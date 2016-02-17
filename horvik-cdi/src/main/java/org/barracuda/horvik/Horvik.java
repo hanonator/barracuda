@@ -128,7 +128,7 @@ public class Horvik {
 					else {
 						event.addObserver(new ObserverMethod<>((Class<Object>) parameter.getType(), null, method, container));
 					}
-					logger.info("Observer -> {} in {}", method.getName(), method.getDeclaringClass().getName());
+					logger.info("Observer -> method {} in {} listening to {}", method.getName(), method.getDeclaringClass().getName(), parameter.getType().getSimpleName());
 				}
 			}
 		});

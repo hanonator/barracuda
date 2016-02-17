@@ -4,15 +4,13 @@ import java.util.UUID;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.barracuda.core.Application;
-import org.barracuda.core.game.GameSession;
 import org.barracuda.core.net.Channel;
 import org.barracuda.core.net.ChannelState;
 import org.barracuda.core.net.event.PlayerDisconnected;
+import org.barracuda.horvik.Horvik;
 import org.barracuda.horvik.bean.Discoverable;
 import org.barracuda.horvik.context.session.Session;
 import org.barracuda.horvik.context.session.SessionScoped;
-import org.barracuda.model.actor.Player;
 
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
@@ -52,9 +50,9 @@ public class NettyChannel extends ChannelHandlerAdapter implements Channel {
 	private final Session session = new Session(UUID.randomUUID().toString());
 	
 	/**
-	 * The game session
+	 * The container
 	 */
-	private final GameSession gameSession = new GameSession();
+	private final Horvik horvik;
 
 	/**
 	 * Creates a new session for the given channel. It is assumed the given
@@ -62,20 +60,18 @@ public class NettyChannel extends ChannelHandlerAdapter implements Channel {
 	 * 
 	 * @param channel
 	 */
-	public NettyChannel(SocketChannel channel, NettyService service) {
+	public NettyChannel(SocketChannel channel, NettyService service, Horvik horvik) {
+		this.horvik = horvik;
 		this.channel = channel;
 		this.service = service;
-		this.session.associate(Application.getContainer().getBean(Session.class), session);
-		this.session.associate(Application.getContainer().getBean(Channel.class), this);
-		this.session.associate(Application.getContainer().getBean(NettyChannel.class), this);
-		this.session.associate(Application.getContainer().getBean(GameSession.class), gameSession);
+		this.session.associate(horvik.getContainer().getBean(Session.class), session);
+		this.session.associate(horvik.getContainer().getBean(Channel.class), this);
 	}
 	
 	@Override
 	public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
 		logger.debug("channel {} - connection opened", ctx.channel().remoteAddress());
 		ctx.attr(ChannelState.ATTRIBUTE_KEY).set(ChannelState.HANDSHAKE);
-		ctx.attr(GameSession.ATTRIBUTE_KEY).set(gameSession);
 	}
 
 	@Override
@@ -86,7 +82,7 @@ public class NettyChannel extends ChannelHandlerAdapter implements Channel {
 	
 	@Override
 	public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
-		if (session.contains(Application.getContainer().getBean(Player.class))) {
+		if (ChannelState.GAME == ctx.attr(ChannelState.ATTRIBUTE_KEY).get()) {
 			read(new PlayerDisconnected());
 		}
 		logger.debug("channel {} - connection closed", ctx.channel().remoteAddress());
@@ -96,6 +92,7 @@ public class NettyChannel extends ChannelHandlerAdapter implements Channel {
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
 		logger.warn("channel {} - error occured: {}", ctx.channel().remoteAddress(), cause.getMessage());
 		ctx.attr(ChannelState.ATTRIBUTE_KEY).set(ChannelState.DISCONNECTED);
+		cause.printStackTrace();
 	}
 	@Override
 	public <T> Attribute<T> attr(AttributeKey<T> key) {
@@ -105,7 +102,7 @@ public class NettyChannel extends ChannelHandlerAdapter implements Channel {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void read(Object object) {
-		Application.getEvent().select((Class<? super Object>) object.getClass()).fire(object, session);
+		horvik.getEvent().select((Class<? super Object>) object.getClass()).fire(object, session);
 	}
 
 	@Override

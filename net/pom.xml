@@ -6,13 +6,18 @@
 		<artifactId>barracuda-parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>model</artifactId>
+	<artifactId>net</artifactId>
 
 	<dependencies>
 		<dependency>
 			<groupId>io.netty</groupId>
-			<artifactId>netty-buffer</artifactId>
+			<artifactId>netty-all</artifactId>
 			<version>5.0.0.Alpha2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>2.4.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.barracuda</groupId>
@@ -22,11 +27,6 @@
 		<dependency>
 			<groupId>org.barracuda</groupId>
 			<artifactId>util-bit</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>org.barracuda</groupId>
-			<artifactId>net</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>

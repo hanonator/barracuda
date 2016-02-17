@@ -31,12 +31,12 @@ public abstract class Actor implements Entity {
 	/**
 	 * The actor's location
 	 */
-	private Location location;
+	private Location location = new Coordinate(0, 0, 0);
 	
 	/**
 	 * The requested teleport target
 	 */
-	private Location teleportRequest;
+	private Location teleportRequest = new Coordinate(3222, 3222);
 	
 	/**
 	 * The camera

@@ -1,9 +1,14 @@
 package org.barracuda.core.game.v317.sync;
 
+import org.barracuda.core.net.message.Message;
+import org.barracuda.core.net.message.MessageBuilder;
+import org.barracuda.core.net.message.game.GameHeader.MetaData;
 import org.barracuda.model.actor.Player;
 import org.barracuda.model.actor.sync.player.PlayerSynchronizationContext;
 import org.barracuda.model.actor.sync.player.PlayerSynchronizer;
 import org.barracuda.util.net.BitChannel;
+
+import io.netty.buffer.ByteBuf;
 
 /**
  * The player synchronizer class for the 317 protocol
@@ -12,6 +17,11 @@ import org.barracuda.util.net.BitChannel;
  *
  */
 public class PlayerSynchronizerImpl extends PlayerSynchronizer {
+
+	@Override
+	public Message wrap(ByteBuf vector) {
+		return new MessageBuilder(vector.alloc()).opcode(81).meta(MetaData.BIG).writeBytes(vector).build();
+	}
 
 	@Override
 	public void synchronizeSelf(Player entity, PlayerSynchronizationContext context, BitChannel bit_vector) {
