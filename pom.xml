@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.barracuda</groupId>
 	<artifactId>barracuda-parent</artifactId>
-	<version>${barracuda.version}</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<properties>

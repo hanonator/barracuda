@@ -13,9 +13,6 @@ public class ByteBufOutputStream extends OutputStream {
 	 */
 	private ByteBuf byteBuffer;
 
-	public ByteBufOutputStream() {
-	}
-
 	public ByteBufOutputStream(ByteBuf byteBuffer) {
 		this.byteBuffer = byteBuffer;
 	}

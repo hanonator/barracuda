@@ -23,7 +23,7 @@ public class MessageEncoder extends MessageToMessageEncoder<Message> {
 		ByteBuf buffer = ctx.alloc().buffer();
 		buffer.writeBytes(msg.getHeader().serialize(ctx.alloc()));
 		buffer.writeBytes(msg.getPayload().getBuffer());
-		out.add(buffer);
+		out.add(buffer.retain());
 	}
 
 }

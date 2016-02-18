@@ -90,6 +90,7 @@ public class Clock implements Runnable {
 			for (Iterator<Future> iterator = workers.iterator(); iterator.hasNext(); ) {
 				Future future = iterator.next();
 				if (future.isCanceled()) {
+					future.getListeners().forEach(listener -> listener.onFinish(future.getWorker(), this));
 					iterator.remove();
 				}
 				else if (future.getTimer() == null || future.getTimer().finished()) {

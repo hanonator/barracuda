@@ -87,6 +87,13 @@ public class Future implements Iterable<FutureListener>, Supplier<Stream<FutureL
 		listeners.add(listener);
 		return this;
 	}
+	
+	/**
+	 * indicates the clockworker has been executed already
+	 */
+	public boolean isFinished() {
+		return timer.finished();
+	}
 
 	/**
 	 * @return the listeners

@@ -1,8 +1,8 @@
 {
-  'message_start': 'You swing your pick at the rock.',
-  'message_success': 'You manage to get some %s.',
-  'message_inventory_full': 'Your inventory is too full to hold any more ore.',
-  'message_random_event_fail': 'The rock explodes destroying your pickaxe in the process.',
-  'message_resource_depleted': 'This rock contains no more ore.',
-  'message_insufficient_level': 'You need a mining level of at least %d to mine this rock.'
+  'info_start': 'You swing your pick at the rock.',
+  'info_success': 'You manage to get some %s.',
+  'warning_inventory_full': 'Your inventory is too full to hold any more ore.',
+  'warning_random_event_fail': 'The rock explodes destroying your pickaxe in the process.',
+  'warning_resource_depleted': 'This rock contains no more ore.',
+  'warning_insufficient_level': 'You need a mining level of at least %d to mine this rock.'
 }

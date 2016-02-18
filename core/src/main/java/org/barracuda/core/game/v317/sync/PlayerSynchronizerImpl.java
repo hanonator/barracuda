@@ -22,8 +22,8 @@ public class PlayerSynchronizerImpl extends PlayerSynchronizer {
 	public Message wrap(ByteBuf byte_vector, BitChannel bit_vector) {
 		return new MessageBuilder(byte_vector.alloc())
 				.header(81, MetaData.BIG)
-				.writeBytes(byte_vector)
-				.writeBytes(bit_vector).build();
+				.writeBytes(bit_vector)
+				.writeBytes(byte_vector).build();
 	}
 
 	@Override
@@ -62,8 +62,8 @@ public class PlayerSynchronizerImpl extends PlayerSynchronizer {
 			 * 
 			 * TODO: What the fuck is this
 			 */
-			bit_vector.write(entity.getLocation().localize().getSmallCoordinate(entity.getLocation()).getX(), 7);
-			bit_vector.write(entity.getLocation().localize().getSmallCoordinate(entity.getLocation()).getY(), 7);
+			bit_vector.write(entity.getLocation().localize().getSmallCoordinate(entity.getLocation()).getX() + 48, 7);
+			bit_vector.write(entity.getLocation().localize().getSmallCoordinate(entity.getLocation()).getY() + 48, 7);
 		} else {
 			/*
 			 * Otherwise, check if the player moved.

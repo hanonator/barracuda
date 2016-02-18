@@ -99,14 +99,26 @@ public class HorvikContainer {
 	/**
 	 * Gets the collection of injectionpoints for the given class
 	 * 
+	 * @param super_type
+	 * @return
+	 */
+	public <T> Set<InjectionPoint<T>> getInjectionPoints(Class<T> super_type) {
+		Set<InjectionPoint<T>> set = new HashSet<>(getInjectionPoints(super_type, super_type));
+		getTypeClosure(super_type).forEach(type -> set.addAll(getInjectionPoints(type, super_type)));
+		return set;
+	}
+
+	/**
+	 * Gets the collection of injectionpoints for the given class
+	 * 
 	 * @param type
 	 * @return
 	 */
-	public <T> Set<InjectionPoint<T>> getInjectionPoints(Class<T> type) {
+	private <T> Set<InjectionPoint<T>> getInjectionPoints(Class<?> type, Class<T> super_type) {
 		Set<InjectionPoint<T>> injection_points = new HashSet<>();
 		for (Field field : type.getDeclaredFields()) {
 			if (field.isAnnotationPresent(Inject.class) && !Modifier.isStatic(field.getModifiers())) {
-				injection_points.add(new FieldInjectionPoint<>(field, type));
+				injection_points.add(new FieldInjectionPoint<>(field, super_type));
 			}
 			if (field.isAnnotationPresent(Resource.class)) {
 				injection_points.add(new ResourceInjectionPoint<>(resources, field));
@@ -211,6 +223,31 @@ public class HorvikContainer {
 	 */
 	public <T> Set<Class<? extends T>> getSubTypesOf(Class<T> type) {
 		return reflections.getSubTypesOf(type);
+	}
+	
+	/**
+	 * 
+	 * @param super_class
+	 * @return
+	 */
+	private <T> Set<Class<? super T>> getTypeClosure(Class<T> super_class) {
+		return getTypeClosure(super_class, super_class, new HashSet<>());
+	}
+	
+	/**
+	 * 
+	 * @param superest_class
+	 * @param super_class
+	 * @param set
+	 * @return
+	 */
+	private <T> Set<Class<? super T>> getTypeClosure(Class<T> superest_class, Class<? super T> super_class, Set<Class<? super T>> set) {
+		if (super_class == Object.class || super_class.getSuperclass() == null) {
+			return set;
+		} else {
+			set.add(super_class.getSuperclass());
+			return getTypeClosure(superest_class, super_class.getSuperclass(), set);
+		}
 	}
 	
 	/**

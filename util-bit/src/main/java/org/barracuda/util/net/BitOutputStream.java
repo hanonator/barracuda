@@ -39,24 +39,16 @@ import java.net.Socket;
  */
 public final class BitOutputStream {
 
-    private BufferedOutputStream out;
+    private OutputStream out;
     private int buffer;
     private int n;
-
-
-   /**
-     * Initializes a binary output stream from standard output.
-     */
-    public BitOutputStream() {
-        out = new BufferedOutputStream(System.out);
-    }
 
    /**
      * Initializes a binary output stream from an <tt>OutputStream</tt>.
      * @param os the <tt>OutputStream</tt>
      */
     public BitOutputStream(OutputStream os) {
-        out = new BufferedOutputStream(os);
+        out = os;
     }
 
    /**
@@ -133,6 +125,7 @@ public final class BitOutputStream {
         if (n > 0) buffer <<= (8 - n);
         try {
             out.write(buffer);
+            out.flush();
         }
         catch (IOException e) {
             e.printStackTrace();

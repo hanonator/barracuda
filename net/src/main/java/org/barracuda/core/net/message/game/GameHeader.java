@@ -62,6 +62,11 @@ public class GameHeader extends AbstractHeader {
 		return buffer;
 	}
 	
+	@Override
+	public String toString() {
+		return "header [meta=" + meta() + ", opcode=" + opcode() + "]";
+	}
+	
 	/**
 	 * Defines the way the header will bundle the opcode/size. 
 	 * 

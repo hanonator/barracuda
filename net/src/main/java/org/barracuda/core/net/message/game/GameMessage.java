@@ -53,5 +53,10 @@ public class GameMessage implements Message {
 	public Payload getPayload() {
 		return payload;
 	}
+	
+	@Override
+	public String toString() {
+		return "Message [header=" + header + ", payload=" + payload + "]";
+	}
 
 }
