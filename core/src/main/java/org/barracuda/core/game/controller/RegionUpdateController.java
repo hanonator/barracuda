@@ -6,7 +6,7 @@ import org.barracuda.horvik.context.application.ApplicationScoped;
 import org.barracuda.horvik.event.Observes;
 import org.barracuda.horvik.inject.Inject;
 import org.barracuda.model.actor.Player;
-import org.barracuda.model.actor.event.RegionUpdatedEvent;
+import org.barracuda.model.actor.event.RegionEntered;
 
 @ApplicationScoped
 @Discoverable
@@ -29,7 +29,7 @@ public class RegionUpdateController {
 	 * 
 	 * @param event
 	 */
-	public void on_regionupdate(@Observes RegionUpdatedEvent event) {
+	public void on_regionupdate(@Observes RegionEntered event) {
 		channel.write(event.getCurrentRegion());
 		player.appear();
 	}

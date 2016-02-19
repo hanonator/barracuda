@@ -100,7 +100,7 @@ public class MessageRepository {
 			try {
 				String target = node.getAttribute("target");
 				int opcode = Integer.parseInt(node.getAttribute("opcode"));
-				int length = Integer.parseInt(node.getAttribute("opcode"));
+				int length = node.hasAttribute("length") ? Integer.parseInt(node.getAttribute("length")) : 0;
 				MetaData meta = node.hasAttribute("meta") ? MetaData.valueOf(node.getAttribute("meta")) : MetaData.EMPTY;
 				
 				Queue<AttributeDefinition> attributes = new LinkedList<>();

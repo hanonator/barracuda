@@ -5,7 +5,7 @@ import java.util.LinkedList;
 
 import org.barracuda.model.actor.Actor;
 import org.barracuda.model.actor.Player;
-import org.barracuda.model.actor.event.RegionUpdatedEvent;
+import org.barracuda.model.actor.event.RegionEntered;
 import org.barracuda.model.location.Location;
 import org.barracuda.model.location.Region;
 
@@ -253,7 +253,7 @@ public class DefaultWaypointVector implements WaypointVector {
 		boolean regionUpdateRequired = diff_x < -32 || diff_x >= 40 || diff_y < -32 || diff_y >= 40;
 		
 		if (regionUpdateRequired && character instanceof Player) {
-			((Player) character).notify(new RegionUpdatedEvent(before, character.getLocation().localize()));
+			((Player) character).notify(new RegionEntered(before, character.getLocation().localize()));
 		}
 		return new LocationMetaData(teleportTarget, primaryDirection, secondaryDirection, regionUpdateRequired);
 	}

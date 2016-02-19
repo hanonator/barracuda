@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 import org.barracuda.core.net.Channel;
 import org.barracuda.core.net.ChannelState;
 import org.barracuda.core.net.event.PlayerDisconnected;
+import org.barracuda.core.net.message.resolve.Silent;
 import org.barracuda.horvik.Horvik;
 import org.barracuda.horvik.bean.Discoverable;
 import org.barracuda.horvik.context.session.Session;
@@ -76,7 +77,9 @@ public class NettyChannel extends ChannelHandlerAdapter implements Channel {
 
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-		logger.debug("channel {} - dispatching object {}", ctx.channel().remoteAddress(), msg.getClass());
+		if (!msg.getClass().isAnnotationPresent(Silent.class)) {
+			logger.debug("channel {} - dispatching object {}", ctx.channel().remoteAddress(), msg.getClass());
+		}
 		read(msg);
 	}
 	
