@@ -6,10 +6,12 @@ import org.barracuda.horvik.bean.Discoverable;
 import org.barracuda.horvik.context.session.Session;
 import org.barracuda.horvik.context.session.SessionScoped;
 import org.barracuda.model.actor.player.Credentials;
+import org.barracuda.model.actor.player.Stats;
 import org.barracuda.model.actor.player.misc.Detail;
 import org.barracuda.model.actor.sync.DefaultWaypointVector;
 import org.barracuda.model.actor.sync.WaypointVector;
 import org.barracuda.model.actor.sync.attribute.Appearance;
+import org.barracuda.model.item.Inventory;
 
 /**
  * Represents a player controlled entity
@@ -50,6 +52,16 @@ public class Player extends Actor {
 	 * The appearance
 	 */
 	private final Appearance appearance;
+	
+	/**
+	 * The player's inventory
+	 */
+	private final Inventory inventory = new Inventory(this);
+	
+	/**
+	 * The player's stats
+	 */
+	private final Stats stats = new Stats(this);
 	
 	/**
 	 * The player's waypoints
@@ -132,6 +144,20 @@ public class Player extends Actor {
 	 */
 	public Channel getChannel() {
 		return channel;
+	}
+
+	/**
+	 * @return the inventory
+	 */
+	public Inventory getInventory() {
+		return inventory;
+	}
+
+	/**
+	 * @return the stats
+	 */
+	public Stats getStats() {
+		return stats;
 	}
 
 }

@@ -43,7 +43,7 @@ public class ClockActionQueue implements ActionQueue {
 	private final Deque<ActionContainer> actions = new LinkedList<>();
 
 	@Override
-	public ActionPromise queue(Action action, int delay) {
+	public ActionPromise queue(int delay, Action action) {
 		ActionPromise promise = new ActionPromise();
 		actions.add(new ActionContainer(action, delay, promise));
 		return promise;
@@ -57,7 +57,10 @@ public class ClockActionQueue implements ActionQueue {
 		if (activeContainer == null || activeContainer.isCanceled() || activeContainer.getFuture().isCanceled() || activeContainer.getFuture().isFinished()) {
 			ActionContainer container = actions.peek();
 			container.setFuture(clock.schedule(null, container.getDelay()));
-			container.getFuture().listener((worker, clock) -> next());
+			container.getFuture()
+					.listener((worker, clock) -> next())
+					.listener((worker, clock) -> container.getPromise().getSuccessHandler().onSuccess(container))
+					.error((error, worker, clock) -> container.getPromise().getExceptionHandler().exceptionCaught(container, error));
 			activeContainer = actions.poll();
 		}
 	}

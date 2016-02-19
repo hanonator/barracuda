@@ -7,22 +7,17 @@
 		<version>${barracuda.version}</version>
 	</parent>
 	<artifactId>lowe-content</artifactId>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>org.barracuda</groupId>
-			<artifactId>horvik-cdi</artifactId>
+			<artifactId>core</artifactId>
 			<version>${barracuda.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.barracuda</groupId>
-			<artifactId>model</artifactId>
-			<version>${barracuda.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.barracuda</groupId>
-			<artifactId>roald-timing</artifactId>
-			<version>${barracuda.version}</version>
+			<groupId>org.mongodb</groupId>
+			<artifactId>mongo-java-driver</artifactId>
+			<version>3.2.2</version>
 		</dependency>
 	</dependencies>
 </project>

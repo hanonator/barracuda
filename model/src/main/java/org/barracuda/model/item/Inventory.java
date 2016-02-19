@@ -1,12 +1,7 @@
 package org.barracuda.model.item;
 
-import org.barracuda.horvik.bean.Discoverable;
-import org.barracuda.horvik.context.session.SessionScoped;
-import org.barracuda.horvik.inject.Inject;
 import org.barracuda.model.actor.Player;
 
-@Discoverable
-@SessionScoped
 public class Inventory extends Container {
 
 	/**
@@ -22,15 +17,23 @@ public class Inventory extends Container {
 	/**
 	 * The player for this inventory
 	 */
-	@Inject
-	private Player player;
+	private final Player player;
 
 	/**
-	 * Constructor
+	 * 
+	 * @param capacity
 	 * @param player
 	 */
-	public Inventory() {
+	public Inventory(Player player) {
 		super(CAPACITY);
+		this.player = player;
+	}
+	
+	/**
+	 * Notifies the player of an inventory update
+	 */
+	public void update() {
+		player.notify(null);
 	}
 
 }

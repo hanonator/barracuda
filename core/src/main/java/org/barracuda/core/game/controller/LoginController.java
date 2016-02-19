@@ -4,8 +4,8 @@ import java.util.Random;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.barracuda.core.game.v317.login.model.AuthenticationResponse;
-import org.barracuda.core.game.v317.login.model.HandshakeResponse;
+import org.barracuda.core.game.contract.login.AuthenticationResponse;
+import org.barracuda.core.game.contract.login.HandshakeResponse;
 import org.barracuda.core.net.Channel;
 import org.barracuda.core.net.ChannelState;
 import org.barracuda.core.net.event.Authentication;

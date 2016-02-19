@@ -1,0 +1,5 @@
+{
+  'message_success': 'You combine the ingredients into %s.',
+  'message_no_resources': 'You don't have the required items to do that.',
+  'message_insufficient_level': 'You need a herblore level of at least %d to do that.'
+}

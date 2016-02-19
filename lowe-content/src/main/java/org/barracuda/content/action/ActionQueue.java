@@ -8,7 +8,7 @@ public interface ActionQueue {
 	 * @param delay
 	 * @return
 	 */
-	ActionPromise queue(Action action, int delay);
+	ActionPromise queue(int delay, Action action);
 
 	/**
 	 * 
@@ -16,7 +16,7 @@ public interface ActionQueue {
 	 * @return
 	 */
 	default ActionPromise queue(Action action) {
-		return this.queue(action, 1);
+		return this.queue(1, action);
 	}
 	
 	/**

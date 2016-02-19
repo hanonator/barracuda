@@ -83,30 +83,27 @@ public class Clock implements Runnable {
 	 */
 	@Override
 	public void run() {
-		try {
-			/*
-			 * Execute all of the applicable workers
-			 */
-			for (Iterator<Future> iterator = workers.iterator(); iterator.hasNext(); ) {
-				Future future = iterator.next();
+		for (Iterator<Future> iterator = workers.iterator(); iterator.hasNext();) {
+			Future future = iterator.next();
+			try {
 				if (future.isCanceled()) {
 					future.getListeners().forEach(listener -> listener.onFinish(future.getWorker(), this));
 					iterator.remove();
-				}
-				else if (future.getTimer() == null || future.getTimer().finished()) {
+				} else if (future.getTimer() == null || future.getTimer().finished()) {
 					future.getWorker().execute(this);
 					future.getListeners().forEach(listener -> listener.onFinish(future.getWorker(), this));
 					iterator.remove();
 				}
+			} catch (Exception ex) {
+				iterator.remove();
+				future.getExceptionListeners().forEach(listener -> listener.onException(ex, future.getWorker(), this));
 			}
-			
-			/*
-			 * Increment the current server cycle count
-			 */
-			cycle.incrementAndGet();
-		} catch (Exception ex) {
-			ex.printStackTrace();
 		}
+
+		/*
+		 * Increment the current server cycle count
+		 */
+		cycle.incrementAndGet();
 	}
 	
 	/**

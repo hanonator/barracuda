@@ -23,6 +23,7 @@
 		<module>util-bit</module>
 		<module>net</module>
 		<module>lowe-content</module>
+		<module>barracuda-main</module>
 	</modules>
 	
 	<build>

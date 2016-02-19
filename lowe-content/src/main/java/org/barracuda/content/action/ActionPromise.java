@@ -15,29 +15,31 @@ public class ActionPromise {
 	/**
 	 * @return the exceptionHandler
 	 */
-	public ActionExceptionHandler getExceptionHandler() {
+	ActionExceptionHandler getExceptionHandler() {
 		return exceptionHandler;
 	}
 
 	/**
 	 * @param exceptionHandler the exceptionHandler to set
 	 */
-	public void error(ActionExceptionHandler exceptionHandler) {
+	public ActionPromise error(ActionExceptionHandler exceptionHandler) {
 		this.exceptionHandler = exceptionHandler;
+		return this;
 	}
 
 	/**
 	 * @return the successHandler
 	 */
-	public ActionSuccessHandler getSuccessHandler() {
+	ActionSuccessHandler getSuccessHandler() {
 		return successHandler;
 	}
 
 	/**
 	 * @param successHandler the successHandler to set
 	 */
-	public void success(ActionSuccessHandler successHandler) {
+	public ActionPromise success(ActionSuccessHandler successHandler) {
 		this.successHandler = successHandler;
+		return this;
 	}
 
 }

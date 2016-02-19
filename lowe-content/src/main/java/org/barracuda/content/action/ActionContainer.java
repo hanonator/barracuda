@@ -90,4 +90,11 @@ public class ActionContainer implements ClockWorker {
 		return delay;
 	}
 
+	/**
+	 * @return the promise
+	 */
+	public ActionPromise getPromise() {
+		return promise;
+	}
+
 }

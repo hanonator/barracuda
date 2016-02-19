@@ -7,6 +7,7 @@ import java.util.Queue;
 
 import org.barracuda.core.net.message.Message;
 import org.barracuda.core.net.message.definition.Attribute;
+import org.barracuda.core.net.message.definition.AttributeDefinition;
 
 public class ReflectionDecoder implements MessageDecoder {
 
@@ -25,10 +26,22 @@ public class ReflectionDecoder implements MessageDecoder {
 	 * @param attributes
 	 * @param type
 	 */
+	public ReflectionDecoder(AttributeDefinition[] attributes, Class<?> type) {
+		this.type = type;
+		for (AttributeDefinition definition : attributes) {
+			decoders.add(new ElementDecoder(definition));
+		}
+	}
+
+	/**
+	 * 
+	 * @param attributes
+	 * @param type
+	 */
 	public ReflectionDecoder(Attribute[] attributes, Class<?> type) {
 		this.type = type;
-		for (Attribute attribute : attributes) {
-			decoders.add(new ElementDecoder(attribute));
+		for (Attribute definition : attributes) {
+			decoders.add(new ElementDecoder(definition));
 		}
 	}
 
@@ -53,7 +66,16 @@ public class ReflectionDecoder implements MessageDecoder {
 		/**
 		 * The attribute
 		 */
-		private final Attribute attribute;
+		private final AttributeDefinition attribute;
+
+		/**
+		 * Constructor
+		 * 
+		 * @param attribute
+		 */
+		public ElementDecoder(AttributeDefinition attribute) {
+			this.attribute = attribute;
+		}
 
 		/**
 		 * Constructor
@@ -61,7 +83,7 @@ public class ReflectionDecoder implements MessageDecoder {
 		 * @param attribute
 		 */
 		public ElementDecoder(Attribute attribute) {
-			this.attribute = attribute;
+			this.attribute = new AttributeDefinition(attribute);
 		}
 		
 		/**
@@ -75,11 +97,11 @@ public class ReflectionDecoder implements MessageDecoder {
 		 * @throws IllegalArgumentException 
 		 */
 		public void decode(Message message, Object partial, Class<?> type) throws Exception {
-			Field field = type.getDeclaredField(attribute.field());
+			Field field = type.getDeclaredField(attribute.getField());
 			if (!field.isAccessible()) {
 				field.setAccessible(true);
 			}
-			field.set(partial, attribute.type().extract(message));
+			field.set(partial, attribute.getType().extract(message));
 		}
 		
 	}

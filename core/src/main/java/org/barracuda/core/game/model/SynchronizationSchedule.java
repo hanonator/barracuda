@@ -28,6 +28,8 @@ public class SynchronizationSchedule implements ClockWorker {
 
 	/**
 	 * The object responsible for the player synchronization
+	 * 
+	 * TODO: Depends on release-317 currently. This needs to be loaded from somwhere independent on implementation
 	 */
 	private final Synchronizer<Player, PlayerSynchronizationContext> playerSynchronizer = new PlayerSynchronizerImpl();
 

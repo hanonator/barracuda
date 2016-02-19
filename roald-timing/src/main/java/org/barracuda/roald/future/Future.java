@@ -1,10 +1,7 @@
 package org.barracuda.roald.future;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
-import java.util.function.Supplier;
-import java.util.stream.Stream;
 
 import org.barracuda.roald.ClockWorker;
 import org.barracuda.roald.util.Timer;
@@ -15,7 +12,7 @@ import org.barracuda.roald.util.Timer;
  * @author brock
  *
  */
-public class Future implements Iterable<FutureListener>, Supplier<Stream<FutureListener>> {
+public class Future {
 
 	/**
 	 * The worker that this future is watching
@@ -37,6 +34,12 @@ public class Future implements Iterable<FutureListener>, Supplier<Stream<FutureL
 	 * finished executing
 	 */
 	private final Set<FutureListener> listeners = new HashSet<>();
+	
+	/**
+	 * The collection of listeners that get called when the clock worker has
+	 * finished executing
+	 */
+	private final Set<FutureExceptionListener> exception_listeners = new HashSet<>();
 
 	/**
 	 * Constructor
@@ -87,6 +90,15 @@ public class Future implements Iterable<FutureListener>, Supplier<Stream<FutureL
 		listeners.add(listener);
 		return this;
 	}
+
+	/**
+	 * @param listener
+	 * @return
+	 */
+	public Future error(FutureExceptionListener listener) {
+		exception_listeners.add(listener);
+		return this;
+	}
 	
 	/**
 	 * indicates the clockworker has been executed already
@@ -103,20 +115,17 @@ public class Future implements Iterable<FutureListener>, Supplier<Stream<FutureL
 	}
 
 	/**
+	 * @return the listeners
+	 */
+	public Set<FutureExceptionListener> getExceptionListeners() {
+		return exception_listeners;
+	}
+
+	/**
 	 * This will repeat the action
 	 */
 	public void repeat() {
 		listeners.add((worker, clock) -> clock.schedule(worker, timer.getDelay()).repeat());
-	}
-
-	@Override
-	public Stream<FutureListener> get() {
-		return listeners.stream();
-	}
-
-	@Override
-	public Iterator<FutureListener> iterator() {
-		return listeners.iterator();
 	}
 
 }
