@@ -124,6 +124,16 @@ public class MessageBuilder {
 	 * @return
 	 * @see io.netty.buffer.ByteBuf#writeBytes(io.netty.buffer.ByteBuf)
 	 */
+	public MessageBuilder writeBytes(byte[] src) {
+		payload.writeBytes(src);
+		return this;
+	}
+
+	/**
+	 * @param src
+	 * @return
+	 * @see io.netty.buffer.ByteBuf#writeBytes(io.netty.buffer.ByteBuf)
+	 */
 	public MessageBuilder writeBytes(BitChannel src) {
 		return writeBytes(src.collect());
 	}

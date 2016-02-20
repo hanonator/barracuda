@@ -1,4 +1,4 @@
-package org.barracuda.core.game.contract;
+package org.barracuda.core.game.contract.ui;
 
 /**
  * Sets the interface of a sidebar
@@ -11,13 +11,8 @@ public class SidebarInterface {
 	/**
 	 * The default sidebar interfaces for the 317 client
 	 */
-	public static final int DEFAULTS[][] = new int[][] {
-		new int[] {
-			1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 12, 13, 0
-		},
-		new int[] {
-			3917, 638, 3213, 1644, 5608, 1151, 5065, 5715, 2449, 4445, 147, 6299, 2423
-		},
+	public static final int DEFAULTS[] = new int[] {
+			2423, 3917, 638, 3213, 1644, 5608, 1151, -1, 5065, 5715, 2449, 4445, 147, 6299
 	};
 
 	/**

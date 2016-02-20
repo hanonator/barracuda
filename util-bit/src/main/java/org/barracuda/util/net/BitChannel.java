@@ -37,6 +37,11 @@ public class BitChannel {
 	public ByteBuf collect() {
 		return out;
 	}
+	
+	public BitChannel flush() {
+		output_stream.flush();
+		return this;
+	}
 
 	public boolean readBoolean() {
 		return input_stream.readBoolean();

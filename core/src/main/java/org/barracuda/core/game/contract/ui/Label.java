@@ -1,4 +1,4 @@
-package org.barracuda.core.game.contract;
+package org.barracuda.core.game.contract.ui;
 
 /**
  * Replaces a label on an interface with the given value

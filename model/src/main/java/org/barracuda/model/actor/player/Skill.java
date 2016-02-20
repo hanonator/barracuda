@@ -43,6 +43,21 @@ public class Skill {
 	}
 	
 	/**
+	 * Cosntructor
+	 * 
+	 * @param id
+	 * @param experience
+	 * @param level
+	 * @param player
+	 */
+	public Skill(int id, int experience, int level, Player player) {
+		this.id = id;
+		this.experience = experience;
+		this.level = level;
+		this.player = player;
+	}
+
+	/**
 	 * Gets a level by experience.
 	 * @param skill The skill id.
 	 * @return The level.

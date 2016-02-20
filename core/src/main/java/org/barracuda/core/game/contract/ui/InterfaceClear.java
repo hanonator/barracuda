@@ -1,4 +1,4 @@
-package org.barracuda.core.game.contract;
+package org.barracuda.core.game.contract.ui;
 
 /**
  * Closes all active interfaces

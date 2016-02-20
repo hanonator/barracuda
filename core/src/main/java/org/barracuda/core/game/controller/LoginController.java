@@ -6,6 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.barracuda.core.game.contract.login.AuthenticationResponse;
 import org.barracuda.core.game.contract.login.HandshakeResponse;
+import org.barracuda.core.game.event.PlayerInitialized;
 import org.barracuda.core.net.Channel;
 import org.barracuda.core.net.ChannelState;
 import org.barracuda.core.net.event.Authentication;
@@ -114,6 +115,11 @@ public class LoginController {
 		 * Register the player with the realm
 		 */
 		realm.getPlayers().register(player);
+		
+		/*
+		 * Fire the player initialized event
+		 */
+		player.notify(new PlayerInitialized(player));
 		
 		/*
 		 * Associate the player bean with the player

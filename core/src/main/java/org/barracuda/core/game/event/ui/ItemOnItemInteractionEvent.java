@@ -1,6 +1,6 @@
-package org.barracuda.core.game.event;
+package org.barracuda.core.game.event.ui;
 
-public class ItemOnItemInteractionEvent {
+public class ItemOnItemInteractionEvent extends InterfaceEvent {
 
 	/**
 	 * The id of the item being used
@@ -11,11 +11,6 @@ public class ItemOnItemInteractionEvent {
 	 * The id of the item the primary item is used on
 	 */
 	private int secondaryId;
-	
-	/**
-	 * The interface id where the action is happening
-	 */
-	private int interfaceId;
 	
 	/**
 	 * The slot of the item being used
@@ -53,20 +48,6 @@ public class ItemOnItemInteractionEvent {
 	 */
 	public void setSecondaryId(int secondaryId) {
 		this.secondaryId = secondaryId;
-	}
-
-	/**
-	 * @return the interfaceId
-	 */
-	public int getInterfaceId() {
-		return interfaceId;
-	}
-
-	/**
-	 * @param interfaceId the interfaceId to set
-	 */
-	public void setInterfaceId(int interfaceId) {
-		this.interfaceId = interfaceId;
 	}
 
 	/**

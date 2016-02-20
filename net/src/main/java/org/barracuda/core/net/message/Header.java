@@ -1,5 +1,7 @@
 package org.barracuda.core.net.message;
 
+import org.barracuda.core.net.message.serialize.Serializable;
+
 /**
  * The message header
  * 

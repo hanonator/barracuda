@@ -1,4 +1,4 @@
-package org.barracuda.core.net.message;
+package org.barracuda.core.net.message.serialize;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

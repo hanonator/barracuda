@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.barracuda.content.skill.artisan.ProductDefinition;
-import org.barracuda.core.game.contract.ChatboxInterface;
-import org.barracuda.core.game.contract.Label;
-import org.barracuda.core.game.contract.ModelSprite;
+import org.barracuda.core.game.contract.ui.ChatboxInterface;
+import org.barracuda.core.game.contract.ui.Label;
+import org.barracuda.core.game.contract.ui.ModelSprite;
 import org.barracuda.core.net.Channel;
 
 public class ChatboxCraftInterface extends AbstractCraftInterface {

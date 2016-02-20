@@ -1,4 +1,4 @@
-package org.barracuda.core.net.message;
+package org.barracuda.core.net.message.serialize;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;

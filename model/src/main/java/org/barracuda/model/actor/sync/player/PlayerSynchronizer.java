@@ -95,7 +95,7 @@ public abstract class PlayerSynchronizer implements Synchronizer<Player, PlayerS
 		 * Update the own player
 		 */
 		synchronizeSelf(entity, context, bit_vector);
-
+		
 		/*
 		 * Append the player's render to the packet buffer
 		 */
@@ -168,7 +168,7 @@ public abstract class PlayerSynchronizer implements Synchronizer<Player, PlayerS
 		if (byte_vector.isReadable()) {
 			bit_vector.write(2047, 11);
 		}
-		return wrap(byte_vector, bit_vector);
+		return wrap(byte_vector, bit_vector.flush());
 	}
 
 	@Override

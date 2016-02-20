@@ -1,4 +1,4 @@
-package org.barracuda.core.game.contract;
+package org.barracuda.core.game.contract.ui;
 
 /**
  * Renders an item model as a sprite on an interface

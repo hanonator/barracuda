@@ -1,4 +1,4 @@
-package org.barracuda.core.game.contract;
+package org.barracuda.core.game.contract.ui;
 
 /**
  * Prompts the user for a numeric input value

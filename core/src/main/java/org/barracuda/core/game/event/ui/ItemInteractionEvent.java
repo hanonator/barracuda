@@ -1,6 +1,6 @@
-package org.barracuda.core.game.event;
+package org.barracuda.core.game.event.ui;
 
-public class ItemInteractionEvent {
+public class ItemInteractionEvent extends InterfaceEvent {
 
 	/**
 	 * The id of the item
@@ -16,11 +16,6 @@ public class ItemInteractionEvent {
 	 * The option index
 	 */
 	private int option;
-	
-	/**
-	 * The interface id
-	 */
-	private int interfaceId;
 
 	/**
 	 * @return the id
@@ -62,20 +57,6 @@ public class ItemInteractionEvent {
 	 */
 	public void setOption(int option) {
 		this.option = option;
-	}
-
-	/**
-	 * @return the interfaceId
-	 */
-	public int getInterfaceId() {
-		return interfaceId;
-	}
-
-	/**
-	 * @param interfaceId the interfaceId to set
-	 */
-	public void setInterfaceId(int interfaceId) {
-		this.interfaceId = interfaceId;
 	}
 
 }

@@ -2,7 +2,7 @@ package org.barracuda.core.net.netty.codec;
 
 import java.util.List;
 
-import org.barracuda.core.net.message.Serializable;
+import org.barracuda.core.net.message.serialize.Serializable;
 
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandler.Sharable;

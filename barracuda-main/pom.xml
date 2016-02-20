@@ -15,5 +15,10 @@
 			<artifactId>core</artifactId>
 			<version>${barracuda.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.barracuda</groupId>
+			<artifactId>lowe-content</artifactId>
+			<version>${barracuda.version}</version>
+		</dependency>
 	</dependencies>
 </project>

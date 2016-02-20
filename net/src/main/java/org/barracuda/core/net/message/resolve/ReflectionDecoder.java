@@ -58,6 +58,8 @@ public class ReflectionDecoder implements MessageDecoder {
 	/**
 	 * The element decoder
 	 * 
+	 * TODO: Why is this a class
+	 * 
 	 * @author brock
 	 *
 	 */

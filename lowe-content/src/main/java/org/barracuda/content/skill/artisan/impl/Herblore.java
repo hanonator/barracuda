@@ -1,8 +1,8 @@
 package org.barracuda.content.skill.artisan.impl;
 
 import org.barracuda.content.skill.artisan.ArtisanSkill;
-import org.barracuda.core.game.event.ItemInteractionEvent;
-import org.barracuda.core.game.event.ItemOnItemInteractionEvent;
+import org.barracuda.core.game.event.ui.ItemInteractionEvent;
+import org.barracuda.core.game.event.ui.ItemOnItemInteractionEvent;
 import org.barracuda.horvik.bean.Discoverable;
 import org.barracuda.horvik.context.application.ApplicationScoped;
 import org.barracuda.horvik.event.Observes;

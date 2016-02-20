@@ -74,9 +74,9 @@ public class MessageDecoder extends MessageToMessageDecoder<ByteBuf> {
 				}
 	
 				Payload payload = new ByteBufPayload(msg.readBytes(length));
-				Header header = new GameHeader(opcode, length, MetaData.EMPTY);
+				Header header = new GameHeader(opcode, length, meta);
 				out.add(new GameMessage(header, payload));
-				logger.debug("channel {} received message with opcode {}", ctx.channel().remoteAddress(), opcode);
+//				logger.debug("channel {} received message [opcode={}, length={}, meta={}]", ctx.channel().remoteAddress(), opcode, length, meta);
 			}
 		}
 	}

@@ -18,4 +18,14 @@ public class ByteBufferUtil {
 		return builder.toString();
 	}
 
+	/**
+	 * Reads an ASCII string that is terminated with character 10 ('\\n')
+	 * 
+	 * @param buffer
+	 * @return
+	 */
+	public static void writeString(ByteBuf buffer, String string) {
+		buffer.writeBytes(string.getBytes()).writeByte(10);
+	}
+
 }

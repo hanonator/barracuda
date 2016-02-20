@@ -36,9 +36,7 @@ public class Stats {
 	public Stats(Player player) {
 		this.player = player;
 		for (int i = 0; i < skills.length; i++) {
-			skills[i] = new Skill(this.player);
-			skills[i].setLevel(i == HITPOINTS ? 10 : 1);
-			skills[i].setExperience(i == HITPOINTS ? Skill.getXPForLevel(10) : 0);
+			skills[i] = new Skill(i, i == HITPOINTS ? Skill.getXPForLevel(10) : 0, i == HITPOINTS ? 10 : 1, this.player);
 		}
 	}
 

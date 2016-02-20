@@ -1,6 +1,6 @@
 package org.barracuda.core.game.contract.login;
 
-import org.barracuda.core.net.message.Serializable;
+import org.barracuda.core.net.message.serialize.Serializable;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;

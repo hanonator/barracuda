@@ -16,7 +16,7 @@ public @interface Intercepts {
 	 * 
 	 * @return
 	 */
-	int length();
+	int length() default 0;
 
 	/**
 	 * The opcode of the message received that parses into the object
