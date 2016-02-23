@@ -53,7 +53,7 @@ public class Stats {
 	 * Increment or decrement the level of the skills towards their absolute level
 	 */
 	public void normalize() {
-		
+		// TODO: Make this normalize
 	}
 
 	/**

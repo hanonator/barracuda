@@ -109,7 +109,7 @@ public class Skill {
 		if (this.experience > MAXIMUM_EXP) {
 			this.experience = MAXIMUM_EXP;
 		}
-		player.getChannel().write(this);
+		
 	}
 
 	public int getId() {
@@ -171,6 +171,37 @@ public class Skill {
 
 		public int getLevelsGained() {
 			return levelsGained;
+		}
+		
+	}
+
+	/**
+	 * Indicates the skill has been updated
+	 * 
+	 * @author brock
+	 *
+	 */
+	public static class SkillUpdated {
+		
+		/**
+		 * The skill that has been updated
+		 */
+		private final Skill skill;
+
+		/**
+		 * constructor
+		 * 
+		 * @param skill
+		 */
+		public SkillUpdated(Skill skill) {
+			this.skill = skill;
+		}
+
+		/**
+		 * @return the skill
+		 */
+		public Skill getSkill() {
+			return skill;
 		}
 		
 	}
