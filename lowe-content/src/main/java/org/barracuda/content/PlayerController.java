@@ -47,6 +47,20 @@ public class PlayerController {
 		for (int i = 0; i < Stats.SKILL_NAME.length; i++) {
 			channel.write(event.getPlayer().getStats().get(i));
 		}
+		channel.write(event.getPlayer().getInventory());
+	}
+
+	/**
+	 * Called when the player has gained a level in a skill
+	 * 
+	 * @param event
+	 */
+	public void on_skillUpdate(@Observes Levelup event) {
+		StringBuilder builder = new StringBuilder().append("Congratulations, you have gained ")
+				.append(event.getLevelsGained() == 1 ? "a level" : event.getLevelsGained() + " levels").append(" in ")
+				.append(Stats.SKILL_NAME[event.getSkill().getId()]).append("! You are now level ")
+				.append(Skill.getLevelForExperience(event.getSkill().getId()));
+		channel.write(new TextMessage(builder.toString()));
 	}
 
 	/**
@@ -65,19 +79,6 @@ public class PlayerController {
 	 */
 	public void on_skillUpdate(@Observes SkillUpdated event) {
 		channel.write(event.getSkill());
-	}
-
-	/**
-	 * Called when the player has gained a level in a skill
-	 * 
-	 * @param event
-	 */
-	public void on_skillUpdate(@Observes Levelup event) {
-		StringBuilder builder = new StringBuilder().append("Congratulations, you have gained ")
-				.append(event.getLevelsGained() == 1 ? "a level" : event.getLevelsGained() + " levels").append(" in ")
-				.append(Stats.SKILL_NAME[event.getSkill().getId()]).append("! You are now level ")
-				.append(Skill.getLevelForExperience(event.getSkill().getId()));
-		channel.write(new TextMessage(builder.toString()));
 	}
 
 }
