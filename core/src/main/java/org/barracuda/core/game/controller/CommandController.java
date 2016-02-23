@@ -12,6 +12,7 @@ import org.barracuda.model.item.Item;
 
 @Discoverable
 @ApplicationScoped
+// TODO: Apache CLI ?
 public class CommandController {
 
 	/**
