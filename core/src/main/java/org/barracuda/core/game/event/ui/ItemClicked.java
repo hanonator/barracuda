@@ -1,6 +1,6 @@
 package org.barracuda.core.game.event.ui;
 
-public class ItemInteractionEvent extends InterfaceEvent {
+public class ItemClicked extends InterfaceEvent {
 
 	/**
 	 * The id of the item

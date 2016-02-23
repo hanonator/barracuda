@@ -125,7 +125,7 @@ public class Future {
 	 * This will repeat the action
 	 */
 	public void repeat() {
-		listeners.add((worker, clock) -> clock.schedule(worker, timer.getDelay()).repeat());
+		listener((worker, clock) -> clock.schedule(worker, timer.getDelay()).repeat());
 	}
 
 }

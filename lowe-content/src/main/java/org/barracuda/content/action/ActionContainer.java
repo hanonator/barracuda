@@ -96,5 +96,12 @@ public class ActionContainer implements ClockWorker {
 	public ActionPromise getPromise() {
 		return promise;
 	}
+	
+	/**
+	 * Repeats this action
+	 */
+	public void repeat() {
+		future.listener((worker, clock) -> clock.schedule(worker, future.getTimer().getDelay()));
+	}
 
 }

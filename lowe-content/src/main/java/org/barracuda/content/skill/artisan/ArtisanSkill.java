@@ -61,6 +61,8 @@ public abstract class ArtisanSkill extends AbstractTrainingMethod {
 
 	/**
 	 * 
+	 * TODO: Repeat the action x amount of times
+	 * 
 	 * @param definition
 	 */
 	public void craft(ProductDefinition definition) {
@@ -137,8 +139,8 @@ public abstract class ArtisanSkill extends AbstractTrainingMethod {
 	 * @param id
 	 * @return
 	 */
-	protected long click(int id, int option) {
-		return ((long) option << 32) | id;
+	protected ProductDefinition click(int id, int option) {
+		return definition(((long) option << 32) | id);
 	}
 
 	/**
@@ -148,10 +150,10 @@ public abstract class ArtisanSkill extends AbstractTrainingMethod {
 	 * @param id
 	 * @return
 	 */
-	protected long combine(int primary_id, int secondary_id) {
+	protected ProductDefinition combine(int primary_id, int secondary_id) {
 		int min = Math.min(primary_id, secondary_id);
 		int max = Math.max(primary_id, secondary_id);
-		return ((long) max << 32) | min;
+		return definition(((long) max << 32) | min);
 	}
 	
 	/**

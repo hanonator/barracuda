@@ -1,0 +1,24 @@
+{
+	'type': [1, 2, 3, 4], // Ids of the npcs that use this configuration
+	'defence': { // the defensive values for when the entity gets hit
+		'crush': 10,
+		'stab': 100
+		'slash': 50,
+		'magic': 75,
+		'ranged': 11
+	},
+	'attacks': [ // all of the attack definitions
+		{
+			'style': 'crush', // Style of attack/defence used
+			'type': MELEE, // type of attack
+			'damage': 15, // ,maximum damage
+			'accuracy': 1.0 // accuracy of the attack
+			'animation': 444, // the animation played at the beginning of the attack
+			projectile: { // the attack's projectile (can be null)
+				'begin': 10, // graphic id at the start of the projectile
+				'mid': 11, // graphic id at the during the projectile
+				'end': 12 // graphic id at the end of the projectile
+			}
+		}
+	]
+}

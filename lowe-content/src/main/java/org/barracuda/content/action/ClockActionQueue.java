@@ -65,4 +65,10 @@ public class ClockActionQueue implements ActionQueue {
 		}
 	}
 
+	@Override
+	public void clear() {
+		activeContainer.cancel();
+		actions.clear();
+	}
+
 }

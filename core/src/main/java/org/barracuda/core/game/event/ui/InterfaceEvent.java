@@ -1,6 +1,6 @@
 package org.barracuda.core.game.event.ui;
 
-public class InterfaceEvent {
+class InterfaceEvent {
 
 	/**
 	 * The interface id
