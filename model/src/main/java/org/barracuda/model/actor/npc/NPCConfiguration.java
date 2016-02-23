@@ -17,7 +17,15 @@ public class NPCConfiguration {
 	/**
 	 * The collection of NPC configurations
 	 */
-	private static final NPCConfiguration[] configurations = null;
+	private static NPCConfiguration[] configurations;
+	
+	/**
+	 * 
+	 * @param initialized
+	 */
+	public static void initialize(@Observes ContainerInitialized initialized) {
+		configurations = new NPCConfiguration[100];
+	}
 
 	/**
 	 * Gets the definition for the given npc-type
@@ -27,14 +35,6 @@ public class NPCConfiguration {
 	 */
 	public static NPCConfiguration get(int type) {
 		return configurations[type];
-	}
-	
-	/**
-	 * 
-	 * @param initialized
-	 */
-	public static void initialize(@Observes ContainerInitialized initialized) {
-		
 	}
 
 }

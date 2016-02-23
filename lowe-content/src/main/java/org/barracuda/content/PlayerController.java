@@ -44,7 +44,7 @@ public class PlayerController {
 				channel.write(new SidebarInterface(i, SidebarInterface.DEFAULTS[i]));
 			}
 		}
-		for (int i = 0; i < Stats.SKILL_NAME.length; i++) {
+		for (int i = 0; i < Stats.SKILL_COUNT; i++) {
 			channel.write(event.getPlayer().getStats().get(i));
 		}
 		channel.write(event.getPlayer().getInventory());
@@ -58,7 +58,7 @@ public class PlayerController {
 	public void on_skillUpdate(@Observes Levelup event) {
 		StringBuilder builder = new StringBuilder().append("Congratulations, you have gained ")
 				.append(event.getLevelsGained() == 1 ? "a level" : event.getLevelsGained() + " levels").append(" in ")
-				.append(Stats.SKILL_NAME[event.getSkill().getId()]).append("! You are now level ")
+				.append(Stats.getName(event.getSkill().getId())).append("! You are now level ")
 				.append(Skill.getLevelForExperience(event.getSkill().getId()));
 		channel.write(new TextMessage(builder.toString()));
 	}

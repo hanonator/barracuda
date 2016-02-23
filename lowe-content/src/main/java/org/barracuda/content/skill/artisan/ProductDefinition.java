@@ -1,5 +1,7 @@
 package org.barracuda.content.skill.artisan;
 
+import java.util.Arrays;
+
 public class ProductDefinition {
 
 	/**
@@ -54,28 +56,28 @@ public class ProductDefinition {
 	 * @return the resources
 	 */
 	public int[] getResources() {
-		return resources;
+		return Arrays.copyOf(resources, resources.length);
 	}
 
 	/**
 	 * @param resources the resources to set
 	 */
 	public void setResources(int[] resources) {
-		this.resources = resources;
+		this.resources = Arrays.copyOf(resources, resources.length);
 	}
 
 	/**
 	 * @return the products
 	 */
 	public Product[] getProducts() {
-		return products;
+		return Arrays.copyOf(products, products.length);
 	}
 
 	/**
 	 * @param products the products to set
 	 */
 	public void setProducts(Product[] products) {
-		this.products = products;
+		this.products = Arrays.copyOf(products, products.length);
 	}
 
 	/**

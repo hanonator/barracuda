@@ -1,11 +1,12 @@
 package org.barracuda.model.actor.sync.test;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import org.barracuda.model.actor.Player;
 import org.barracuda.model.actor.sync.RenderingHints;
 import org.barracuda.model.actor.sync.attribute.Appearance;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 public class RenderingHintsTest {
 

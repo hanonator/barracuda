@@ -40,4 +40,11 @@ public class UserCommand {
 		return getArguments().length;
 	}
 
+	/**
+	 * @param command the command to set
+	 */
+	public void setCommand(String command) {
+		this.command = command;
+	}
+
 }

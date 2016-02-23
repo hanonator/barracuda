@@ -68,7 +68,7 @@ public class Skill {
 
 		for (int lvl = 1; lvl <= 99; lvl++) {
 			points += Math.floor(lvl + 300.0 * Math.pow(2.0, lvl / 7.0));
-			output = (int) Math.floor(points / 4);
+			output = (int) (points / 4);
 			if (output >= exp)
 				return lvl;
 		}
@@ -88,7 +88,7 @@ public class Skill {
 			if (lvl >= level) {
 				return output;
 			}
-			output = (int)Math.floor(points / 4);
+			output = (int) (points / 4);
 		}
 		return 0;
 	}

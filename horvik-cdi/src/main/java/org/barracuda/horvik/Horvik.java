@@ -62,7 +62,8 @@ public class Horvik {
 			 */
 			container.addContext(SessionScoped.class, new SessionContext(container));
 			container.addContext(ApplicationScoped.class, new ApplicationContext(container));
-			container.addContext(RequestScoped.class, new RequestContext(container)); // FIXME: Let it inject the decoded messages rather than new instances of empty classes
+			container.addContext(RequestScoped.class, new RequestContext(container));
+			// FIXME: Let it inject the decoded messages rather than new instances of empty classes
 			
 			/*
 			 * Attempt to discover the beans
@@ -124,12 +125,15 @@ public class Horvik {
 			for (Parameter parameter : method.getParameters()) {
 				if (parameter.isAnnotationPresent(Observes.class)) {
 					if (!Modifier.isStatic(method.getModifiers())) {
-						event.addObserver(new ObserverMethod<>((Class<Object>) parameter.getType(), container.getBean(method.getDeclaringClass()), method, container));
+						event.addObserver(new ObserverMethod<>((Class<Object>) parameter.getType(),
+								container.getBean(method.getDeclaringClass()), method, container));
 					}
 					else {
-						event.addObserver(new ObserverMethod<>((Class<Object>) parameter.getType(), null, method, container));
+						event.addObserver(new ObserverMethod<>((Class<Object>) parameter.getType(),
+								null, method, container));
 					}
-					logger.info("Observer -> method {} in {} listening to {}", method.getName(), method.getDeclaringClass().getName(), parameter.getType().getSimpleName());
+					logger.info("Observer -> method {} in {} listening to {}", method.getName(),
+							method.getDeclaringClass().getName(), parameter.getType().getSimpleName());
 				}
 			}
 		});

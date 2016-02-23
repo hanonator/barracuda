@@ -1,5 +1,7 @@
 package org.barracuda.core.net;
 
+import java.nio.charset.Charset;
+
 import io.netty.buffer.ByteBuf;
 
 public class ByteBufferUtil {
@@ -25,7 +27,7 @@ public class ByteBufferUtil {
 	 * @return
 	 */
 	public static void writeString(ByteBuf buffer, String string) {
-		buffer.writeBytes(string.getBytes()).writeByte(10);
+		buffer.writeBytes(string.getBytes(Charset.forName("UTF-8"))).writeByte(10);
 	}
 
 }

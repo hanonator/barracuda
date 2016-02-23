@@ -37,7 +37,7 @@ public abstract class Container implements Iterable<Item>, Supplier<Stream<Item>
 	 * @param items
 	 */
 	public Container(Item[] items) {
-		this.items = items;
+		this.items = Arrays.copyOf(items, items.length);
 		this.size = items.length;
 	}
 

@@ -25,7 +25,7 @@ public class CRCTable {
 	 * @param crc_keys
 	 */
 	public CRCTable(int[] crc_keys) {
-		this.crc_keys = crc_keys;
+		this.crc_keys = Arrays.copyOf(crc_keys, crc_keys.length);
 	}
 
 	/**

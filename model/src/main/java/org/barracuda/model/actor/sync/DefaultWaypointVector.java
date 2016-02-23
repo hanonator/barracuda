@@ -25,13 +25,13 @@ public class DefaultWaypointVector implements WaypointVector {
 	/**
 	 * dunno
 	 */
-	public static final byte[] DIRECTION_DELTA_X = new byte[] { -1, 0, 1, -1,
+	static final byte[] DIRECTION_DELTA_X = new byte[] { -1, 0, 1, -1,
 			1, -1, 0, 1 };
 
 	/**
 	 * duno
 	 */
-	public static final byte[] DIRECTION_DELTA_Y = new byte[] { 1, 1, 1, 0, 0,
+	static final byte[] DIRECTION_DELTA_Y = new byte[] { 1, 1, 1, 0, 0,
 			-1, -1, -1 };
 
 	/**
@@ -203,7 +203,7 @@ public class DefaultWaypointVector implements WaypointVector {
 		Waypoint walkPoint = null, runPoint = null;
 		Direction primaryDirection = null, secondaryDirection = null;
 		Location teleportTarget = null;
-		Region before = character.getLocation() == null ? null : character.getLocation().localize();
+		Region before = character.getLocation() == null ? new Region(0, 0) : character.getLocation().localize();
 		
 		/*
 		 * Check to see if the player is teleporting or not
@@ -244,14 +244,17 @@ public class DefaultWaypointVector implements WaypointVector {
 		/*
 		 * Calculate the distance between the two tiles
 		 */
-		int diff_x = before.getSmallCoordinate(character.getLocation()).getX();
-		int diff_y = before.getSmallCoordinate(character.getLocation()).getY();
+		int diff_x = character.getLocation().getX() - before.getSmallCoordinate(character.getLocation()).getX() * 8;
+		int diff_y = character.getLocation().getY() - before.getSmallCoordinate(character.getLocation()).getY() * 8;
 		
 		/*
 		 * Set the map region changed flag
 		 */
 		boolean regionUpdateRequired = diff_x < -32 || diff_x >= 40 || diff_y < -32 || diff_y >= 40;
 		
+		/*
+		 * If the character is a player and he changes region we need to fix this
+		 */
 		if (regionUpdateRequired && character instanceof Player) {
 			((Player) character).notify(new RegionEntered(before, character.getLocation().localize()));
 		}

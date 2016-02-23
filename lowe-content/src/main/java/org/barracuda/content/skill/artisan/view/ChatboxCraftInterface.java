@@ -1,5 +1,6 @@
 package org.barracuda.content.skill.artisan.view;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,7 +55,7 @@ public class ChatboxCraftInterface extends AbstractCraftInterface {
 	 * @author brock
 	 *
 	 */
-	private static class Template {
+	public static class Template {
 		
 		/**
 		 * Interface id
@@ -65,6 +66,34 @@ public class ChatboxCraftInterface extends AbstractCraftInterface {
 		 * Collection of elements
 		 */
 		private CraftInterfaceElement[] elements;
+
+		/**
+		 * @return the interfaceId
+		 */
+		public int getInterfaceId() {
+			return interfaceId;
+		}
+
+		/**
+		 * @param interfaceId the interfaceId to set
+		 */
+		public void setInterfaceId(int interfaceId) {
+			this.interfaceId = interfaceId;
+		}
+
+		/**
+		 * @return the elements
+		 */
+		public CraftInterfaceElement[] getElements() {
+			return Arrays.copyOf(elements, elements.length);
+		}
+
+		/**
+		 * @param elements the elements to set
+		 */
+		public void setElements(CraftInterfaceElement[] elements) {
+			this.elements = Arrays.copyOf(elements, elements.length);
+		}
 		
 	}
 

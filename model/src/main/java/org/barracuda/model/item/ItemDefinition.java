@@ -2,6 +2,8 @@ package org.barracuda.model.item;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.util.Arrays;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -37,158 +39,122 @@ public class ItemDefinition {
 	/**
 	 * The id of the item
 	 */
-	private final int id;
+	private int id;
 	
 	/**
 	 * The name of the item
 	 */
-	private final String name;
+	private String name;
 	
 	/**
 	 * The description of the item
 	 */
-	private final String description;
+	private String description;
 	
 	/**
 	 * The flag determining if an item is tradeable
 	 */
-	private final boolean untradeable;
+	private boolean untradeable;
 	
 	/**
 	 * The flag determining whether an item is destroyable
 	 */
-	private final boolean destroyable;
+	private boolean destroyable;
 	
 	/**
 	 * The flag representing whether an item is stackable
 	 */
-	private final boolean stackable;
+	private boolean stackable;
 	
 	/**
 	 * The item's value
 	 */
-	private final int value;
+	private int value;
 	
 	/**
 	 * The price for special stores
 	 */
-	private final int[] specialPrice;
+	private int[] specialPrice;
 	
 	/**
 	 * The items low alchemy value
 	 */
-	private final int lowAlchemy;
+	private int lowAlchemy;
 	
 	/**
 	 * The item's high alchemy value
 	 */
-	private final int highAlchemy;
+	private int highAlchemy;
 	
 	/**
 	 * The item's weight
 	 */
-	private final double weight;
+	private double weight;
 	
 	/**
 	 * The flag determing if an item is noted
 	 */
-	private final boolean noted;
+	private boolean noted;
 	
 	/**
 	 * the flag representing whether the item is noteable
 	 */
-	private final boolean noteable;
+	private boolean noteable;
 	
 	/**
 	 * The noted id of an item
 	 */
-	private final int childId;
+	private int childId;
 	
 	/**
 	 * The unnoted id of an item
 	 */
-	private final int parentId;
+	private int parentId;
 	
 	/**
 	 * The flag representing if an item is 2 handed
 	 */
-	private final boolean isTwoHanded;
+	private boolean isTwoHanded;
 	
 	/**
 	 * The flag representing the equipment type of an item
 	 */
-	private final WieldType equipmentType;
+	private WieldType equipmentType;
 	
 	/**
 	 * The flag representing if an item is a weapon
 	 */
-	private final boolean weapon;
+	private boolean weapon;
 	
 	/**
 	 * A flag representing if this is a full body item
 	 */
-	private final boolean fullBody;
+	private boolean fullBody;
 	
 	/**
 	 * A flag representing if this is a full hat item
 	 */
-	private final boolean fullHat;
+	private boolean fullHat;
 	
 	/**
 	 * A flag representing if this is a full mask
 	 */
-	private final boolean fullMask;
+	private boolean fullMask;
 	
 	/**
 	 * The bonuses of the item
 	 */
-	private final double[] bonus;
+	private double[] bonus;
 	
 	/**
 	 * The item's requirements
 	 */
-	private final int[] requirement;
+	private int[] requirement;
 	
 	/**
 	 * The actions this item has
 	 */
-	private final String[] actions;
-
-	/**
-	 * The complete Item Definition
-	 */
-	public ItemDefinition(final int id, final String name, final String description,
-			final boolean untradeable, final boolean destroyable, final boolean stackable,
-			final int value, final int[] specialPrice, final int lowAlchemy, final int highAlchemy, final double weight, 
-			final boolean noted, final boolean noteable, final int childId, final int parentId,
-			final boolean isTwoHanded, final WieldType equipmentType, final boolean weapon, 
-			final boolean fullBody, final boolean fullHat, final boolean fullMask, final double[] bonus,
-			final int[] requirement, final String[] actions) {
-		this.id = id;
-		this.name = name;
-		this.description = description;
-		this.untradeable = untradeable;
-		this.destroyable = destroyable;
-		this.stackable = stackable;
-		this.value = value;
-		this.specialPrice = specialPrice;
-		this.lowAlchemy = lowAlchemy;
-		this.highAlchemy = highAlchemy;
-		this.weight = weight;
-		this.noted = noted;
-		this.noteable = noteable;
-		this.childId = childId;
-		this.parentId = parentId;
-		this.isTwoHanded = isTwoHanded;
-		this.weapon = weapon;
-		this.equipmentType = equipmentType;
-		this.fullBody = fullBody;
-		this.fullHat = fullHat;
-		this.fullMask = fullMask;
-		this.bonus = bonus;
-		this.requirement = requirement;
-		this.actions = actions;
-	}
+	private String[] actions;
 	
 	/**
 	 * Initializes
@@ -196,7 +162,7 @@ public class ItemDefinition {
 	 */
 	public static void initialize(@Observes ContainerInitialized event) throws Exception{
 		InputStream stream = ClassLoader.getSystemResourceAsStream("static/game/item_def.json");
-		definitions = new Gson().fromJson(new InputStreamReader(stream), ItemDefinition[].class);
+		definitions = new Gson().fromJson(new InputStreamReader(stream, Charset.forName("UTF-8")), ItemDefinition[].class);
 		logger.info("{} item definitions loaded", definitions.length);
 		stream.close();
 	}
@@ -263,7 +229,7 @@ public class ItemDefinition {
 	 * @return the specialPrice
 	 */
 	public int[] getSpecialPrice() {
-		return specialPrice;
+		return Arrays.copyOf(specialPrice, specialPrice.length);
 	}
 
 	/**
@@ -361,21 +327,21 @@ public class ItemDefinition {
 	 *  @return - bonus
 	 */
 	public double[] getBonus() {
-		return bonus;
+		return Arrays.copyOf(bonus, bonus.length);
 	}
 
 	/**
 	 *  @return - requirement
 	 */
 	public int[] getRequirement() {
-		return requirement;
+		return Arrays.copyOf(requirement, requirement.length);
 	}
 
 	/**
 	 *  @return - actions
 	 */
 	public String[] getActions() {
-		return actions;
+		return Arrays.copyOf(actions, actions.length);
 	}
 	
 	/**

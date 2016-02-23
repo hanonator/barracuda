@@ -17,7 +17,15 @@ public class NPCDefinition {
 	/**
 	 * The collection of NPC definitions
 	 */
-	private static final NPCDefinition[] definitions = null;
+	private static NPCDefinition[] definitions;
+	
+	/**
+	 * 
+	 * @param initialized
+	 */
+	public static void initialize(@Observes ContainerInitialized initialized) {
+		definitions = new NPCDefinition[100];
+	}
 
 	/**
 	 * Gets the definition for the given npc-type
@@ -27,14 +35,6 @@ public class NPCDefinition {
 	 */
 	public static NPCDefinition get(int type) {
 		return definitions[type];
-	}
-	
-	/**
-	 * 
-	 * @param initialized
-	 */
-	public static void initialize(@Observes ContainerInitialized initialized) {
-		
 	}
 
 }

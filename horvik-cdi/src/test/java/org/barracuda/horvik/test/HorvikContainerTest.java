@@ -1,5 +1,7 @@
 package org.barracuda.horvik.test;
 
+import static org.junit.Assert.assertSame;
+
 import java.util.UUID;
 
 import org.barracuda.horvik.Horvik;
@@ -11,9 +13,6 @@ import org.barracuda.horvik.context.session.Session;
 import org.barracuda.horvik.context.session.SessionScoped;
 import org.barracuda.horvik.inject.Inject;
 import org.junit.Test;
-
-
-import static org.junit.Assert.*;
 
 public class HorvikContainerTest {
 
