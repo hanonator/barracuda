@@ -1,8 +1,8 @@
 package org.barracuda.content.skill.artisan.impl;
 
 import org.barracuda.content.skill.artisan.ArtisanSkill;
-import org.barracuda.core.game.event.ui.ItemInteractionEvent;
-import org.barracuda.core.game.event.ui.ItemOnItemInteractionEvent;
+import org.barracuda.core.game.event.ui.ItemClicked;
+import org.barracuda.core.game.event.ui.ItemsCombined;
 import org.barracuda.horvik.bean.Discoverable;
 import org.barracuda.horvik.context.application.ApplicationScoped;
 import org.barracuda.horvik.event.Observes;
@@ -17,9 +17,9 @@ public class Herblore extends ArtisanSkill {
 	 * 
 	 * @param event
 	 */
-	public void on_combine(@Observes ItemOnItemInteractionEvent event) {
-		if (event.getInterfaceId() == Inventory.INTERFACE && definition(combine(event.getPrimaryId(), event.getSecondaryId())) != null) {
-			craft(definition(combine(event.getPrimaryId(), event.getSecondaryId())));
+	public void on_combine(@Observes ItemsCombined event) {
+		if (event.getInterfaceId() == Inventory.INTERFACE && combine(event.getPrimaryItem(), event.getSecondaryItem()) != null) {
+			craft(combine(event.getPrimaryItem(), event.getSecondaryItem()));
 		}
 	}
 
@@ -28,9 +28,9 @@ public class Herblore extends ArtisanSkill {
 	 * 
 	 * @param event
 	 */
-	public void on_interact(@Observes ItemInteractionEvent event) {
-		if (event.getInterfaceId() == Inventory.INTERFACE && definition(click(event.getId(), event.getOption())) != null) {
-			craft(definition(click(event.getId(), event.getOption())));
+	public void on_interact(@Observes ItemClicked event) {
+		if (event.getInterfaceId() == Inventory.INTERFACE && click(event.getId(), event.getOption()) != null) {
+			craft(click(event.getId(), event.getOption()));
 		}
 	}
 
