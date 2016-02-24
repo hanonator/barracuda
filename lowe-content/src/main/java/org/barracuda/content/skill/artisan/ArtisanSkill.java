@@ -1,5 +1,8 @@
 package org.barracuda.content.skill.artisan;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -16,6 +19,8 @@ import org.barracuda.horvik.inject.Inject;
 import org.barracuda.model.actor.Player;
 import org.barracuda.model.item.Item;
 
+import com.google.gson.Gson;
+
 /**
  * An artisan skill is a skill that modifies resources into another.
  * 
@@ -27,6 +32,17 @@ import org.barracuda.model.item.Item;
  *
  */
 public abstract class ArtisanSkill extends AbstractTrainingMethod {
+	
+	/**
+	 * Indicates the way to trigger the action is to combine the ingredients by using
+	 * them on each other
+	 */
+	public static final String COMBINE = "combine";
+	
+	/**
+	 * Indicates the way to trigger the action is to click on the item
+	 */
+	public static final String CLICK = "click";
 
 	/**
 	 * Contains the items that are not consumed once used. These are things
@@ -39,7 +55,7 @@ public abstract class ArtisanSkill extends AbstractTrainingMethod {
 	/**
 	 * The collection of product definitions
 	 */
-	private final Map<Long, ProductDefinition> definitions = new HashMap<>();
+	protected final Map<Long, ProductDefinition> definitions = new HashMap<>();
 
 	/**
 	 * The player
@@ -140,7 +156,17 @@ public abstract class ArtisanSkill extends AbstractTrainingMethod {
 	 * @return
 	 */
 	protected ProductDefinition click(int id, int option) {
-		return definition(((long) option << 32) | id);
+		return definition(click_hash(id, option));
+	}
+
+	/**
+	 * Generates the definition hash for when the player clicks the item
+	 * 
+	 * @param id
+	 * @return
+	 */
+	protected long click_hash(int id, int option) {
+		return ((long) option << 32) | id;
 	}
 
 	/**
@@ -151,9 +177,51 @@ public abstract class ArtisanSkill extends AbstractTrainingMethod {
 	 * @return
 	 */
 	protected ProductDefinition combine(int primary_id, int secondary_id) {
+		return definition(combine_hash(primary_id, secondary_id));
+	}
+
+	/**
+	 * Generates the definition hash for when the player combines the item
+	 * with another
+	 * 
+	 * @param id
+	 * @return
+	 */
+	protected long combine_hash(int primary_id, int secondary_id) {
 		int min = Math.min(primary_id, secondary_id);
 		int max = Math.max(primary_id, secondary_id);
-		return definition(((long) max << 32) | min);
+		return ((long) max << 32) | min;
+	}
+	
+	/**
+	 * Loads a JSON file of product definitions
+	 * 
+	 * TODO: very unsafe
+	 * 
+	 * @param gson
+	 * @param resource
+	 * @param action_type
+	 */
+	protected void loadJson(Gson gson, String resource, String action_type) {
+		InputStream stream = ClassLoader.getSystemResourceAsStream(resource);
+		ProductDefinition[] loaded = gson.fromJson(new InputStreamReader(stream, Charset.forName("UTF-8")), ProductDefinition[].class);
+		for (ProductDefinition definition : loaded) {
+			long hash = 0;
+			switch (action_type) {
+			case "combine":
+				hash = combine_hash(definition.getResources()[0], definition.getResources()[1]);
+				break;
+			case "click":
+				hash = click_hash(definition.getResources()[0], 1);
+				break;
+			default:
+				break;
+			}
+			if (hash == 0) {
+				throw new IllegalArgumentException("unrecognized action type");
+			}
+			definitions.put(hash, definition);
+		}
 	}
 	
 	/**

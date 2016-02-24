@@ -21,7 +21,8 @@ public class Herblore extends ArtisanSkill {
 	 * @param event
 	 */
 	public void initialize(@Observes ContainerInitialized event, Gson gson) {
-		
+		super.loadJson(gson, "static/game/herblore/herbs.out.json", ArtisanSkill.CLICK);
+		super.loadJson(gson, "static/game/herblore/potions.out.json", ArtisanSkill.COMBINE);
 	}
 
 	/**
@@ -44,69 +45,6 @@ public class Herblore extends ArtisanSkill {
 		if (event.getInterfaceId() == Inventory.INTERFACE && click(event.getId(), event.getOption()) != null) {
 			craft(click(event.getId(), event.getOption()));
 		}
-	}
-	
-	/**
-	 * 
-	 * @author brock
-	 *
-	 */
-	private static class Herb {
-		
-		/**
-		 * The item id of the unidentified herb
-		 */
-		private int unidentified_id;
-		
-		/**
-		 * The item id of the identified herb
-		 */
-		private int identified_id;
-		
-		/**
-		 * The experience gained from cleaning the herb
-		 */
-		private int experience;
-		
-		/**
-		 * The level required to clean the herb
-		 */
-		private int level;
-		
-	}
-	
-	/**
-	 * 
-	 * @author brock
-	 *
-	 */
-	private static class Potion {
-		
-		/**
-		 * The id of the primary ingredient
-		 */
-		private int primary_ingredient;
-		
-		/**
-		 * The id of the secondary ingredient
-		 */
-		private int secondary_ingredient;
-		
-		/**
-		 * The id of the item produced
-		 */
-		private int produce;
-		
-		/**
-		 * The experience gained from mixing the potion
-		 */
-		private int experience;
-		
-		/**
-		 * The level required to mix the potion
-		 */
-		private int level;
-		
 	}
 
 }
