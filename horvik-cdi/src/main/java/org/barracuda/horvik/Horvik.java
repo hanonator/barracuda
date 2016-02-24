@@ -22,6 +22,8 @@ import org.barracuda.horvik.event.Event;
 import org.barracuda.horvik.event.ObserverMethod;
 import org.barracuda.horvik.event.Observes;
 
+import com.google.gson.Gson;
+
 import javassist.Modifier;
 
 @ApplicationScoped
@@ -38,6 +40,11 @@ public class Horvik {
 	 * The logger for this class
 	 */
 	private static final Logger logger = LogManager.getLogger(Horvik.class);
+	
+	/**
+	 * The gson object
+	 */
+	private final Gson gson = new Gson();
 
 	/**
 	 * The static instance of the container
@@ -91,8 +98,10 @@ public class Horvik {
 		container.registerBean(new ManagedBean<>(HorvikContainer.class, container));
 		container.<ApplicationContext>getContext(ApplicationScoped.class).push(Horvik.class, this);
 		container.registerBean(new ManagedBean<>(Horvik.class, container));
+		container.<ApplicationContext>getContext(ApplicationScoped.class).push(Gson.class, gson);
+		container.registerBean(new ManagedBean<>(Gson.class, container));
 		
-		/*
+		/*gson
 		 * Registers the beans
 		 */
 		container.getTypesAnnotatedWith(Discoverable.class).forEach(type -> {

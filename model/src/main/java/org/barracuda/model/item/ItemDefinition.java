@@ -160,9 +160,9 @@ public class ItemDefinition {
 	 * Initializes
 	 * @param initialized
 	 */
-	public static void initialize(@Observes ContainerInitialized event) throws Exception{
+	public static void initialize(@Observes ContainerInitialized event, Gson gson) throws Exception{
 		InputStream stream = ClassLoader.getSystemResourceAsStream("static/game/item_def.json");
-		definitions = new Gson().fromJson(new InputStreamReader(stream, Charset.forName("UTF-8")), ItemDefinition[].class);
+		definitions = gson.fromJson(new InputStreamReader(stream, Charset.forName("UTF-8")), ItemDefinition[].class);
 		logger.info("{} item definitions loaded", definitions.length);
 		stream.close();
 	}

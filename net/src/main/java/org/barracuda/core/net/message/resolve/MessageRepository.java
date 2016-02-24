@@ -126,32 +126,30 @@ public class MessageRepository {
 	}
 
 	/**
-	 * 
-	 * @param opcode
+	 * Gets the definition for the opcode
+	 * @param opcode 
+	 * @return the definition
 	 */
 	public MessageDefinition get(int opcode) {
 		return definitions.get(opcode);
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return the handshake intercepter
 	 */
 	public Interceptor<Message, Handshake> getHandshakeInterceptor() {
 		return handshakeInterceptor.get();
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return the authentication intercepter
 	 */
 	public Interceptor<Message, Authentication> getAuthenticationInterceptor() {
 		return authenticationInterceptor.get();
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return the jaggrab interceptor
 	 */
 	public Interceptor<Message, JagGrabFileRequest> getJaggrabInterceptor() {
 		return jaggrabInterceptor.get();
