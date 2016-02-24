@@ -20,8 +20,8 @@ public class Herblore extends ArtisanSkill {
 	 */
 	@PostConstruct
 	public void initialize() {
-		super.loadJson("static/game/herblore/herbs.out.json", ArtisanSkill.CLICK);
-		super.loadJson("static/game/herblore/potions.out.json", ArtisanSkill.COMBINE);
+		super.loadJson("static/game/artisan/herbs.out.json", ArtisanSkill.CLICK);
+		super.loadJson("static/game/artisan/potions.out.json", ArtisanSkill.COMBINE);
 	}
 
 	/**
