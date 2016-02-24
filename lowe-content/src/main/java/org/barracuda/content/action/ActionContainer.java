@@ -1,5 +1,7 @@
 package org.barracuda.content.action;
 
+import java.util.function.Predicate;
+
 import org.barracuda.roald.Clock;
 import org.barracuda.roald.ClockWorker;
 import org.barracuda.roald.future.Future;
@@ -27,6 +29,11 @@ public class ActionContainer implements ClockWorker {
 	private boolean canceled;
 	
 	/**
+	 * Decides whether or not the action gets rescheduled
+	 */
+	private Predicate<ActionContainer> predicate;
+	
+	/**
 	 * The future
 	 * 
 	 */
@@ -39,10 +46,11 @@ public class ActionContainer implements ClockWorker {
 	 * @param promise
 	 * @param future
 	 */
-	public ActionContainer(Action action, int delay, ActionPromise promise) {
+	public ActionContainer(Action action, int delay, ActionPromise promise, Predicate<ActionContainer> predicate) {
 		this.action = action;
 		this.promise = promise;
 		this.delay = delay;
+		this.setPredicate(predicate);
 	}
 
 	@Override
@@ -102,6 +110,20 @@ public class ActionContainer implements ClockWorker {
 	 */
 	public void repeat() {
 		future.listener((worker, clock) -> clock.schedule(worker, future.getTimer().getDelay()));
+	}
+
+	/**
+	 * @return the predicate
+	 */
+	public Predicate<ActionContainer> getPredicate() {
+		return predicate;
+	}
+
+	/**
+	 * @param predicate the predicate to set
+	 */
+	public void setPredicate(Predicate<ActionContainer> predicate) {
+		this.predicate = predicate;
 	}
 
 }

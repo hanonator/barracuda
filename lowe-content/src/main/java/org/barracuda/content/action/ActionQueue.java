@@ -1,5 +1,7 @@
 package org.barracuda.content.action;
 
+import java.util.function.Predicate;
+
 public interface ActionQueue {
 
 	/**
@@ -15,7 +17,18 @@ public interface ActionQueue {
 	 * @param delay
 	 * @return
 	 */
-	ActionPromise queue(int delay, Action action);
+	ActionPromise queue(Action action, Predicate<ActionContainer> predicate, int delay);
+
+	/**
+	 * Queues a new action to be scheduled right now or when the player has
+	 * performed all of its other actions
+	 * 
+	 * @param action
+	 * @return
+	 */
+	default ActionPromise queue(Action action, Predicate<ActionContainer> predicate) {
+		return this.queue(action, predicate, 1);
+	}
 
 	/**
 	 * Queues a new action to be scheduled right now or when the player has
@@ -25,7 +38,18 @@ public interface ActionQueue {
 	 * @return
 	 */
 	default ActionPromise queue(Action action) {
-		return this.queue(1, action);
+		return this.queue(action, null, 1);
+	}
+
+	/**
+	 * Queues a new action to be scheduled right now or when the player has
+	 * performed all of its other actions
+	 * 
+	 * @param action
+	 * @return
+	 */
+	default ActionPromise queue(Action action, int delay) {
+		return this.queue(action, null, delay);
 	}
 
 	/**

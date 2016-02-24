@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicLong;
 
 import org.barracuda.content.action.ActionQueue;
 import org.barracuda.content.skill.AbstractTrainingMethod;
@@ -41,6 +42,11 @@ public abstract class ArtisanSkill extends AbstractTrainingMethod {
 	 * Indicates the way to trigger the action is to click on the item
 	 */
 	public static final String CLICK = "click";
+
+	/**
+	 * The interval at which items get produced
+	 */
+	private static final int PRODUCE_INTERVAL = 2;
 
 	/**
 	 * Contains the items that are not consumed once used. These are things
@@ -80,7 +86,9 @@ public abstract class ArtisanSkill extends AbstractTrainingMethod {
 	 * @param definition
 	 */
 	public void craft(ProductDefinition definition) {
-		channel.write(openInterface(definition).listener((index, amount) -> actionQueue.queue(container -> {
+		channel.write(openInterface(definition).listener((index, amount) -> {
+			AtomicLong counter = new AtomicLong(amount);
+			actionQueue.queue(container -> {
 				if (validate_requirements(definition.getProduct(index), definition)) {
 					Product product = definition.getProduct(index);
 					
@@ -100,8 +108,8 @@ public abstract class ArtisanSkill extends AbstractTrainingMethod {
 					 */
 					player.getStats().addExperience(definition.getSkill(), product.getExperience());
 				}
-			})
-		));
+			}, container -> counter.decrementAndGet() > 0, PRODUCE_INTERVAL);
+		}));
 	}
 
 	/**

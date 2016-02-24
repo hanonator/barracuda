@@ -2,12 +2,15 @@ package org.barracuda.content.action;
 
 import java.util.Deque;
 import java.util.LinkedList;
+import java.util.function.Predicate;
 
 import org.barracuda.horvik.bean.Discoverable;
 import org.barracuda.horvik.context.session.SessionScoped;
 import org.barracuda.horvik.inject.Inject;
 import org.barracuda.model.actor.Player;
 import org.barracuda.roald.Clock;
+import org.barracuda.roald.ClockWorker;
+import org.barracuda.roald.future.FutureListener;
 
 /**
  * Action queue implementation that uses the CDI module to queue
@@ -43,9 +46,9 @@ public class ClockActionQueue implements ActionQueue {
 	private final Deque<ActionContainer> actions = new LinkedList<>();
 
 	@Override
-	public ActionPromise queue(int delay, Action action) {
+	public ActionPromise queue(Action action, Predicate<ActionContainer> predicate, int delay) {
 		ActionPromise promise = new ActionPromise();
-		actions.add(new ActionContainer(action, delay, promise));
+		actions.add(new ActionContainer(action, delay, promise, predicate));
 		return promise;
 	}
 
@@ -58,7 +61,7 @@ public class ClockActionQueue implements ActionQueue {
 			ActionContainer container = actions.peek();
 			container.setFuture(clock.schedule(null, container.getDelay()));
 			container.getFuture()
-					.listener((worker, clock) -> next())
+					.listener(new PredicateFutureListener(container.getPredicate(), container))
 					.listener((worker, clock) -> container.getPromise().getSuccessHandler().onSuccess(container))
 					.error((error, worker, clock) -> container.getPromise().getExceptionHandler().exceptionCaught(container, error));
 			activeContainer = actions.poll();
@@ -69,6 +72,47 @@ public class ClockActionQueue implements ActionQueue {
 	public void clear() {
 		activeContainer.cancel();
 		actions.clear();
+	}
+	
+	/**
+	 * FutureListener that will reschedule or cancel the given action depending
+	 * on if the predicate fails
+	 * 
+	 * @author koga
+	 *
+	 */
+	private class PredicateFutureListener implements FutureListener {
+
+		/**
+		 * The predicate
+		 */
+		private final Predicate<ActionContainer> predicate;
+		
+		/**
+		 * The action container
+		 */
+		private final ActionContainer container;
+
+		/**
+		 * Constructor
+		 * 
+		 * @param predicate
+		 */
+		public PredicateFutureListener(Predicate<ActionContainer> predicate, ActionContainer container) {
+			this.predicate = predicate;
+			this.container = container;
+		}
+
+		@Override
+		public void onFinish(ClockWorker worker, Clock clock) {
+			if (predicate.test(container)) {
+				clock.schedule(worker, container.getFuture().getTimer().getDelay());
+			}
+			else {
+				next();
+			}
+		}
+		
 	}
 
 }
