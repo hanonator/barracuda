@@ -1,4 +1,1 @@
-/checkstyle-cachefile
-/checkstyle-checker.xml
-/checkstyle-result.xml
-/checkstyle-rules.xml
+checkstyle*

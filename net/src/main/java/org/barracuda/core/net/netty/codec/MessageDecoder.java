@@ -2,8 +2,6 @@ package org.barracuda.core.net.netty.codec;
 
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.barracuda.core.net.ChannelState;
 import org.barracuda.core.net.message.ByteBufPayload;
 import org.barracuda.core.net.message.Header;
@@ -28,11 +26,6 @@ import io.netty.handler.codec.MessageToMessageDecoder;
  */
 @Sharable
 public class MessageDecoder extends MessageToMessageDecoder<ByteBuf> {
-
-	/**
-	 * The logger for this class
-	 */
-	private static final Logger logger = LogManager.getLogger(MessageDecoder.class);
 
 	/**
 	 * The horvik instance
@@ -76,7 +69,6 @@ public class MessageDecoder extends MessageToMessageDecoder<ByteBuf> {
 				Payload payload = new ByteBufPayload(msg.readBytes(length));
 				Header header = new GameHeader(opcode, length, meta);
 				out.add(new GameMessage(header, payload));
-//				logger.debug("channel {} received message [opcode={}, length={}, meta={}]", ctx.channel().remoteAddress(), opcode, length, meta);
 			}
 		}
 	}
