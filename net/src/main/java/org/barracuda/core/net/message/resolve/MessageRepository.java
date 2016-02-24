@@ -157,7 +157,4 @@ public class MessageRepository {
 		return jaggrabInterceptor.get();
 	}
 
-	/**
-	 * 
-	 */
 }
