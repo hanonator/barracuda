@@ -19,8 +19,6 @@ import org.barracuda.horvik.inject.Inject;
 import org.barracuda.model.actor.Player;
 import org.barracuda.model.item.Item;
 
-import com.google.gson.Gson;
-
 /**
  * An artisan skill is a skill that modifies resources into another.
  * 
@@ -202,9 +200,9 @@ public abstract class ArtisanSkill extends AbstractTrainingMethod {
 	 * @param resource
 	 * @param action_type
 	 */
-	protected void loadJson(Gson gson, String resource, String action_type) {
+	protected void loadJson(String resource, String action_type) {
 		InputStream stream = ClassLoader.getSystemResourceAsStream(resource);
-		ProductDefinition[] loaded = gson.fromJson(new InputStreamReader(stream, Charset.forName("UTF-8")), ProductDefinition[].class);
+		ProductDefinition[] loaded = GSON.fromJson(new InputStreamReader(stream, Charset.forName("UTF-8")), ProductDefinition[].class);
 		for (ProductDefinition definition : loaded) {
 			long hash = 0;
 			switch (action_type) {

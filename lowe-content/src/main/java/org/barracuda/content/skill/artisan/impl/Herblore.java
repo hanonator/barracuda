@@ -4,12 +4,10 @@ import org.barracuda.content.skill.artisan.ArtisanSkill;
 import org.barracuda.core.game.event.ui.ItemClicked;
 import org.barracuda.core.game.event.ui.ItemsCombined;
 import org.barracuda.horvik.bean.Discoverable;
+import org.barracuda.horvik.bean.PostConstruct;
 import org.barracuda.horvik.context.application.ApplicationScoped;
-import org.barracuda.horvik.environment.ContainerInitialized;
 import org.barracuda.horvik.event.Observes;
 import org.barracuda.model.item.Inventory;
-
-import com.google.gson.Gson;
 
 @Discoverable
 @ApplicationScoped
@@ -20,9 +18,10 @@ public class Herblore extends ArtisanSkill {
 	 * 
 	 * @param event
 	 */
-	public void initialize(@Observes ContainerInitialized event, Gson gson) {
-		super.loadJson(gson, "static/game/herblore/herbs.out.json", ArtisanSkill.CLICK);
-		super.loadJson(gson, "static/game/herblore/potions.out.json", ArtisanSkill.COMBINE);
+	@PostConstruct
+	public void initialize() {
+		super.loadJson("static/game/herblore/herbs.out.json", ArtisanSkill.CLICK);
+		super.loadJson("static/game/herblore/potions.out.json", ArtisanSkill.COMBINE);
 	}
 
 	/**
