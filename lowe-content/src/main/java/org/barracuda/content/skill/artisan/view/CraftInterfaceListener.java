@@ -1,5 +1,7 @@
 package org.barracuda.content.skill.artisan.view;
 
+import org.barracuda.content.skill.artisan.ProductDefinition;
+
 public interface CraftInterfaceListener {
 
 	/**
@@ -9,6 +11,6 @@ public interface CraftInterfaceListener {
 	 * @param index
 	 * @param amount
 	 */
-	void craft(int index, int amount);
+	void craft(ProductDefinition definition, int index, int amount);
 
 }

@@ -1,7 +1,7 @@
 package org.barracuda.content.skill.artisan.view;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * 
@@ -18,7 +18,7 @@ public abstract class AbstractCraftInterface implements CraftInterface {
 	/**
 	 * Collection of items displayed on the interface
 	 */
-	protected final Set<Integer> items = new HashSet<>();
+	protected final List<Integer> items = new LinkedList<>();
 
 	@Override
 	public CraftInterface item(int id) {

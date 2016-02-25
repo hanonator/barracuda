@@ -19,6 +19,7 @@ public interface CraftInterface {
 	CraftInterface open(Channel channel);
 	
 	/**
+	 * Adds a listener to the interface
 	 * 
 	 * @param listener
 	 * @return
@@ -26,6 +27,7 @@ public interface CraftInterface {
 	CraftInterface listener(CraftInterfaceListener listener);
 	
 	/**
+	 * Adds an item to the interface
 	 * 
 	 * @param listener
 	 * @return
@@ -33,6 +35,7 @@ public interface CraftInterface {
 	CraftInterface item(int id);
 	
 	/**
+	 * Adds a collection of items to the interface
 	 * 
 	 * @param listener
 	 * @return

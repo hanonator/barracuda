@@ -9,6 +9,7 @@ import org.barracuda.core.game.contract.ui.ChatboxInterface;
 import org.barracuda.core.game.contract.ui.Label;
 import org.barracuda.core.game.contract.ui.ModelSprite;
 import org.barracuda.core.net.Channel;
+import org.barracuda.model.item.ItemDefinition;
 
 public class ChatboxCraftInterface extends AbstractCraftInterface {
 	
@@ -23,29 +24,24 @@ public class ChatboxCraftInterface extends AbstractCraftInterface {
 	private static final Map<Integer, Template> templates = new HashMap<>();
 
 	/**
-	 * The products shown on the interface
-	 */
-	private final ProductDefinition definition;
-
-	/**
 	 * Constructor
 	 * 
 	 * @param definition
 	 */
 	public ChatboxCraftInterface(ProductDefinition definition) {
-		this.definition = definition;
+		Arrays.stream(definition.getProducts()).forEach(product -> super.item(product.getId()));
 	}
 
 	@Override
 	public CraftInterface open(Channel channel) {
-		Template template = templates.get(definition.getProducts().length);
+		Template template = templates.get(items.size());
 		channel.write(new ChatboxInterface(template.interfaceId));
-		for (int i = 0; i < definition.getProducts().length; i++) {
-			CraftInterfaceElement element = template.elements[i];
+		items.forEach(item -> {
+			CraftInterfaceElement element = template.elements[items.indexOf(item)];
 			
-			channel.write(new Label("name_of_item", element.getLabelId()));
-			channel.write(new ModelSprite(definition.getProducts()[i].getId(), MODEL_ZOOM, element.getModelId()));
-		}
+			channel.write(new Label(ItemDefinition.forId(item).getName(), element.getLabelId()));
+			channel.write(new ModelSprite(item, MODEL_ZOOM, element.getModelId()));
+		});
 		return this;
 	}
 	
