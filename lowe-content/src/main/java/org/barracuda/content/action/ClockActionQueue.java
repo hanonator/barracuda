@@ -59,6 +59,7 @@ public class ClockActionQueue implements ActionQueue {
 		}
 		if (activeContainer == null || activeContainer.isCanceled() || activeContainer.getFuture().isCanceled() || activeContainer.getFuture().isFinished()) {
 			ActionContainer container = actions.peek();
+			container.getPromise().getSubmitHandler().onSubmit(container);
 			container.setFuture(clock.schedule(null, container.getDelay()));
 			container.getFuture()
 					.listener(new PredicateFutureListener(container.getPredicate(), container))

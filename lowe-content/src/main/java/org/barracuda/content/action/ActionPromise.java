@@ -13,6 +13,11 @@ public class ActionPromise {
 	private ActionSuccessHandler successHandler;
 
 	/**
+	 * What happens on success
+	 */
+	private ActionSubmitHandler submitHandler;
+
+	/**
 	 * @return the exceptionHandler
 	 */
 	ActionExceptionHandler getExceptionHandler() {
@@ -40,6 +45,20 @@ public class ActionPromise {
 	public ActionPromise success(ActionSuccessHandler successHandler) {
 		this.successHandler = successHandler;
 		return this;
+	}
+
+	/**
+	 * @return the submitHandler
+	 */
+	ActionSubmitHandler getSubmitHandler() {
+		return submitHandler;
+	}
+
+	/**
+	 * @param submitHandler the submitHandler to set
+	 */
+	public void submit(ActionSubmitHandler submitHandler) {
+		this.submitHandler = submitHandler;
 	}
 
 }
