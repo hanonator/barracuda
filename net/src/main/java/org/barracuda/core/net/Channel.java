@@ -22,7 +22,7 @@ public interface Channel {
 	 * 
 	 * @param object
 	 */
-	void write(Object object);
+	<T> T write(T object);
 
 	/**
 	 * Flushes the channel

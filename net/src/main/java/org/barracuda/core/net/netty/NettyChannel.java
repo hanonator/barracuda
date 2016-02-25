@@ -109,8 +109,9 @@ public class NettyChannel extends ChannelHandlerAdapter implements Channel {
 	}
 
 	@Override
-	public void write(Object object) {
+	public <T> T write(T object) {
 		channel.write(object);
+		return object;
 	}
 
 	@Override
