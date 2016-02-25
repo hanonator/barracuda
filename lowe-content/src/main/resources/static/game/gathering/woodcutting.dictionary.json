@@ -1,0 +1,8 @@
+{
+  'info_start': 'You swing your axe at the tree.',
+  'info_success': 'You get some %s.',
+  'warning_inventory_full': 'Your inventory is too full to hold any more logs.',
+  'warning_random_event_fail': 'The ent breaks your hatchet.',
+  'warning_resource_depleted': 'This tree has already been cut down.',
+  'warning_insufficient_level': 'You need a woodcutting level of at least %d to cut this tree.'
+}

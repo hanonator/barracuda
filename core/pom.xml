@@ -6,56 +6,29 @@
 	<parent>
 		<groupId>org.barracuda</groupId>
 		<artifactId>barracuda-parent</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>${barracuda.version}</version>
 	</parent>
 
 	<dependencies>
-        <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-all</artifactId>
-            <version>5.0.0.Alpha2</version>
-        </dependency>
 		<dependency>
 			<groupId>org.barracuda</groupId>
 			<artifactId>horvik-cdi</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${barracuda.version}</version>
 		</dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-            <version>2.4.1</version>
-        </dependency>
+		<dependency>
+			<groupId>org.barracuda</groupId>
+			<artifactId>model</artifactId>
+			<version>${barracuda.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.barracuda</groupId>
+			<artifactId>roald-timing</artifactId>
+			<version>${barracuda.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.barracuda</groupId>
+			<artifactId>net</artifactId>
+			<version>${barracuda.version}</version>
+		</dependency>
 	</dependencies>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<configuration>
-					<archive>
-						<manifest>
-							<addClasspath>true</addClasspath>
-							<mainClass>org.barracuda.core.Application</mainClass>
-						</manifest>
-					</archive>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
-				<version>1.4.0</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>exec</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<executable>maven</executable>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
 </project>
