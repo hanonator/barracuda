@@ -1,6 +1,8 @@
 package org.barracuda.model.actor.player;
 
 import org.barracuda.model.actor.Player;
+import org.barracuda.model.event.ExperienceGained;
+import org.barracuda.model.event.Levelup;
 
 public class Skill {
 
@@ -109,7 +111,9 @@ public class Skill {
 		if (this.experience > MAXIMUM_EXP) {
 			this.experience = MAXIMUM_EXP;
 		}
-		
+		if (experience > 0) {
+			player.notify(new ExperienceGained(this));
+		}
 	}
 
 	public int getId() {
@@ -134,76 +138,6 @@ public class Skill {
 
 	public void setLevel(int level) {
 		this.level = level;
-	}
-
-	/**
-	 * Level up event
-	 * 
-	 * @author brock
-	 *
-	 */
-	public static class Levelup {
-		
-		/**
-		 * The skill that is being leveled up
-		 */
-		private final Skill skill;
-		
-		/**
-		 * The amount of levels gained
-		 */
-		private final int levelsGained;
-
-		/**
-		 * Constructor
-		 * 
-		 * @param skill
-		 * @param levelsGained
-		 */
-		public Levelup(Skill skill, int levelsGained) {
-			this.skill = skill;
-			this.levelsGained = levelsGained;
-		}
-
-		public Skill getSkill() {
-			return skill;
-		}
-
-		public int getLevelsGained() {
-			return levelsGained;
-		}
-		
-	}
-
-	/**
-	 * Indicates the skill has been updated
-	 * 
-	 * @author brock
-	 *
-	 */
-	public static class SkillUpdated {
-		
-		/**
-		 * The skill that has been updated
-		 */
-		private final Skill skill;
-
-		/**
-		 * constructor
-		 * 
-		 * @param skill
-		 */
-		public SkillUpdated(Skill skill) {
-			this.skill = skill;
-		}
-
-		/**
-		 * @return the skill
-		 */
-		public Skill getSkill() {
-			return skill;
-		}
-		
 	}
 
 }
