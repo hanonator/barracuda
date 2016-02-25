@@ -9,9 +9,9 @@ import org.barracuda.horvik.context.application.ApplicationScoped;
 import org.barracuda.horvik.event.Observes;
 import org.barracuda.horvik.inject.Inject;
 import org.barracuda.model.actor.player.Skill;
-import org.barracuda.model.actor.player.Skill.Levelup;
-import org.barracuda.model.actor.player.Skill.SkillUpdated;
 import org.barracuda.model.actor.player.Stats;
+import org.barracuda.model.event.ExperienceGained;
+import org.barracuda.model.event.Levelup;
 import org.barracuda.model.item.Inventory.InventoryUpdated;
 
 /**
@@ -77,7 +77,7 @@ public class PlayerController {
 	 * 
 	 * @param event
 	 */
-	public void on_skillUpdate(@Observes SkillUpdated event) {
+	public void on_skillUpdate(@Observes ExperienceGained event) {
 		channel.write(event.getSkill());
 	}
 
