@@ -23,11 +23,14 @@ public interface ActionQueue {
 	 * Queues a new action to be scheduled right now or when the player has
 	 * performed all of its other actions
 	 * 
+	 * This is performed with a default delay of 3 game ticks as most actions
+	 * are of this kind
+	 * 
 	 * @param action
 	 * @return
 	 */
 	default ActionPromise queue(Action action, Predicate<ActionContainer> predicate) {
-		return this.queue(action, predicate, 1);
+		return this.queue(action, predicate, 3);
 	}
 
 	/**
@@ -38,7 +41,7 @@ public interface ActionQueue {
 	 * @return
 	 */
 	default ActionPromise queue(Action action) {
-		return this.queue(action, null, 1);
+		return this.queue(action, null, 3);
 	}
 
 	/**

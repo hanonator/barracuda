@@ -113,7 +113,7 @@ public class ClockActionQueue implements ActionQueue {
 
 		@Override
 		public void onFinish(ClockWorker worker, Clock clock) {
-			if (predicate.test(container)) {
+			if (predicate != null && predicate.test(container)) {
 				clock.schedule(worker, container.getFuture().getTimer().getDelay());
 			}
 			else {

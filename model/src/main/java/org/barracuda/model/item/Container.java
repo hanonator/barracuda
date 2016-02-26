@@ -55,6 +55,26 @@ public abstract class Container implements Iterable<Item>, Supplier<Stream<Item>
 			}
 		}
 	}
+
+	/**
+	 * 
+	 * @param item
+	 */
+	public void add(Item... items) {
+		for (Item item : items) {
+			add(item);
+		}
+	}
+
+	/**
+	 * 
+	 * @param item
+	 */
+	public void add(int... items) {
+		for (int item : items) {
+			add(new Item(item, 1));
+		}
+	}
 	
 	/**
 	 * 
@@ -80,12 +100,35 @@ public abstract class Container implements Iterable<Item>, Supplier<Stream<Item>
 	}
 	
 	/**
+	 * Removes an item from the inventory
 	 * 
 	 * @param item
 	 */
 	public void remove(Item item) {
 		while (item.getAmount() > 0 && count(item.getId()) > 0) {
 			remove(item, indexOf(item.getId()));
+		}
+	}
+
+	/**
+	 * Removes a collection of items
+	 * 
+	 * @param items
+	 */
+	public void remove(Item... items) {
+		for (Item item : items) {
+			this.remove(item);
+		}
+	}
+
+	/**
+	 * Removes a collection of items
+	 * 
+	 * @param items
+	 */
+	public void remove(int... items) {
+		for (int item : items) {
+			this.remove(new Item(item, 1));
 		}
 	}
 	

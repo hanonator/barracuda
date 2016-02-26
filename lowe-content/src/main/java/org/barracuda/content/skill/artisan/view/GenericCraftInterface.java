@@ -11,7 +11,7 @@ import org.barracuda.core.game.contract.ui.ModelSprite;
 import org.barracuda.core.net.Channel;
 import org.barracuda.model.item.ItemDefinition;
 
-public class ChatboxCraftInterface extends AbstractCraftInterface {
+public class GenericCraftInterface extends AbstractCraftInterface {
 	
 	/**
 	 * The default model zoom factor. Currently using 200 as standard across all items.
@@ -28,7 +28,7 @@ public class ChatboxCraftInterface extends AbstractCraftInterface {
 	 * 
 	 * @param definition
 	 */
-	public ChatboxCraftInterface(ProductDefinition definition) {
+	public GenericCraftInterface(ProductDefinition definition) {
 		Arrays.stream(definition.getProducts()).forEach(product -> super.item(product.getId()));
 	}
 

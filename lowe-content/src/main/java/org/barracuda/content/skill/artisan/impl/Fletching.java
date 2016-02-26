@@ -2,7 +2,7 @@ package org.barracuda.content.skill.artisan.impl;
 
 import org.barracuda.content.skill.artisan.ArtisanSkill;
 import org.barracuda.content.skill.artisan.ProductDefinition;
-import org.barracuda.content.skill.artisan.view.ChatboxCraftInterface;
+import org.barracuda.content.skill.artisan.view.GenericCraftInterface;
 import org.barracuda.core.game.event.ui.ItemsCombined;
 import org.barracuda.core.net.Channel;
 import org.barracuda.horvik.bean.Discoverable;
@@ -35,7 +35,7 @@ public class Fletching extends ArtisanSkill {
 	public void on_combine(@Observes ItemsCombined event, Channel channel) {
 		ProductDefinition definition = combine(event.getPrimaryItem(), event.getSecondaryItem()) == 0 ? new ProductDefinition() : null;
 		if (definition != null && definition.getSkill() == Stats.FLETCHING) {
-			new ChatboxCraftInterface(definition).listener(super::craft).open(channel);
+			new GenericCraftInterface(definition).listener(super::craft).open(channel);
 		}
 	}
 

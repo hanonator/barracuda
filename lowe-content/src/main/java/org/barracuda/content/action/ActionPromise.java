@@ -57,8 +57,9 @@ public class ActionPromise {
 	/**
 	 * @param submitHandler the submitHandler to set
 	 */
-	public void submit(ActionSubmitHandler submitHandler) {
+	public ActionPromise submit(ActionSubmitHandler submitHandler) {
 		this.submitHandler = submitHandler;
+		return this;
 	}
 
 }
