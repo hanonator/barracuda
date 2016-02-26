@@ -15,7 +15,7 @@ public interface Channel {
 	 * 
 	 * @param object
 	 */
-	void read(Object object);
+	<T> T read(T object);
 	
 	/**
 	 * Writes an object to the channel
@@ -45,9 +45,10 @@ public interface Channel {
 	 * 
 	 * @param object
 	 */
-	default void writeAndFlush(Object object) {
+	default <T> T writeAndFlush(T object) {
 		write(object);
 		flush();
+		return object;
 	}
 
 }

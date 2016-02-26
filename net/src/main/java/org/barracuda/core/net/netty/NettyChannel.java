@@ -104,8 +104,9 @@ public class NettyChannel extends ChannelHandlerAdapter implements Channel {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public void read(Object object) {
+	public <T> T read(T object) {
 		horvik.getEvent().select((Class<? super Object>) object.getClass()).fire(object, session);
+		return object;
 	}
 
 	@Override
