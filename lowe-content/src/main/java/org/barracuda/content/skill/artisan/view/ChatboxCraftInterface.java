@@ -35,13 +35,13 @@ public class ChatboxCraftInterface extends AbstractCraftInterface {
 	@Override
 	public CraftInterface open(Channel channel) {
 		Template template = templates.get(items.size());
-		channel.write(new ChatboxInterface(template.interfaceId));
 		items.forEach(item -> {
 			CraftInterfaceElement element = template.elements[items.indexOf(item)];
 			
 			channel.write(new Label(ItemDefinition.forId(item).getName(), element.getLabelId()));
 			channel.write(new ModelSprite(item, MODEL_ZOOM, element.getModelId()));
 		});
+		channel.write(new ChatboxInterface(template.interfaceId));
 		return this;
 	}
 	
