@@ -4,10 +4,10 @@ import java.util.Arrays;
 
 import org.barracuda.content.action.ActionPromise;
 import org.barracuda.content.action.ActionQueue;
-import org.barracuda.content.action.RepetitionPredicate;
 import org.barracuda.content.skill.AbstractTrainingMethod;
 import org.barracuda.content.skill.RequirementNotMetException;
 import org.barracuda.core.game.contract.TextMessage;
+import org.barracuda.core.game.contract.ui.InterfaceClear;
 import org.barracuda.core.net.Channel;
 import org.barracuda.horvik.inject.Inject;
 import org.barracuda.model.actor.Player;
@@ -25,19 +25,23 @@ import org.barracuda.model.actor.Player;
 public abstract class ArtisanSkill extends AbstractTrainingMethod {
 	
 	/**
-	 * The action queue
+	 * The action queue responsible for queuing all of the player's
+	 * actions
 	 */
-	@Inject private ActionQueue queue;
+	@Inject
+	private ActionQueue queue;
 	
 	/**
-	 * The player
+	 * The player performing the skill
 	 */
-	@Inject private Player player;
+	@Inject
+	private Player player;
 	
 	/**
-	 * The player
+	 * The channel everything will be written to
 	 */
-	@Inject private Channel channel;
+	@Inject
+	private Channel channel;
 
 	/**
 	 * Starts producing items
@@ -54,9 +58,12 @@ public abstract class ArtisanSkill extends AbstractTrainingMethod {
 				player.getInventory().add(product.getId());
 				player.getStats().addExperience(definition.getSkill(), product.getExperience());
 			}
-		}, new RepetitionPredicate(amount))
-				.submit(container -> player.playAnimation(definition.getAnimation()))
-				.error((container, exception) -> channel.write(new TextMessage(exception.getMessage())));
+		})
+		.submit(container -> {
+			player.playAnimation(definition.getAnimation());
+			channel.write(new InterfaceClear());
+		})
+		.error((container, exception) -> channel.write(new TextMessage(exception.getMessage())));
 	}
 	
 	/**
