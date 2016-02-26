@@ -4,7 +4,6 @@ import org.barracuda.content.skill.artisan.ArtisanSkill;
 import org.barracuda.core.game.event.ui.ItemsCombined;
 import org.barracuda.core.net.Channel;
 import org.barracuda.horvik.bean.Discoverable;
-import org.barracuda.horvik.context.application.ApplicationScoped;
 import org.barracuda.horvik.context.session.SessionScoped;
 import org.barracuda.horvik.event.Observes;
 
