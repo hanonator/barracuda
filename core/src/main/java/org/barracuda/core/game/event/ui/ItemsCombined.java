@@ -1,6 +1,6 @@
 package org.barracuda.core.game.event.ui;
 
-public class ItemsCombined extends InterfaceEvent {
+public class ItemsCombined {
 
 	/**
 	 * The item being used
@@ -27,6 +27,24 @@ public class ItemsCombined extends InterfaceEvent {
 	 */
 	private int value;
 
+	/**
+	 * The interface id
+	 */
+	private int interfaceId;
+
+	/**
+	 * @return the interfaceId
+	 */
+	public int getInterfaceId() {
+		return interfaceId;
+	}
+
+	/**
+	 * @param interfaceId the interfaceId to set
+	 */
+	public void setInterfaceId(int interfaceId) {
+		this.interfaceId = interfaceId;
+	}
 	/**
 	 * @return the secondaryItemSlot
 	 */
