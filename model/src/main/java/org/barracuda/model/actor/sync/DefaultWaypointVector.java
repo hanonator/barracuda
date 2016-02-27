@@ -244,8 +244,8 @@ public class DefaultWaypointVector implements WaypointVector {
 		/*
 		 * Calculate the distance between the two tiles
 		 */
-		int diff_x = character.getLocation().getX() - before.getSmallCoordinate(character.getLocation()).getX() * 8;
-		int diff_y = character.getLocation().getY() - before.getSmallCoordinate(character.getLocation()).getY() * 8;
+		int diff_x = before.getSmallCoordinate(character.getLocation()).getX();
+		int diff_y = before.getSmallCoordinate(character.getLocation()).getY();
 		
 		/*
 		 * Set the map region changed flag
