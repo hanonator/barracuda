@@ -6,6 +6,7 @@ import org.barracuda.content.action.ActionPromise;
 import org.barracuda.content.action.ActionQueue;
 import org.barracuda.content.skill.AbstractTrainingMethod;
 import org.barracuda.content.skill.RequirementNotMetException;
+import org.barracuda.core.game.contract.TextMessage;
 import org.barracuda.core.net.Channel;
 import org.barracuda.horvik.inject.Inject;
 import org.barracuda.model.actor.Player;
@@ -58,10 +59,13 @@ public abstract class ArtisanSkill extends AbstractTrainingMethod {
 			if (definition != null && product != null && validateRequirements(definition, product)) {
 				player.getInventory().remove(definition.getResources());
 				player.getInventory().add(product.getId());
-				player.playAnimation(definition.getAnimation());
 				player.getStats().addExperience(definition.getSkill(), product.getExperience());
 			}
-		});
+		}).submit(container -> {
+			if (definition.getAnimation() > 0) {
+				player.playAnimation(definition.getAnimation());
+			}
+		}).fail(exception -> channel.write(new TextMessage(exception.getMessage())));
 	}
 	
 	/**
