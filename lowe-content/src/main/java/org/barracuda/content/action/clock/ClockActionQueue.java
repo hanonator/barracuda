@@ -33,6 +33,9 @@ public class ClockActionQueue implements ActionQueue {
 
 	@Override
 	public ActionPromise submit(long delay, int repetition, Action action) {
+		if (delay < 0 || delay * repetition > MAXIMUM_REPETITION) {
+			throw new IllegalArgumentException("delay and repetition must be between 1 and " + MAXIMUM_REPETITION);
+		}
 		ClockActionPromise promise = new ClockActionPromise();
 		for (int i = 0; i < repetition; i++) {
 			containers.add(new ClockActionContainer(delay, action, promise));
