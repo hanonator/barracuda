@@ -58,7 +58,7 @@ public class Herblore extends ArtisanSkill {
 		stream = ClassLoader.getSystemResourceAsStream("static/game/artisan/herbs.out.json");
 		temp = gson.fromJson(new InputStreamReader(stream, Charset.forName("UTF-8")), ProductDefinition[].class);
 		for (ProductDefinition definition : temp) {
-			definitions.put(click(1, definition.getResources()[0]), definition);
+			definitions.put(click(definition.getResources()[0], 1), definition);
 		}
 	}
 
@@ -82,7 +82,7 @@ public class Herblore extends ArtisanSkill {
 	 * @param event
 	 */
 	public void on_interact(@Observes ItemClicked event, Channel channel, Player player) {
-		ProductDefinition definition = definitions.get(click(1, event.getId()));
+		ProductDefinition definition = definitions.get(click(event.getId(), 1));
 		if (player.getInventory().get(event.getSlot()).getId() == event.getId() && definition != null) {
 			player.attribute(CraftInterface.ATTRIBUTE_NAME, new GenericCraftInterface(definition)
 					.listener((def, index, amount) -> super.craft(def, definition.getProduct(index), amount)).open(channel));
