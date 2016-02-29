@@ -26,6 +26,11 @@ public class ResourceDefinition {
 	private double rate;
 	
 	/**
+	 * Amount of items in the resource on average
+	 */
+	private int count;
+	
+	/**
 	 * @return the resources
 	 */
 	public Resource[] getResources() {
@@ -79,6 +84,20 @@ public class ResourceDefinition {
 	 */
 	public void setRate(double rate) {
 		this.rate = rate;
+	}
+
+	/**
+	 * @return the count
+	 */
+	public int getCount() {
+		return count;
+	}
+
+	/**
+	 * @param count the count to set
+	 */
+	public void setCount(int count) {
+		this.count = count;
 	}
 
 }
