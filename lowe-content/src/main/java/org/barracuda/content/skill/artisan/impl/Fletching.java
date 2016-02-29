@@ -3,6 +3,8 @@ package org.barracuda.content.skill.artisan.impl;
 import org.barracuda.content.skill.artisan.ArtisanSkill;
 import org.barracuda.content.skill.artisan.Product;
 import org.barracuda.content.skill.artisan.ProductDefinition;
+import org.barracuda.content.skill.artisan.view.CraftInterface;
+import org.barracuda.content.skill.artisan.view.GenericCraftInterface;
 import org.barracuda.core.game.event.ui.ItemsCombined;
 import org.barracuda.core.net.Channel;
 import org.barracuda.horvik.bean.Discoverable;
@@ -45,7 +47,7 @@ public class Fletching extends ArtisanSkill {
 	 * 
 	 * @param event
 	 */
-	public void on_combine(@Observes ItemsCombined event, Channel channel) {
+	public void on_combine(@Observes ItemsCombined event, Channel channel, Player player) {
 		long test_hash = combine(227, 249);
 		if (combine(event.getPrimaryItem(), event.getSecondaryItem()) == test_hash) {
 			Product product = new Product();
@@ -61,8 +63,8 @@ public class Fletching extends ArtisanSkill {
 			definition.setProducts(new Product[] {
 				product
 			});
-			
-			super.craft(definition, product, 5);
+			player.attribute(CraftInterface.ATTRIBUTE_NAME, new GenericCraftInterface(definition)
+					.listener((def, index, amount) -> super.craft(def, product, amount)).open(channel));
 		}
 	}
 
