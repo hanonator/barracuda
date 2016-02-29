@@ -78,4 +78,13 @@ public class Stats {
 		return skills[id];
 	}
 
+	/**
+	 * Shortcut for get(skill).getLevel();
+	 * @param skill
+	 * @return
+	 */
+	public int getLevel(int skill) {
+		return get(skill).getLevel();
+	}
+
 }
