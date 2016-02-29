@@ -1,9 +1,7 @@
 package org.barracuda.content.action.clock;
 
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.Set;
 
 import org.barracuda.content.action.Action;
 import org.barracuda.content.action.ActionPromise;
@@ -36,11 +34,9 @@ public class ClockActionQueue implements ActionQueue {
 	@Override
 	public ActionPromise submit(long delay, int repetition, Action action) {
 		ClockActionPromise promise = new ClockActionPromise();
-		Set<ClockActionContainer> new_containers = new HashSet<>();
 		for (int i = 0; i < repetition; i++) {
-			new_containers.add(new ClockActionContainer(delay, action, promise));
+			containers.add(new ClockActionContainer(delay, action, promise));
 		}
-		containers.addAll(new_containers);
 		next();
 		return promise;
 	}
