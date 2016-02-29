@@ -14,7 +14,7 @@ public abstract class AbstractTrainingMethod implements TrainingMethod {
 	 * @param secondaryItem
 	 * @return
 	 */
-	protected long combine(long primaryItem, long secondaryItem) {
+	protected static long combine(long primaryItem, long secondaryItem) {
 		return (Math.max(primaryItem, secondaryItem) << 32) | Math.min(primaryItem, secondaryItem);
 	}
 
@@ -25,7 +25,7 @@ public abstract class AbstractTrainingMethod implements TrainingMethod {
 	 * @param option
 	 * @return
 	 */
-	protected long click(long item, long option) {
+	protected static long click(long item, long option) {
 		return (option << 32) | item;
 	}
 
