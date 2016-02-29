@@ -69,6 +69,7 @@ public class MessageDecoder extends MessageToMessageDecoder<ByteBuf> {
 				Payload payload = new ByteBufPayload(msg.readBytes(length));
 				Header header = new GameHeader(opcode, length, meta);
 				out.add(new GameMessage(header, payload));
+//				System.out.print(opcode == 0 ? "" : "message: " + opcode + "\n");
 			}
 		}
 	}

@@ -1,5 +1,7 @@
 package org.barracuda.model.fixed;
 
+import java.util.Arrays;
+
 public class ResourceDefinition {
 
 	/**
@@ -27,14 +29,14 @@ public class ResourceDefinition {
 	 * @return the resources
 	 */
 	public Resource[] getResources() {
-		return resources;
+		return Arrays.copyOf(resources, resources.length);
 	}
 
 	/**
 	 * @param resources the resources to set
 	 */
 	public void setResources(Resource[] resources) {
-		this.resources = resources;
+		this.resources = Arrays.copyOf(resources, resources.length);
 	}
 
 	/**

@@ -2,7 +2,6 @@ package org.barracuda.content.skill.gather;
 
 import java.util.Random;
 
-import org.barracuda.content.action.ActionPromise;
 import org.barracuda.content.action.ActionQueue;
 import org.barracuda.core.net.Channel;
 import org.barracuda.horvik.inject.Inject;
@@ -46,12 +45,7 @@ public abstract class GathererSkill<T extends Entity> {
 	 * @param object
 	 * @return
 	 */
-	public ActionPromise gather(T entity, ResourceDefinition definition) {
-		return queue.queue(container -> {
-			if (validate(entity) && checkRequirements(definition)) {
-				
-			}
-		});
+	public void gather(T entity, ResourceDefinition definition) {
 	}
 
 	/**

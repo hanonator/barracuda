@@ -6,8 +6,6 @@ import org.barracuda.content.action.ActionPromise;
 import org.barracuda.content.action.ActionQueue;
 import org.barracuda.content.skill.AbstractTrainingMethod;
 import org.barracuda.content.skill.RequirementNotMetException;
-import org.barracuda.core.game.contract.TextMessage;
-import org.barracuda.core.game.contract.ui.InterfaceClear;
 import org.barracuda.core.net.Channel;
 import org.barracuda.horvik.inject.Inject;
 import org.barracuda.model.actor.Player;
@@ -23,6 +21,11 @@ import org.barracuda.model.actor.Player;
  *
  */
 public abstract class ArtisanSkill extends AbstractTrainingMethod {
+	
+	/**
+	 * Time in between game ticks
+	 */
+	private static final int CRAFTING_DELAY = 3;
 	
 	/**
 	 * The action queue responsible for queuing all of the player's
@@ -51,19 +54,9 @@ public abstract class ArtisanSkill extends AbstractTrainingMethod {
 	 * @param amount
 	 */
 	public ActionPromise craft(ProductDefinition definition, int index, int amount) {
-		final Product product = definition.getProduct(index);
-		return queue.queue(container -> {
-			if (product != null && validateRequirements(definition, product)) {
-				player.getInventory().remove(definition.getResources()); // TODO: Leave the undepletable items in the inventory
-				player.getInventory().add(product.getId());
-				player.getStats().addExperience(definition.getSkill(), product.getExperience());
-			}
-		})
-		.submit(container -> {
-			player.playAnimation(definition.getAnimation());
-			channel.write(new InterfaceClear());
-		})
-		.error((container, exception) -> channel.write(new TextMessage(exception.getMessage())));
+		return queue.submit(CRAFTING_DELAY, amount, container -> {
+			
+		});
 	}
 	
 	/**
