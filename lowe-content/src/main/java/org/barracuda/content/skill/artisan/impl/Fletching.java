@@ -63,7 +63,7 @@ public class Fletching extends ArtisanSkill {
 	 */
 	public void on_combine(@Observes ItemsCombined event, Channel channel, Player player) {
 		ProductDefinition definition = definitions.get(combine(event.getPrimaryItem(), event.getSecondaryItem()));
-		if (definitions != null) {
+		if (definition != null) {
 			player.attribute(CraftInterface.ATTRIBUTE_NAME, new GenericCraftInterface(definition)
 					.listener((def, index, amount) -> super.craft(def, definition.getProduct(index), amount)).open(channel));
 		}

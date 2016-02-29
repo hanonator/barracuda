@@ -70,7 +70,7 @@ public class Herblore extends ArtisanSkill {
 	public void on_combine(@Observes ItemsCombined event, Channel channel, Player player) {
 		ProductDefinition definition = definitions.get(combine(event.getPrimaryItem(), event.getSecondaryItem()));
 		if (player.getInventory().get(event.getPrimaryItemSlot()).getId() == event.getPrimaryItem() 
-				&& player.getInventory().get(event.getSecondaryItemSlot()).getId() == event.getSecondaryItem() && definitions != null) {
+				&& player.getInventory().get(event.getSecondaryItemSlot()).getId() == event.getSecondaryItem() && definition != null) {
 			player.attribute(CraftInterface.ATTRIBUTE_NAME, new GenericCraftInterface(definition)
 					.listener((def, index, amount) -> super.craft(def, definition.getProduct(index), amount)).open(channel));
 		}
@@ -83,7 +83,7 @@ public class Herblore extends ArtisanSkill {
 	 */
 	public void on_interact(@Observes ItemClicked event, Channel channel, Player player) {
 		ProductDefinition definition = definitions.get(click(1, event.getId()));
-		if (player.getInventory().get(event.getSlot()).getId() == event.getId() && definitions != null) {
+		if (player.getInventory().get(event.getSlot()).getId() == event.getId() && definition != null) {
 			player.attribute(CraftInterface.ATTRIBUTE_NAME, new GenericCraftInterface(definition)
 					.listener((def, index, amount) -> super.craft(def, definition.getProduct(index), amount)).open(channel));
 		}
