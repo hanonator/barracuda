@@ -1,7 +1,12 @@
 package org.barracuda.content.skill.artisan.impl;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.barracuda.content.skill.artisan.ArtisanSkill;
-import org.barracuda.content.skill.artisan.Product;
 import org.barracuda.content.skill.artisan.ProductDefinition;
 import org.barracuda.content.skill.artisan.view.CraftInterface;
 import org.barracuda.content.skill.artisan.view.GenericCraftInterface;
@@ -9,11 +14,11 @@ import org.barracuda.core.game.event.ui.ItemsCombined;
 import org.barracuda.core.net.Channel;
 import org.barracuda.horvik.bean.Discoverable;
 import org.barracuda.horvik.context.session.SessionScoped;
+import org.barracuda.horvik.environment.ContainerInitialized;
 import org.barracuda.horvik.event.Observes;
 import org.barracuda.model.actor.Player;
-import org.barracuda.model.actor.event.RegionLoaded;
-import org.barracuda.model.actor.player.Stats;
-import org.barracuda.model.item.Item;
+
+import com.google.gson.Gson;
 
 /**
  * Everything to do with the general fletching skill should be present in this
@@ -31,15 +36,24 @@ import org.barracuda.model.item.Item;
 @Discoverable
 @SessionScoped
 public class Fletching extends ArtisanSkill {
-	
+
 	/**
-	 * Gives the player some starting resources
-	 * 
-	 * @param event
+	 * The collection of herblore configurations
 	 */
-	public void give_resource(@Observes RegionLoaded event, Player player) {
-		player.getInventory().add(new Item(227, 11));
-		player.getInventory().add(new Item(249, 11));
+	private static final Map<Long, ProductDefinition> definitions = new HashMap<>();
+
+	/**
+	 * Listens to the startup event and then initializes all the product definitions
+	 * 
+	 * @param initialized
+	 * @param gson
+	 */
+	public static void initialize(@Observes ContainerInitialized initialized, Gson gson) {
+		InputStream stream = ClassLoader.getSystemResourceAsStream("static/game/artisan/bows.out.json");
+		ProductDefinition[] temp = gson.fromJson(new InputStreamReader(stream, Charset.forName("UTF-8")), ProductDefinition[].class);
+		for (ProductDefinition definition : temp) {
+			definitions.put(combine(definition.getResources()[0], definition.getResources()[1]), definition);
+		}
 	}
 
 	/**
@@ -48,23 +62,10 @@ public class Fletching extends ArtisanSkill {
 	 * @param event
 	 */
 	public void on_combine(@Observes ItemsCombined event, Channel channel, Player player) {
-		long test_hash = combine(227, 249);
-		if (combine(event.getPrimaryItem(), event.getSecondaryItem()) == test_hash) {
-			Product product = new Product();
-			product.setExperience(100);
-			product.setAmount(1);
-			product.setId(91);
-			product.setLevel(1);
-			
-			ProductDefinition definition = new ProductDefinition();
-			definition.setSkill(Stats.HERBLORE);
-			definition.setResources(new int[] {227, 249});
-			definition.setAnimation(363);
-			definition.setProducts(new Product[] {
-				product
-			});
+		ProductDefinition definition = definitions.get(combine(event.getPrimaryItem(), event.getSecondaryItem()));
+		if (definitions != null) {
 			player.attribute(CraftInterface.ATTRIBUTE_NAME, new GenericCraftInterface(definition)
-					.listener((def, index, amount) -> super.craft(def, product, amount)).open(channel));
+					.listener((def, index, amount) -> super.craft(def, definition.getProduct(index), amount)).open(channel));
 		}
 	}
 
