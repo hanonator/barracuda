@@ -1,5 +1,8 @@
 package org.barracuda.content.skill.artisan.view;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,7 +12,11 @@ import org.barracuda.core.game.contract.ui.ChatboxInterface;
 import org.barracuda.core.game.contract.ui.Label;
 import org.barracuda.core.game.contract.ui.ModelSprite;
 import org.barracuda.core.net.Channel;
+import org.barracuda.horvik.environment.ContainerInitialized;
+import org.barracuda.horvik.event.Observes;
 import org.barracuda.model.item.ItemDefinition;
+
+import com.google.gson.Gson;
 
 public class GenericCraftInterface extends AbstractCraftInterface {
 	
@@ -37,6 +44,19 @@ public class GenericCraftInterface extends AbstractCraftInterface {
 		this.definition = definition;
 		Arrays.stream(definition.getProducts()).forEach(product -> super.item(product.getId()));
 	}
+	
+	/**
+	 * Initializes all of the templates
+	 * 
+	 * @param event
+	 */
+	public static void initialize(@Observes ContainerInitialized event, Gson gson) {
+		InputStream stream = ClassLoader.getSystemResourceAsStream("static/game/misc/craft_templates.json");
+		Template[] temp = gson.fromJson(new InputStreamReader(stream, Charset.forName("UTF-8")), Template[].class);
+		for (Template template : temp) {
+			templates.put(template.elements.length, template);
+		}
+	}
 
 	@Override
 	public void interact(int index, int amount) {
@@ -48,7 +68,6 @@ public class GenericCraftInterface extends AbstractCraftInterface {
 		Template template = templates.get(items.size());
 		items.forEach(item -> {
 			CraftInterfaceElement element = template.elements[items.indexOf(item)];
-			
 			channel.write(new Label(ItemDefinition.forId(item).getName(), element.getLabelId()));
 			channel.write(new ModelSprite(item, MODEL_ZOOM, element.getModelId()));
 		});
