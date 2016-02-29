@@ -12,6 +12,11 @@ import org.barracuda.core.net.Channel;
 public interface CraftInterface {
 
 	/**
+	 * The name of the attribute in the player's attribute store
+	 */
+	String ATTRIBUTE_NAME = "craft_interface";
+
+	/**
 	 * Opens the craft interface
 	 * 
 	 * @return
@@ -33,6 +38,15 @@ public interface CraftInterface {
 	 * @return
 	 */
 	CraftInterface item(int id);
+	
+	/**
+	 * Called when the player has clicked an item on the interface
+	 * 
+	 * @param index
+	 * @param amount
+	 * @return
+	 */
+	void interact(int index, int amount);
 	
 	/**
 	 * Adds a collection of items to the interface

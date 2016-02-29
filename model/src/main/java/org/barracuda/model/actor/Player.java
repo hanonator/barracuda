@@ -1,10 +1,14 @@
 package org.barracuda.model.actor;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.barracuda.core.net.Channel;
 import org.barracuda.horvik.Horvik;
 import org.barracuda.horvik.bean.Discoverable;
 import org.barracuda.horvik.context.session.Session;
 import org.barracuda.horvik.context.session.SessionScoped;
+import org.barracuda.horvik.util.ReflectionUtil;
 import org.barracuda.model.actor.player.Credentials;
 import org.barracuda.model.actor.player.Stats;
 import org.barracuda.model.actor.player.misc.Detail;
@@ -67,6 +71,13 @@ public class Player extends Actor {
 	 * The player's waypoints
 	 */
 	private final WaypointVector waypoints = new DefaultWaypointVector(this);
+	
+	/**
+	 * The collection of attributes. 
+	 * 
+	 * TODO: This needs to be changed but I have no idea how
+	 */
+	private final Map<String, Object> attributes = new HashMap<>();
 
 	/**
 	 * Constructor
@@ -158,6 +169,45 @@ public class Player extends Actor {
 	 */
 	public Stats getStats() {
 		return stats;
+	}
+	
+	/**
+	 * Stores an attribute by name
+	 * @param key
+	 * @param value
+	 */
+	public void attribute(String key, Object value) {
+		this.attributes.put(key, value);
+	}
+
+	/**
+	 * Gets an attribute by name
+	 * 
+	 * @param key
+	 * @param type
+	 * @return
+	 */
+	public <T> T attribute(String key, Class<T> type) {
+		return type.cast(attributes.get(key));
+	}
+	
+	/**
+	 * Gets attribute by name
+	 * 
+	 * @param key
+	 * @return
+	 */
+	public <T> T attribute(String key) {
+		return ReflectionUtil.cast(key);
+	}
+
+	/**
+	 * Removes an attribyte by name
+	 * 
+	 * @param key
+	 */
+	public void clear(String key) {
+		attributes.remove(key);
 	}
 
 }

@@ -24,12 +24,23 @@ public class GenericCraftInterface extends AbstractCraftInterface {
 	private static final Map<Integer, Template> templates = new HashMap<>();
 
 	/**
+	 * The product definition being shown
+	 */
+	private final ProductDefinition definition;
+
+	/**
 	 * Constructor
 	 * 
 	 * @param definition
 	 */
 	public GenericCraftInterface(ProductDefinition definition) {
+		this.definition = definition;
 		Arrays.stream(definition.getProducts()).forEach(product -> super.item(product.getId()));
+	}
+
+	@Override
+	public void interact(int index, int amount) {
+		getListener().craft(definition, index, amount);
 	}
 
 	@Override

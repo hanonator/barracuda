@@ -1,6 +1,8 @@
 package org.barracuda.content.skill.artisan.view;
 
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,6 +23,11 @@ import com.google.gson.Gson;
 @Discoverable
 @ApplicationScoped
 public class CraftInterfaceController {
+
+	/**
+	 * Attribute name of the saved index of the active Craft interface
+	 */
+	private static final String SAVED_INDEX = "saved_index";
 
 	/**
 	 * The collection of buttonId <-> CraftInterfaceButton mappings
@@ -45,8 +52,8 @@ public class CraftInterfaceController {
 	 * @param event
 	 */
 	public static void loadCraftButtons(@Observes ContainerInitialized event, Gson gson) {
-		CraftInterfaceButton[] buttons = gson.fromJson(new InputStreamReader(ClassLoader.getSystemResourceAsStream("game/artisan/buttons.json")),
-				CraftInterfaceButton[].class);
+		InputStream stream = ClassLoader.getSystemResourceAsStream("static/game/artisan/buttons.json");
+		CraftInterfaceButton[] buttons = gson.fromJson(new InputStreamReader(stream, Charset.forName("UTF-8")), CraftInterfaceButton[].class);
 		for (CraftInterfaceButton button : buttons) {
 			CraftInterfaceController.buttons.put(button.getId(), button);
 		}
@@ -61,12 +68,12 @@ public class CraftInterfaceController {
 	public void on_button(@Observes ButtonPressed event) {
 		if (buttons.containsKey(event.getId())) {
 			CraftInterfaceButton button = buttons.get(event.getId());
-			
+
 			if (button.getAmount() == -1) {
 				channel.write(new PromptNumber());
-			}
-			else {
-				
+				player.attribute(SAVED_INDEX, button.getIndex());
+			} else {
+				player.attribute(CraftInterface.ATTRIBUTE_NAME, CraftInterface.class).interact(button.getIndex(), button.getAmount());
 			}
 		}
 	}
@@ -77,7 +84,8 @@ public class CraftInterfaceController {
 	 * @param event
 	 */
 	public void on_amount(@Observes NumberEntered event) {
-		
+		player.attribute(CraftInterface.ATTRIBUTE_NAME, CraftInterface.class).interact(player.attribute(SAVED_INDEX), event.getValue());
+		player.clear(CraftInterface.ATTRIBUTE_NAME);
 	}
 
 	/**
@@ -86,7 +94,7 @@ public class CraftInterfaceController {
 	 * @param event
 	 */
 	public void on_close(@Observes InterfaceClosed event) {
-
+		player.clear(CraftInterface.ATTRIBUTE_NAME);
 	}
 
 }
