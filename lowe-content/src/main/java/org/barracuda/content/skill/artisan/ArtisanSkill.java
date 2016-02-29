@@ -53,9 +53,14 @@ public abstract class ArtisanSkill extends AbstractTrainingMethod {
 	 * @param index
 	 * @param amount
 	 */
-	public ActionPromise craft(ProductDefinition definition, int index, int amount) {
+	public ActionPromise craft(ProductDefinition definition, Product product, int amount) {
 		return queue.submit(CRAFTING_DELAY, amount, container -> {
-			
+			if (definition != null && product != null && validateRequirements(definition, product)) {
+				player.getInventory().remove(definition.getResources());
+				player.getInventory().add(product.getId());
+				player.playAnimation(definition.getAnimation());
+				player.getStats().addExperience(definition.getSkill(), product.getExperience());
+			}
 		});
 	}
 	

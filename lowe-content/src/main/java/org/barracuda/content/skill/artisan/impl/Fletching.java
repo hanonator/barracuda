@@ -62,7 +62,7 @@ public class Fletching extends ArtisanSkill {
 				product
 			});
 			
-			super.craft(definition, 0, 5);
+			super.craft(definition, product, 5);
 		}
 	}
 
