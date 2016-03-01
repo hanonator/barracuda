@@ -4,6 +4,7 @@ import java.util.function.Consumer;
 
 import org.barracuda.content.skill.gather.ResourceDefinition;
 import org.barracuda.model.Entity;
+import org.barracuda.roald.util.Timer;
 
 /**
  * Nodes are controllable resource deposits. This can range from a tree to a
@@ -16,22 +17,27 @@ import org.barracuda.model.Entity;
  * @author koga
  *
  */
-public class Node {
+public class Node<T extends Entity> {
 	
 	/**
 	 * The entity
 	 */
-	private final Entity entity;
+	private final T entity;
 	
 	/**
-	 * The action performed upon depletion
+	 * Consumer that get gets called when the node replenishes
 	 */
-	private final Consumer<Entity> consumer;
+	private final Consumer<Node<T>> replenishConsumer;
 	
 	/**
 	 * The definition
 	 */
 	private final ResourceDefinition definition;
+	
+	/**
+	 * The node's respawn timer
+	 */
+	private Timer timer;
 
 	/**
 	 * Constructor
@@ -40,24 +46,24 @@ public class Node {
 	 * @param consumer
 	 * @param definition
 	 */
-	public Node(Entity entity, Consumer<Entity> consumer, ResourceDefinition definition) {
+	public Node(T entity, ResourceDefinition definition, Consumer<Node<T>> replenishConsumer) {
 		this.entity = entity;
-		this.consumer = consumer;
 		this.definition = definition;
+		this.replenishConsumer = replenishConsumer;
+	}
+	
+	/**
+	 * 
+	 */
+	public void replenish() {
+		replenishConsumer.accept(this);
 	}
 
 	/**
 	 * @return the entity
 	 */
-	public Entity getEntity() {
+	public T getEntity() {
 		return entity;
-	}
-
-	/**
-	 * @return the consumer
-	 */
-	public Consumer<Entity> getConsumer() {
-		return consumer;
 	}
 
 	/**
@@ -65,6 +71,20 @@ public class Node {
 	 */
 	public ResourceDefinition getDefinition() {
 		return definition;
+	}
+
+	/**
+	 * @return the timer
+	 */
+	Timer getTimer() {
+		return timer;
+	}
+
+	/**
+	 * @param timer the timer to set
+	 */
+	void setTimer(Timer timer) {
+		this.timer = timer;
 	}
 
 }

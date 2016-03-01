@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.function.Consumer;
 
 import org.barracuda.content.action.ActionPromise;
 import org.barracuda.content.action.ActionQueue;
 import org.barracuda.content.skill.RequirementNotMetException;
+import org.barracuda.content.skill.gather.node.Node;
+import org.barracuda.content.skill.gather.node.NodeController;
 import org.barracuda.core.game.contract.TextMessage;
 import org.barracuda.core.net.Channel;
 import org.barracuda.horvik.inject.Inject;
@@ -44,6 +47,17 @@ public abstract class GathererSkill<T extends Entity> {
 	@Inject private Clock clock;
 	
 	/**
+	 * The player
+	 */
+	@Inject private NodeController nodes;
+	
+	/**
+	 * The action performed when the 
+	 * @return
+	 */
+	abstract Consumer<Node<T>> getDepletedAction();
+	
+	/**
 	 * Validates the entity the player is attempting to gather from
 	 * 
 	 * @param entity
@@ -65,7 +79,7 @@ public abstract class GathererSkill<T extends Entity> {
 				player.getInventory().add(item.getResource());
 				player.getStats().addExperience(definition.getSkill(), item.getExperience());
 				if (random.nextInt(definition.getCount()) == 0) {
-					// deplete etc
+//					nodes.get(entity, definition).deplete();
 				}
 			}
 		}).submit(container -> {

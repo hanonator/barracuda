@@ -1,5 +1,8 @@
 package org.barracuda.content.skill.gather;
 
+import java.util.function.Consumer;
+
+import org.barracuda.content.skill.gather.node.Node;
 import org.barracuda.core.game.event.ObjectInteractionEvent;
 import org.barracuda.horvik.bean.Discoverable;
 import org.barracuda.horvik.context.session.SessionScoped;
@@ -21,6 +24,13 @@ public class Woodcutting extends GathererSkill<RSObject> {
 	@Override
 	boolean validate(RSObject entity) {
 		return false;
+	}
+
+	@Override
+	Consumer<Node<RSObject>> getDepletedAction() {
+		return node -> {
+			
+		};
 	}
 
 }
