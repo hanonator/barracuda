@@ -6,6 +6,7 @@ import org.barracuda.content.action.ActionPromise;
 import org.barracuda.content.action.ActionQueue;
 import org.barracuda.content.skill.AbstractTrainingMethod;
 import org.barracuda.content.skill.RequirementNotMetException;
+import org.barracuda.content.skill.gather.node.NodeController;
 import org.barracuda.core.game.contract.TextMessage;
 import org.barracuda.core.net.Channel;
 import org.barracuda.horvik.inject.Inject;
@@ -46,6 +47,12 @@ public abstract class ArtisanSkill extends AbstractTrainingMethod {
 	 */
 	@Inject
 	private Channel channel;
+	
+	/**
+	 * The channel everything will be written to
+	 */
+	@Inject
+	private NodeController nodeController;
 
 	/**
 	 * Starts producing items

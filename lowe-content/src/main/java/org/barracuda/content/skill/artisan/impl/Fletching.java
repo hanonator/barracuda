@@ -6,6 +6,8 @@ import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.barracuda.content.skill.artisan.ArtisanSkill;
 import org.barracuda.content.skill.artisan.ProductDefinition;
 import org.barracuda.content.skill.artisan.view.CraftInterface;
@@ -36,6 +38,11 @@ import com.google.gson.Gson;
 @Discoverable
 @SessionScoped
 public class Fletching extends ArtisanSkill {
+	
+	/**
+	 * The logger for this class
+	 */
+	private static final Logger logger = LogManager.getLogger(Fletching.class);
 
 	/**
 	 * The collection of herblore configurations
@@ -53,6 +60,7 @@ public class Fletching extends ArtisanSkill {
 		ProductDefinition[] temp = gson.fromJson(new InputStreamReader(stream, Charset.forName("UTF-8")), ProductDefinition[].class);
 		for (ProductDefinition definition : temp) {
 			definitions.put(combine(definition.getResources()[0], definition.getResources()[1]), definition);
+			logger.debug("fletching: product: {}, materials: {}", definition.getProducts(), definition.getResources());
 		}
 	}
 

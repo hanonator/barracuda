@@ -6,6 +6,8 @@ import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.barracuda.content.skill.artisan.ArtisanSkill;
 import org.barracuda.content.skill.artisan.ProductDefinition;
 import org.barracuda.content.skill.artisan.view.CraftInterface;
@@ -26,6 +28,11 @@ import com.google.gson.Gson;
 @Discoverable
 @ApplicationScoped
 public class Herblore extends ArtisanSkill {
+	
+	/**
+	 * The logger for this class
+	 */
+	private static final Logger logger = LogManager.getLogger(Herblore.class);
 
 	/**
 	 * The collection of herblore configurations
@@ -53,12 +60,14 @@ public class Herblore extends ArtisanSkill {
 		ProductDefinition[] temp = gson.fromJson(new InputStreamReader(stream, Charset.forName("UTF-8")), ProductDefinition[].class);
 		for (ProductDefinition definition : temp) {
 			definitions.put(combine(definition.getResources()[0], definition.getResources()[1]), definition);
+			logger.debug("potion: product: {}, materials: {}", definition.getProducts(), definition.getResources());
 		}
 		
 		stream = ClassLoader.getSystemResourceAsStream("static/game/artisan/herbs.out.json");
 		temp = gson.fromJson(new InputStreamReader(stream, Charset.forName("UTF-8")), ProductDefinition[].class);
 		for (ProductDefinition definition : temp) {
 			definitions.put(click(definition.getResources()[0], 1), definition);
+			logger.debug("herb: product: {}, materials: {}", definition.getProducts(), definition.getResources());
 		}
 	}
 
