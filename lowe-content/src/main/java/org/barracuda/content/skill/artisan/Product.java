@@ -21,6 +21,10 @@ public class Product {
 	 * The level required to create the item
 	 */
 	private int level;
+	
+	public String toString() {
+		return String.format("(id: %d, level: %d, xp: %d)", id, level, experience);
+	}
 
 	/**
 	 * @return the id
