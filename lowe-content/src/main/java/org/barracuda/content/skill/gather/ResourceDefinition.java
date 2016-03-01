@@ -1,4 +1,4 @@
-package org.barracuda.model.fixed;
+package org.barracuda.content.skill.gather;
 
 import java.util.Arrays;
 

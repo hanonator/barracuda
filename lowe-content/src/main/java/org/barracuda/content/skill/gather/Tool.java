@@ -1,6 +1,11 @@
-package org.barracuda.model.fixed;
+package org.barracuda.content.skill.gather;
 
-public class Tool {
+public class Tool implements Comparable<Tool> {
+
+	/**
+	 * Item id of the tool
+	 */
+	private int id;
 
 	/**
 	 * The level required to use the tool
@@ -20,7 +25,45 @@ public class Tool {
 	/**
 	 * The type of the tool
 	 */
+	private int animation;
+	
+	/**
+	 * The type of the tool
+	 */
 	private ToolType type;
+
+	@Override
+	public int compareTo(Tool tool) {
+		return Integer.compare(level, tool.level);
+	}
+
+	/**
+	 * @return the animation
+	 */
+	public int getAnimation() {
+		return animation;
+	}
+
+	/**
+	 * @param animation the animation to set
+	 */
+	public void setAnimation(int animation) {
+		this.animation = animation;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	/**
 	 * @return the level

@@ -1,0 +1,117 @@
+[
+	{
+		'id': 1265,
+		'level': 1,
+		'skill': 14,
+		'strength': 1.0,
+		'animation': 625,
+		'type': 'PICKAXE'
+	},
+	{
+		'id': 1267,
+		'level': 1,
+		'skill': 14,
+		'strength': 1.15,
+		'animation': 626,
+		'type': 'PICKAXE'
+	},
+	{
+		'id': 1269,
+		'level': 6,
+		'skill': 14,
+		'strength': 1.3225,
+		'animation': 627,
+		'type': 'PICKAXE'
+	},
+	{
+		'id': 1271,
+		'level': 21,
+		'skill': 14,
+		'strength': 1.5,
+		'animation': 629,
+		'type': 'PICKAXE'
+	},
+	{
+		'id': 1273,
+		'level': 31,
+		'skill': 14,
+		'strength': 1.75,
+		'animation': 628,
+		'type': 'PICKAXE'
+	},
+	{
+		'id': 1275,
+		'level': 41,
+		'skill': 14,
+		'strength': 2.0,
+		'animation': 624,
+		'type': 'PICKAXE'
+	},
+	
+	
+	
+	{
+		'id': 1351,
+		'level': 1,
+		'skill': 8,
+		'strength': 1.0,
+		'animation': 879,
+		'type': 'HATCHET'
+	},
+	{
+		'id': 1349,
+		'level': 1,
+		'skill': 8,
+		'strength': 1.15,
+		'animation': 877,
+		'type': 'HATCHET'
+	},
+	{
+		'id': 1353,
+		'level': 5,
+		'skill': 8,
+		'strength': 1.3225,
+		'animation': 875,
+		'type': 'HATCHET'
+	},
+	{
+		'id': 1361,
+		'level': 10,
+		'skill': 8,
+		'strength': 1.4,
+		'animation': 873,
+		'type': 'HATCHET'
+	},
+	{
+		'id': 1355,
+		'level': 20,
+		'skill': 8,
+		'strength': 1.5,
+		'animation': 871,
+		'type': 'HATCHET'
+	},
+	{
+		'id': 1357,
+		'level': 31,
+		'skill': 8,
+		'strength': 1.75,
+		'animation': 869,
+		'type': 'HATCHET'
+	},
+	{
+		'id': 1359,
+		'level': 40,
+		'skill': 8,
+		'strength': 2.0,
+		'animation': 867,
+		'type': 'HATCHET'
+	},
+	{
+		'id': 6739,
+		'level': 60,
+		'skill': 8,
+		'strength': 2.3,
+		'animation': 875,
+		'type': 'HATCHET'
+	}
+]
