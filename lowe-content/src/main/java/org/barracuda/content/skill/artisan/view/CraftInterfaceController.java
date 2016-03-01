@@ -52,7 +52,7 @@ public class CraftInterfaceController {
 	 * @param event
 	 */
 	public static void loadCraftButtons(@Observes ContainerInitialized event, Gson gson) {
-		InputStream stream = ClassLoader.getSystemResourceAsStream("static/game/artisan/buttons.json");
+		InputStream stream = ClassLoader.getSystemResourceAsStream("static/game/misc/craft_buttons.json");
 		CraftInterfaceButton[] buttons = gson.fromJson(new InputStreamReader(stream, Charset.forName("UTF-8")), CraftInterfaceButton[].class);
 		for (CraftInterfaceButton button : buttons) {
 			CraftInterfaceController.buttons.put(button.getId(), button);
