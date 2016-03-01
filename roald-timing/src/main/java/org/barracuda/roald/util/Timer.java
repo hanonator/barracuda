@@ -36,6 +36,15 @@ public class Timer {
 	}
 	
 	/**
+	 * Rewinds the timer. This is the exact same as start but I feel
+	 * like it would look weird calling start multiple times without
+	 * stop or anyting like that
+	 */
+	public void rewind() {
+		this.submittedTime = clock.getTime();
+	}
+	
+	/**
 	 * Checks to see if the timer has run out
 	 * 
 	 * @return

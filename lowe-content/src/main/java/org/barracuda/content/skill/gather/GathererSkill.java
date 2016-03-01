@@ -1,19 +1,20 @@
 package org.barracuda.content.skill.gather;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
 import org.barracuda.content.action.ActionPromise;
 import org.barracuda.content.action.ActionQueue;
+import org.barracuda.content.skill.RequirementNotMetException;
 import org.barracuda.core.game.contract.TextMessage;
 import org.barracuda.core.net.Channel;
 import org.barracuda.horvik.inject.Inject;
 import org.barracuda.model.Entity;
 import org.barracuda.model.actor.Player;
-import org.barracuda.model.fixed.Resource;
-import org.barracuda.model.fixed.ResourceDefinition;
-import org.barracuda.model.fixed.Tool;
+import org.barracuda.roald.Clock;
+import org.barracuda.roald.util.Timer;
 
 public abstract class GathererSkill<T extends Entity> {
 
@@ -38,6 +39,11 @@ public abstract class GathererSkill<T extends Entity> {
 	@Inject private Channel channel;
 	
 	/**
+	 * The player
+	 */
+	@Inject private Clock clock;
+	
+	/**
 	 * Validates the entity the player is attempting to gather from
 	 * 
 	 * @param entity
@@ -52,19 +58,21 @@ public abstract class GathererSkill<T extends Entity> {
 	 * @return
 	 */
 	public ActionPromise gather(T entity, ResourceDefinition definition) {
+		final Timer timer = new Timer(5, clock);
 		return queue.submit(1, ActionQueue.MAXIMUM_REPETITION, container -> {
-			if (validate(entity) && checkRequirements(definition)) {
-				if (random.nextDouble() <= nextChance(player, definition, null)) {
-					Resource item = randomItem(definition);
-					player.getInventory().add(item.getResource());
-					player.getStats().addExperience(definition.getSkill(), item.getExperience());
-					if (random.nextInt(definition.getCount()) == 0) {
-						// deplete etc
-					}
+			if (random.nextDouble() <= nextChance(player, definition, null)) {
+				Resource item = randomItem(definition);
+				player.getInventory().add(item.getResource());
+				player.getStats().addExperience(definition.getSkill(), item.getExperience());
+				if (random.nextInt(definition.getCount()) == 0) {
+					// deplete etc
 				}
 			}
 		}).submit(container -> {
-			// if timer animation etc.
+			if (timer.finished() && validate(entity) && checkRequirements(definition)) {
+				player.playAnimation(definition.getTool().getBestAvailableTool(player).getAnimation());
+				timer.rewind();
+			}
 		}).fail(exception -> channel.write(new TextMessage(exception.getMessage())));
 	}
 
@@ -75,7 +83,13 @@ public abstract class GathererSkill<T extends Entity> {
 	 * @return
 	 */
 	protected boolean checkRequirements(ResourceDefinition definition) {
-		return false;
+		if (definition.getTool().getBestAvailableTool(player) == null) {
+			throw new RequirementNotMetException("tool_unavailable");
+		}
+		else if (!Arrays.stream(definition.getResources()).anyMatch(resource -> resource.getLevel() > player.getStats().getLevel(definition.getSkill()))) {
+			throw new RequirementNotMetException("level_too_low");
+		}
+		return true;
 	}
 	
 	/**

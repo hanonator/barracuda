@@ -52,7 +52,13 @@ public class ClockActionQueue implements ActionQueue {
 			activeContainer = containers.poll();
 			
 			if (activeContainer.getPromise().getSubmit() != null) {
-				activeContainer.getPromise().getSubmit().accept(activeContainer);
+				try {
+					activeContainer.getPromise().getSubmit().accept(activeContainer);
+				} catch (Exception ex) {
+					if (activeContainer.getPromise().getFail() != null) {
+						activeContainer.getPromise().getFail().accept(ex);
+					}
+				}
 			}
 			clock.schedule(new ClockActionClockWorker(activeContainer), activeContainer.getDelay())
 					.listener((worker, clock) -> next());
