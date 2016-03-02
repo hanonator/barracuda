@@ -1,7 +1,5 @@
 package org.barracuda.content.skill.gather.node;
 
-import java.util.function.Consumer;
-
 import org.barracuda.content.skill.gather.ResourceDefinition;
 import org.barracuda.model.Entity;
 import org.barracuda.roald.util.Timer;
@@ -25,11 +23,6 @@ public class Node<T extends Entity> {
 	private final T entity;
 	
 	/**
-	 * Consumer that get gets called when the node replenishes
-	 */
-	private final Consumer<Node<T>> replenishConsumer;
-	
-	/**
 	 * The definition
 	 */
 	private final ResourceDefinition definition;
@@ -46,17 +39,9 @@ public class Node<T extends Entity> {
 	 * @param consumer
 	 * @param definition
 	 */
-	public Node(T entity, ResourceDefinition definition, Consumer<Node<T>> replenishConsumer) {
+	public Node(T entity, ResourceDefinition definition) {
 		this.entity = entity;
 		this.definition = definition;
-		this.replenishConsumer = replenishConsumer;
-	}
-	
-	/**
-	 * 
-	 */
-	public void replenish() {
-		replenishConsumer.accept(this);
 	}
 
 	/**
