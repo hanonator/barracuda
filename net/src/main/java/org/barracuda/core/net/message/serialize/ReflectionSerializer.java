@@ -51,25 +51,13 @@ public class ReflectionSerializer implements Serializer<Object> {
 	@Override
 	public void serialize(Object input, ByteBufAllocator allocator, List<Message> out) throws Exception {
 		MessageBuilder builder = new MessageBuilder(allocator).header(opcode, meta);
-		
-		for (Iterator<AttributeDefinition> iterator = definitions.iterator(); iterator.hasNext(); ) {try{
+		for (Iterator<AttributeDefinition> iterator = definitions.iterator(); iterator.hasNext(); ) {
 			AttributeDefinition definition = iterator.next();
 			Field field = type.getDeclaredField(definition.getField());
 			field.setAccessible(true);
-			definition.getType().insert(field.get(input), builder);}catch (Exception ex) {
-				ex.printStackTrace();
-			}
+			definition.getType().insert(field.get(input), builder);
 		}
 		out.add(builder.build());
-	}
-
-	/**
-	 * 
-	 * @author koga
-	 *
-	 */
-	public static class ReflectionSerializerDefinition {
-		
 	}
 
 }
