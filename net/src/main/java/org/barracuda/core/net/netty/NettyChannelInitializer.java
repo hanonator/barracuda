@@ -55,6 +55,13 @@ class NettyChannelInitializer extends ChannelInitializer<SocketChannel> {
 				 * into entities so they can be distributed to the correct
 				 * listener
 				 */
+				.addLast("message-encode", MessageEncoder.INSTANCE)
+				
+				/*
+				 * Decodes the raw data into Message objects ready to be parsed
+				 * into entities so they can be distributed to the correct
+				 * listener
+				 */
 				.addLast("serializable", SerializableEncoder.INSTANCE)
 
 				/*
@@ -63,13 +70,6 @@ class NettyChannelInitializer extends ChannelInitializer<SocketChannel> {
 				 * listener
 				 */
 				.addLast("intercepter-encode", SerializerEncoder.INSTANCE)
-
-				/*
-				 * Decodes the raw data into Message objects ready to be parsed
-				 * into entities so they can be distributed to the correct
-				 * listener
-				 */
-				.addLast("message-encode", MessageEncoder.INSTANCE)
 
 				/*
 				 * Decodes the raw data into Message objects ready to be parsed
