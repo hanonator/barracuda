@@ -33,12 +33,12 @@ public class WorldMap {
 	/**
 	 * The static logger for this class
 	 */
-	private final Logger logger = LogManager.getLogger(WorldMap.class);
+	private static final Logger logger = LogManager.getLogger(WorldMap.class);
 
 	/**
 	 * The collection of landscape objects
 	 */
-	private final Map<Integer, Landscape> landscapes = new HashMap<>();
+	private static final Map<Integer, Landscape> landscapes = new HashMap<>();
 
 	/**
 	 * Gets the landscape based on the absolute coordinates
@@ -47,7 +47,7 @@ public class WorldMap {
 	 * @param y
 	 * @return
 	 */
-	public final Landscape get(int x, int y) {
+	public static final Landscape get(int x, int y) {
 		return landscapes.get(((x / 64) << 8) | (y / 64));
 	}
 
@@ -58,8 +58,8 @@ public class WorldMap {
 	 * @param y
 	 * @return
 	 */
-	public final Landscape get(Location location) {
-		return this.get(location.getX(), location.getY());
+	public static final Landscape get(Location location) {
+		return WorldMap.get(location.getX(), location.getY());
 	}
 	
 	/**
@@ -69,7 +69,7 @@ public class WorldMap {
 	 * @param cache
 	 * @throws IOException
 	 */
-	public void loadRegions(@Observes ContainerInitialized event, Cache cache) throws IOException {
+	public static void loadRegions(@Observes ContainerInitialized event, Cache cache) throws IOException {
 		for (MapIndex index : cache.getIndexTable().getMapIndices()) {
 			int x = (index.getIdentifier() >> 8) * 64;
 			int y = (index.getIdentifier() & 0xff) * 64;
@@ -87,7 +87,7 @@ public class WorldMap {
 	 * @param tiles
 	 * @return
 	 */
-	private Set<Tile> read_tiles(ByteBuffer buffer, Set<Tile> tiles) {
+	private static Set<Tile> read_tiles(ByteBuffer buffer, Set<Tile> tiles) {
 		return tiles;
 	}
 	
@@ -97,7 +97,7 @@ public class WorldMap {
 	 * @param buffer
 	 * @return
 	 */
-	private Set<RSObject> read_objects(ByteBuffer buffer, Set<RSObject> collection, int x_offset, int y_offset) {
+	private static Set<RSObject> read_objects(ByteBuffer buffer, Set<RSObject> collection, int x_offset, int y_offset) {
 		for (int index_offset = -1; buffer.get(buffer.position()) != 0; buffer.get()) {
 			index_offset += BufferUtil.readUnsignedMedium(buffer);
 			for (int test_index = 0; buffer.get(buffer.position()) != 0; ) {

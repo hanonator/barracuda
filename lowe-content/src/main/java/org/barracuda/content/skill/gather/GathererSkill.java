@@ -8,14 +8,13 @@ import java.util.Random;
 import org.barracuda.content.action.ActionPromise;
 import org.barracuda.content.action.ActionQueue;
 import org.barracuda.content.skill.RequirementNotMetException;
-import org.barracuda.content.skill.gather.node.NodeController;
+import org.barracuda.content.skill.gather.node.Node;
 import org.barracuda.core.game.contract.TextMessage;
 import org.barracuda.core.net.Channel;
 import org.barracuda.horvik.inject.Inject;
 import org.barracuda.model.Entity;
 import org.barracuda.model.actor.Player;
 import org.barracuda.roald.Clock;
-import org.barracuda.roald.util.Timer;
 
 public abstract class GathererSkill<T extends Entity> {
 
@@ -43,19 +42,6 @@ public abstract class GathererSkill<T extends Entity> {
 	 * The player
 	 */
 	@Inject private Clock clock;
-	
-	/**
-	 * The player
-	 */
-	@Inject private NodeController nodes;
-	
-	/**
-	 * Validates the entity the player is attempting to gather from
-	 * 
-	 * @param entity
-	 * @return
-	 */
-	abstract boolean validate(T entity);
 
 	/**
 	 * Allows the user to gather resources from a selected entity
@@ -63,23 +49,45 @@ public abstract class GathererSkill<T extends Entity> {
 	 * @param object
 	 * @return
 	 */
-	public ActionPromise gather(T entity, ResourceDefinition definition) {
-		final Timer timer = new Timer(5, clock);
+	public ActionPromise gather(Node<?> node, ResourceDefinition definition) {
 		return queue.submit(1, ActionQueue.MAXIMUM_REPETITION, container -> {
-			if (random.nextDouble() <= nextChance(player, definition, null)) {
-				Resource item = randomItem(definition);
-				player.getInventory().add(item.getResource());
-				player.getStats().addExperience(definition.getSkill(), item.getExperience());
+			if (node.validate() && node.isDepleted() && checkRequirements(definition)) {
+				Resource resource = randomItem(definition);
+				
+				/*
+				 * Add the player's reward for succesfully gathering the resource
+				 */
+				player.getInventory().add(resource.getResource());
+				player.getStats().addExperience(definition.getSkill(), resource.getExperience());
+				
+				/*
+				 * If the node should deplete after gathering from it, notify it
+				 */
 				if (random.nextInt(definition.getCount()) == 0) {
-//					nodes.get(entity, definition).deplete();
+					node.deplete();
+					container.cancel();
 				}
 			}
-		}).submit(container -> {
-			if (timer.finished() && validate(entity) && checkRequirements(definition)) {
-				player.playAnimation(definition.getTool().getBestAvailableTool(player).getAnimation());
-				timer.rewind();
+			else {
+				container.cancel();
 			}
-		}).fail(exception -> channel.write(new TextMessage(exception.getMessage())));
+		})
+				
+		/*
+		 * Whenever the action is submitted, see if the player needs to start his animation
+		 */
+		.submit(container -> {
+			if (node.validate() && checkRequirements(definition)) {
+				player.playAnimation(definition.getTool().getBestAvailableTool(player).getAnimation());
+			}
+		})
+		
+		/*
+		 * An exception should only occur when RequirementNotMetException is thrown so by
+		 * printing out the message thrown, it will provide the player with sufficient feedback
+		 * as to why the action has been canceled
+		 */
+		.fail(exception -> channel.write(new TextMessage(exception.getMessage())));
 	}
 
 	/**
@@ -89,10 +97,18 @@ public abstract class GathererSkill<T extends Entity> {
 	 * @return
 	 */
 	protected boolean checkRequirements(ResourceDefinition definition) {
+		/*
+		 * Check to see if the player has the required tool for gathering from the resource
+		 */
 		if (definition.getTool().getBestAvailableTool(player) == null) {
 			throw new RequirementNotMetException("tool_unavailable");
 		}
-		else if (!Arrays.stream(definition.getResources()).anyMatch(resource -> resource.getLevel() > player.getStats().getLevel(definition.getSkill()))) {
+		
+		/*
+		 * Check to see if the player has the required level to gather from the resource
+		 */
+		else if (!Arrays.stream(definition.getResources())
+				.anyMatch(resource -> resource.getLevel() > player.getStats().getLevel(definition.getSkill()))) {
 			throw new RequirementNotMetException("level_too_low");
 		}
 		return true;

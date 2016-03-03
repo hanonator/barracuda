@@ -15,17 +15,22 @@ import org.barracuda.roald.util.Timer;
  * @author koga
  *
  */
-public class Node<T extends Entity> {
+public abstract class Node<T extends Entity> {
 	
 	/**
 	 * The entity
 	 */
-	private final T entity;
+	protected final T entity;
+	
+	/**
+	 * Indicates the resource has been depleted
+	 */
+	protected boolean depleted;
 	
 	/**
 	 * The definition
 	 */
-	private final ResourceDefinition definition;
+	protected final ResourceDefinition definition;
 	
 	/**
 	 * The node's respawn timer
@@ -43,6 +48,23 @@ public class Node<T extends Entity> {
 		this.entity = entity;
 		this.definition = definition;
 	}
+	
+	/**
+	 * Attempts to validate the node
+	 * 
+	 * @return
+	 */
+	public abstract boolean validate();
+	
+	/**
+	 * Called when the resource depletes
+	 */
+	public abstract void deplete();
+	
+	/**
+	 * Called when the resource respawns
+	 */
+	public abstract void respawn();
 
 	/**
 	 * @return the entity
@@ -70,6 +92,20 @@ public class Node<T extends Entity> {
 	 */
 	void setTimer(Timer timer) {
 		this.timer = timer;
+	}
+
+	/**
+	 * @return the depleted
+	 */
+	public boolean isDepleted() {
+		return depleted;
+	}
+
+	/**
+	 * @param depleted the depleted to set
+	 */
+	public void setDepleted(boolean depleted) {
+		this.depleted = depleted;
 	}
 
 }

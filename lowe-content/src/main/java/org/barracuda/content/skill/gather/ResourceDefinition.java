@@ -31,6 +31,11 @@ public class ResourceDefinition {
 	private int count;
 	
 	/**
+	 * Id of the depleted object
+	 */
+	private int depletedId;
+	
+	/**
 	 * @return the resources
 	 */
 	public Resource[] getResources() {
@@ -98,6 +103,20 @@ public class ResourceDefinition {
 	 */
 	public void setCount(int count) {
 		this.count = count;
+	}
+
+	/**
+	 * @return the depletedId
+	 */
+	public int getDepletedId() {
+		return depletedId;
+	}
+
+	/**
+	 * @param depletedId the depletedId to set
+	 */
+	public void setDepletedId(int depletedId) {
+		this.depletedId = depletedId;
 	}
 
 }
