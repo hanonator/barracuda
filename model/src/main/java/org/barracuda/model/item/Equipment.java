@@ -67,10 +67,12 @@ public class Equipment extends Container {
 				return;
 			}
 	
-			player.getInventory().remove(equipment, slot);
-			player.getInventory().add(current, slot);
-			remove(current, equipment.getDefinition().getEquipmentType().getSlot());
-			add(equipment, equipment.getDefinition().getEquipmentType().getSlot());
+			if (current != null) {
+				player.getInventory().remove(equipment, slot);
+				player.getInventory().add(current, slot);
+				remove(current, equipment.getDefinition().getEquipmentType().getSlot());
+				add(equipment, equipment.getDefinition().getEquipmentType().getSlot());
+			}
 		} finally {
 			player.notify(new EquipmentUpdated(this));
 		}

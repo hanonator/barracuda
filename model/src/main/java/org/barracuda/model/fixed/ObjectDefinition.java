@@ -122,10 +122,10 @@ public class ObjectDefinition {
 				definition.setInteractable(buffer.get() == 1);
 			}
 			else if (opcode >= 30 && opcode < 39) {
-				if (definition.getOptions() == null) {
-					definition.setOptions(new String[5]);
+				if (definition.options == null) {
+					definition.options = new String[5];
 				}
-				definition.getOptions()[opcode - 30] = ByteBufferUtil.readString(buffer);
+				definition.options[opcode - 30] = ByteBufferUtil.readString(buffer);
 			}
 			else if(opcode == 40){
 				buffer.position(buffer.position() + buffer.get() * 4 + 1);
@@ -182,14 +182,6 @@ public class ObjectDefinition {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public String[] getOptions() {
-		return options;
-	}
-
-	public void setOptions(String[] options) {
-		this.options = options;
 	}
 
 	public boolean isInteractable() {

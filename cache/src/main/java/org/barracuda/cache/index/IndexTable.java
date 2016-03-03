@@ -2,6 +2,7 @@ package org.barracuda.cache.index;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.util.Arrays;
 
 import org.barracuda.cache.Archive;
 import org.barracuda.cache.Cache;
@@ -79,7 +80,7 @@ public class IndexTable {
 	 * @return The object definition indices array.
 	 */
 	public StandardIndex[] getObjectDefinitionIndices() {
-		return objectDefinitionIndices;
+		return Arrays.copyOf(objectDefinitionIndices, objectDefinitionIndices.length);
 	}
 	
 	/**
@@ -87,7 +88,7 @@ public class IndexTable {
 	 * @return The map indices array.
 	 */
 	public MapIndex[] getMapIndices() {
-		return mapIndices;
+		return Arrays.copyOf(mapIndices, mapIndices.length);
 	}
 	
 	/**

@@ -20,7 +20,7 @@ public class Cache implements Closeable {
 	/**
 	 * The size of a block in the index file.
 	 */
-	public static final int INDEX_SIZE = 6;
+	public static final long INDEX_SIZE = 6;
 	
 	/**
 	 * The size of a data block in the data file.
@@ -99,7 +99,7 @@ public class Cache implements Closeable {
 	 * @return The file.
 	 * @throws IOException if an I/O error occurs.
 	 */
-	public CacheFile getFile(int cache, int file) throws IOException {
+	public CacheFile getFile(int cache, long file) throws IOException {
 		if(cache < 0 || cache >= indexFiles.length) {
 			throw new IOException("Cache does not exist.");
 		}

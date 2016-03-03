@@ -17,7 +17,7 @@ public class CacheFile {
 	/**
 	 * The file id.
 	 */
-	private int file;
+	private long file;
 	
 	/**
 	 * The file data.
@@ -30,7 +30,7 @@ public class CacheFile {
 	 * @param file The file id.
 	 * @param data The file data.
 	 */
-	public CacheFile(int cache, int file, ByteBuffer data) {
+	public CacheFile(int cache, long file, ByteBuffer data) {
 		this.cache = cache;
 		this.file = file;
 		this.data = data;
@@ -48,7 +48,7 @@ public class CacheFile {
 	 * Gets the file id.
 	 * @return The file id.
 	 */
-	public int getFile() {
+	public long getFile() {
 		return file;
 	}
 
