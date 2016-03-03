@@ -85,7 +85,7 @@ public class ObserverMethod<T> {
 				method.invoke(null, parameters.toArray(new Object[0]));
 			}
 		} catch (Exception ex) {
-			throw new HorvikException("could not call observer method " + method.getName(), ex);
+			throw new HorvikException("could not call observer method " + method.getName() + " in " + method.getDeclaringClass(), ex);
 		}
 	}
 
