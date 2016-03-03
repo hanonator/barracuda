@@ -7,4 +7,6 @@ import org.barracuda.horvik.context.application.ApplicationScoped;
 @ApplicationScoped
 public class NodeController {
 
+	
+
 }
