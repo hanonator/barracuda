@@ -119,7 +119,7 @@ public class ItemDefinition {
 	/**
 	 * The flag representing the equipment type of an item
 	 */
-	private WieldType equipmentType;
+	private EquipmentType equipmentType;
 	
 	/**
 	 * The flag representing if an item is a weapon
@@ -291,7 +291,7 @@ public class ItemDefinition {
 	/**
 	 *  @return - equipmentType
 	 */
-	public WieldType getEquipmentType() {
+	public EquipmentType getEquipmentType() {
 		return equipmentType;
 	}
 
