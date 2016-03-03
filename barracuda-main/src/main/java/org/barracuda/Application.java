@@ -6,7 +6,6 @@ import java.net.InetAddress;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.barracuda.cache.Cache;
-import org.barracuda.core.net.ServiceException;
 import org.barracuda.core.net.netty.NettyService;
 import org.barracuda.horvik.Horvik;
 import org.barracuda.horvik.environment.ContainerInitialized;
@@ -15,7 +14,7 @@ import org.barracuda.horvik.environment.ContainerInitialized;
  * Application initialization and entry point
  * 
  * @author brock
- *Cache
+ *
  */
 public class Application {
 
@@ -28,7 +27,6 @@ public class Application {
 	 * Program entry point.
 	 * 
 	 * @param args
-	 * @throws ServiceException
 	 */
 	public static void main(String[] args) {
 		try {
