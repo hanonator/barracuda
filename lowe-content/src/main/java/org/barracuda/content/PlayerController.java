@@ -8,10 +8,12 @@ import org.barracuda.horvik.bean.Discoverable;
 import org.barracuda.horvik.context.application.ApplicationScoped;
 import org.barracuda.horvik.event.Observes;
 import org.barracuda.horvik.inject.Inject;
+import org.barracuda.model.actor.Player;
 import org.barracuda.model.actor.player.Skill;
 import org.barracuda.model.actor.player.Stats;
 import org.barracuda.model.event.ExperienceGained;
 import org.barracuda.model.event.Levelup;
+import org.barracuda.model.item.Equipment.EquipmentUpdated;
 import org.barracuda.model.item.Inventory.InventoryUpdated;
 
 /**
@@ -70,6 +72,15 @@ public class PlayerController {
 	 */
 	public void on_inventoryUpdate(@Observes InventoryUpdated event) {
 		channel.write(event.getInventory());
+	}
+	
+	/**
+	 * 
+	 * @param event
+	 */
+	public void on_equipmentUpdate(@Observes EquipmentUpdated event, Player player) {
+		channel.write(event.getEquipment());
+		player.appear();
 	}
 
 	/**
