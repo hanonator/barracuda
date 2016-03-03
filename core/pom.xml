@@ -30,5 +30,10 @@
 			<artifactId>net</artifactId>
 			<version>${barracuda.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.barracuda</groupId>
+			<artifactId>cache</artifactId>
+			<version>${barracuda.version}</version>
+		</dependency>
 	</dependencies>
 </project>

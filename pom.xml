@@ -24,6 +24,7 @@
 		<module>net</module>
 		<module>lowe-content</module>
 		<module>barracuda-main</module>
+		<module>cache</module>
 	</modules>
 
 	<build>

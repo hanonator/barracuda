@@ -21,6 +21,11 @@
 		</dependency>
 		<dependency>
 			<groupId>org.barracuda</groupId>
+			<artifactId>cache</artifactId>
+			<version>${barracuda.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.barracuda</groupId>
 			<artifactId>util-bit</artifactId>
 			<version>${barracuda.version}</version>
 		</dependency>
