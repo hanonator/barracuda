@@ -25,7 +25,6 @@ public class Application {
 	 * 
 	 * @param args
 	 * @throws ServiceException
-	 * @throws UnknownHostException 
 	 */
 	public static void main(String[] args) {
 		try {
