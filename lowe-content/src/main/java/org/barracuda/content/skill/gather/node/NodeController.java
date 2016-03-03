@@ -6,7 +6,5 @@ import org.barracuda.horvik.context.application.ApplicationScoped;
 @Discoverable
 @ApplicationScoped
 public class NodeController {
-	
-	
 
 }

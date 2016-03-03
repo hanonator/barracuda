@@ -2,7 +2,6 @@ package org.barracuda.content.skill.gather.node;
 
 import org.barracuda.content.skill.gather.ResourceDefinition;
 import org.barracuda.model.Entity;
-import org.barracuda.roald.util.Timer;
 
 /**
  * Nodes are controllable resource deposits. This can range from a tree to a
@@ -18,24 +17,19 @@ import org.barracuda.roald.util.Timer;
 public abstract class Node<T extends Entity> {
 	
 	/**
-	 * The entity
-	 */
-	protected final T entity;
-	
-	/**
 	 * Indicates the resource has been depleted
 	 */
 	protected boolean depleted;
 	
 	/**
+	 * The entity
+	 */
+	protected final T entity;
+	
+	/**
 	 * The definition
 	 */
 	protected final ResourceDefinition definition;
-	
-	/**
-	 * The node's respawn timer
-	 */
-	private Timer timer;
 
 	/**
 	 * Constructor
@@ -78,20 +72,6 @@ public abstract class Node<T extends Entity> {
 	 */
 	public ResourceDefinition getDefinition() {
 		return definition;
-	}
-
-	/**
-	 * @return the timer
-	 */
-	Timer getTimer() {
-		return timer;
-	}
-
-	/**
-	 * @param timer the timer to set
-	 */
-	void setTimer(Timer timer) {
-		this.timer = timer;
 	}
 
 	/**
