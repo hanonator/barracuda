@@ -17,7 +17,6 @@ import org.barracuda.horvik.context.request.RequestContext;
 import org.barracuda.horvik.context.request.RequestScoped;
 import org.barracuda.horvik.context.session.SessionContext;
 import org.barracuda.horvik.context.session.SessionScoped;
-import org.barracuda.horvik.environment.ContainerInitialized;
 import org.barracuda.horvik.event.Event;
 import org.barracuda.horvik.event.ObserverMethod;
 import org.barracuda.horvik.event.Observes;
@@ -70,17 +69,12 @@ public class Horvik {
 			container.addContext(SessionScoped.class, new SessionContext(container));
 			container.addContext(ApplicationScoped.class, new ApplicationContext(container));
 			container.addContext(RequestScoped.class, new RequestContext(container));
-			// FIXME: Let it inject the decoded messages rather than new instances of empty classes
+			// FIXME: Let it inject the decoded messages rather than new instances of empty classes ???
 			
 			/*
 			 * Attempt to discover the beans
 			 */
 			discoverBeans();
-			
-			/*
-			 * Finally push the method that notifies the listeners this container has succesfully initialized
-			 */
-			event.select(ContainerInitialized.class).fire(new ContainerInitialized());
 		} catch (Exception ex) {
 			throw logger.throwing(Level.FATAL, new HorvikException("could not initialize container", ex));
 		}
@@ -94,14 +88,11 @@ public class Horvik {
 		/*
 		 * Default beans
 		 */
-		container.<ApplicationContext>getContext(ApplicationScoped.class).push(HorvikContainer.class, container);
-		container.registerBean(new ManagedBean<>(HorvikContainer.class, container));
-		container.<ApplicationContext>getContext(ApplicationScoped.class).push(Horvik.class, this);
-		container.registerBean(new ManagedBean<>(Horvik.class, container));
-		container.<ApplicationContext>getContext(ApplicationScoped.class).push(Gson.class, gson);
-		container.registerBean(new ManagedBean<>(Gson.class, container));
+		createApplicationBean(Horvik.class, this);
+		createApplicationBean(HorvikContainer.class, container);
+		createApplicationBean(Gson.class, gson);
 		
-		/*gson
+		/*
 		 * Registers the beans
 		 */
 		container.getTypesAnnotatedWith(Discoverable.class).forEach(type -> {
@@ -146,6 +137,17 @@ public class Horvik {
 				}
 			}
 		});
+	}
+
+	/**
+	 * Creates an application bean
+	 * 
+	 * @param type
+	 * @param instance
+	 */
+	public <T> void createApplicationBean(Class<T> type, T instance) {
+		container.<ApplicationContext>getContext(ApplicationScoped.class).push(type, instance);
+		container.registerBean(new ManagedBean<>(type, container));
 	}
 	
 	/**
