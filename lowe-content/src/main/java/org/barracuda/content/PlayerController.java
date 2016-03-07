@@ -36,8 +36,6 @@ public class PlayerController {
 	/**
 	 * Called when the player has been initialized for the very first time
 	 * 
-	 * TODO: Find a better place for this method
-	 * 
 	 * @param event
 	 */
 	public void on_initialized(@Observes PlayerInitialized event) {

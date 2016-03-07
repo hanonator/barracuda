@@ -15,8 +15,6 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageDecoder;
 
 /**
- * TODO: Implement default decoders for the login sequence and JAGGrab protocol
- * 
  * @author brock
  */
 @Sharable

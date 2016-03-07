@@ -23,10 +23,7 @@ import org.barracuda.roald.Clock;
 import org.barracuda.roald.ClockWorker;
 
 /**
- * TODO: loops through the players 3 times each cycle
- * 
  * @author brock
- *
  */
 @Discoverable
 @ApplicationScoped
@@ -39,8 +36,6 @@ public class SynchronizationSchedule implements ClockWorker {
 
 	/**
 	 * The object responsible for the player synchronization
-	 * 
-	 * TODO: Depends on release-317 currently. This needs to be loaded from somwhere independent on implementation
 	 */
 	private static Synchronizer<Player, PlayerSynchronizationContext> playerSynchronizer;
 

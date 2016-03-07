@@ -28,8 +28,6 @@ public interface Synchronizer<T extends Actor, C extends SynchronizationContext<
 	/**
 	 * Synchronizes the player with the client
 	 * 
-	 * TODO: Add context, realm and contexts in some form of synchronizer context
-	 * 
 	 * @param entity
 	 * @param context
 	 */

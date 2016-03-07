@@ -117,10 +117,7 @@ public class MessageRepository {
 				ex.printStackTrace();
 			}
 		});
-		
-		/*
-		 * FIXME: Load from configuration files
-		 */
+
 		handshakeInterceptor.set(ReflectionUtil.createForcedType(container.getTypeAnnotatedWith(Handshaker.class), Interceptor.class));
 		authenticationInterceptor.set(ReflectionUtil.createForcedType(container.getTypeAnnotatedWith(Authenticator.class), Interceptor.class));
 	}
