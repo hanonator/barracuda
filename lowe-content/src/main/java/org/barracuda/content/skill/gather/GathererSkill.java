@@ -1,9 +1,9 @@
 package org.barracuda.content.skill.gather;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import org.barracuda.content.action.ActionPromise;
 import org.barracuda.content.action.ActionQueue;
@@ -49,10 +49,10 @@ public abstract class GathererSkill<T extends Entity> {
 	 * @param object
 	 * @return
 	 */
-	public ActionPromise gather(Node<?> node, ResourceDefinition definition) {
+	public ActionPromise gather(Node<T> node, ResourceDefinition definition) {
 		return queue.submit(1, ActionQueue.MAXIMUM_REPETITION, container -> {
 			if (node.validate() && node.isDepleted() && checkRequirements(definition)) {
-				Resource resource = randomItem(definition);
+				Resource resource = randomItem(definition, player.getStats().getLevel(definition.getSkill()));
 				
 				/*
 				 * Add the player's reward for succesfully gathering the resource
@@ -126,19 +126,23 @@ public abstract class GathererSkill<T extends Entity> {
 	}
 
 	/**
+	 * Gets a random resource from the definition that the player is eligible for
 	 * 
 	 * @param items
 	 * @return
 	 */
-	private Resource randomItem(ResourceDefinition definition) {
-		List<Resource> resources = new ArrayList<>();
-		for (Resource resource : definition.getResources()) {
-			if (resource.getLevel() <= player.getStats().getLevel(definition.getSkill())) {
-				resources.add(resource);
-			}
-		}
-		Resource[] out = resources.toArray(new Resource[0]);
-		return out[random.nextInt(out.length)];
+	private Resource randomItem(ResourceDefinition definition, int level) {
+		return random(Arrays.stream(definition.getResources()).filter(resource -> level > resource.getLevel()).collect(Collectors.toList()));
+	}
+	
+	/**
+	 * Gets a random element from the collection
+	 * 
+	 * @param collection
+	 * @return
+	 */
+	private <E> E random(List<E> collection) {
+		return collection.get((int) (Math.random() * collection.size()));
 	}
 
 }

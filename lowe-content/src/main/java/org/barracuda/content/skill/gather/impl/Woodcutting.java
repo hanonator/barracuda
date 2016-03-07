@@ -1,5 +1,6 @@
-package org.barracuda.content.skill.gather;
+package org.barracuda.content.skill.gather.impl;
 
+import org.barracuda.content.skill.gather.GathererSkill;
 import org.barracuda.content.skill.gather.node.NodeController;
 import org.barracuda.core.game.event.ObjectInteractionEvent;
 import org.barracuda.horvik.bean.Discoverable;
