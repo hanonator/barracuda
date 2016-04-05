@@ -86,7 +86,7 @@ public class MessageRepository {
 			if (!definitions.containsKey(definition.opcode())) {
 				definitions.put(definition.opcode(), new MessageDefinition(definition.opcode(), definition.length(),
 						definition.meta(), new InterceptorDecoder<>(ReflectionUtil.createForcedType(type, Interceptor.class))));
-				logger.info("Interceptor mapping: '{}' to '{}'", type.getName(), definition.opcode());
+				logger.info("Serializer: '{}' -> {}", type.getName(), definition.opcode());
 			}
 			else {
 				logger.warn("duplicate key {}" + definition.opcode());
@@ -112,7 +112,7 @@ public class MessageRepository {
 				});
 				definitions.put(opcode, new MessageDefinition(opcode, length, meta,
 						new ReflectionDecoder(attributes.toArray(new AttributeDefinition[0]), class_loader.loadClass(target))));
-				logger.info("Message mapping: '{}' to '{}'", target, opcode);
+				logger.info("Deserializer: {} -> '{}'", opcode, target);
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
